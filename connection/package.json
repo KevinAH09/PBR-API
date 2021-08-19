@@ -1,0 +1,17 @@
+{
+  "name": "connection",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "isomorphic-fetch": "^3.0.0",
+    "puppeteer": "^10.1.0"
+  }
+}
