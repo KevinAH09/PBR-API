@@ -1,7 +1,7 @@
 {
   "name": "pbrapi",
   "version": "1.0.0",
-  "description": "RProject",
+  "description": "Proyecto bienes raices",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.ts --exec ts-node"

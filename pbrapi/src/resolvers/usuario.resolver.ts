@@ -87,13 +87,8 @@ export class UsuarioResolver {
 
     @Mutation(() => Boolean)
     async Register(
-        // @Arg("nombre") nombre: string,
-        // @Arg("email") email: string,
-        // @Arg("password") password: string,
-        // @Arg("telefono") telefono: string,
         @Arg("data", () => UsuarioInput) data: UsuarioInput
     ) {
-    
         const hashedPassword = await hash(data.password, 13);
 
         try {

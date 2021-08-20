@@ -1,5 +1,5 @@
 import { validateOrReject } from 'class-validator';
-import { Field, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { EntityStates } from '../enums/entity-states.enum';
 import { Categoria } from './categoria';
@@ -14,13 +14,13 @@ import { Usuario } from './usuario';
 @ObjectType()
 @Entity()
 export class Propiedad extends BaseEntity{
-    @Field()
+    @Field(() => ID)
     @PrimaryGeneratedColumn()
     id!:number;
    
     @Field()
     @Column()
-    name!:string;
+    numero!:string;
 
 
     @Field(()=>[TipoServicio])

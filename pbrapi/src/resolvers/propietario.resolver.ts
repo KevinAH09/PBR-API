@@ -15,13 +15,11 @@ class PropietarioInput {
     @Field()
     email!: string
 
-
-    
 }
 
 @Resolver()
 export class PropietarioResolver {
-    @Authorized()
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Propietario)
     async createPropietario(
         @Arg("data", () => PropietarioInput) data: PropietarioInput
@@ -30,7 +28,7 @@ export class PropietarioResolver {
         return await newData.save();
     }
 
-    @Authorized()
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Propietario)
     async updatePropietario(
         @Arg("id", () => Int) id: number,

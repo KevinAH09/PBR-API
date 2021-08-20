@@ -1,18 +1,21 @@
-import { Arg, Authorized, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Propiedad } from "../entities/propiedad";
-
-// import { RolesTypes } from "../enums/role-types.enum";
+ import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
 class PropiedadInput {
-   
-    name!:string;
+
+    
+
+    @Field()
+    numero!:string;
+
 
 }
 
 @Resolver()
 export class PropiedadResolver {
-    @Authorized()
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Propiedad)
     async createPropiedad(
         @Arg("data", () => PropiedadInput) data: PropiedadInput
@@ -21,7 +24,7 @@ export class PropiedadResolver {
         return await newData.save();
     }
 
-    @Authorized()
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Propiedad)
     async updatePropiedad(
         @Arg("id", () => Int) id: number,
@@ -32,15 +35,7 @@ export class PropiedadResolver {
         return dataUpdated;
     }
 
-    // @Authorized(RolesTypes.ADMIN)
-    // @Mutation(() => Boolean)
-    // async deleteTipoServicio(
-    //     @Arg("id", () => Int) id: number
-    // ) {
-    //     await TipoServicio.delete(id);
-    //     return true;
-    // }
-
+   
     @Query(() => [Propiedad])
     Propiedad() {
         return Propiedad.find()
