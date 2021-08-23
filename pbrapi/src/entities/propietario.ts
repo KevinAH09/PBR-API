@@ -24,28 +24,28 @@ export class Propietario extends BaseEntity {
     @Column()
     email!: string;
 
-  
-    @Field(()=>[Propiedad])
-    @ManyToMany(() => Propiedad, propiedad=> propiedad.propietarios)
-    propiedades!:Propiedad[];
+
+    @Field(() => [Propiedad])
+    @ManyToMany(() => Propiedad, propiedad => propiedad.propietarios)
+    propiedades!: Propiedad[];
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    createdAt!: string
+    creado!: string
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    updateAt!: string
+    actualizado!: string
 
 
     @Field(() => EntityStates)
     @Column()
-    state!: EntityStates
+    estado!: EntityStates
 
     @BeforeInsert()
     async beforeInsert() {
-        this.createdAt = new Date().valueOf().toString()
-        this.state = EntityStates.ACTIVE
+        this.creado = new Date().valueOf().toString()
+        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 
@@ -54,7 +54,7 @@ export class Propietario extends BaseEntity {
 
     @BeforeUpdate()
     async beforeUpdate() {
-        this.updateAt = new Date().valueOf().toString()
+        this.actualizado = new Date().valueOf().toString()
         await validateOrReject(this)
     }
 }

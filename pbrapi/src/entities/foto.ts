@@ -7,38 +7,38 @@ import { Propiedad } from "./propiedad";
 @ObjectType()
 @Entity()
 export class Foto extends BaseEntity {
-     
+
     @Field(() => ID)
     @PrimaryGeneratedColumn()
     id!: number;
 
     @Field()
     @Column()
-    tag!:string;
-    
+    tag!: string;
+
     @Field()
     @Column()
-    base64!:string;
+    base64!: string;
 
-    @Field(()=>Propiedad)
-    @ManyToOne(()=> Propiedad, propiedad => propiedad.fotos)
+    @Field(() => Propiedad)
+    @ManyToOne(() => Propiedad, propiedad => propiedad.fotos)
     propiedad!: Propiedad;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    createdAt!: string
+    creado!: string
 
     @Field(() => EntityStates)
     @Column()
-    state!: EntityStates
-    
+    estado!: EntityStates
+
     @BeforeInsert()
     async beforeInsert() {
-        this.createdAt = new Date().valueOf().toString()
-        this.state = EntityStates.ACTIVE
+        this.creado = new Date().valueOf().toString()
+        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 
 }
 
- 
+

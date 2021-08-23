@@ -1,6 +1,6 @@
 import { validateOrReject } from 'class-validator';
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, BeforeInsert, BeforeUpdate, JoinTable, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { EntityStates } from '../enums/entity-states.enum';
 import { Categoria } from './categoria';
 import { Construccion } from './construccion';
@@ -14,78 +14,80 @@ import { Usuario } from './usuario';
 
 @ObjectType()
 @Entity()
-export class Propiedad extends BaseEntity{
+export class Propiedad extends BaseEntity {
     @Field(() => ID)
     @PrimaryGeneratedColumn()
-    id!:number;
-   
-    @Field()
-    @Column()
-    numero!:string;
+    id!: number;
 
     @Field()
     @Column()
-    descripcion!:string;
+    numero!: string;
 
-    @Field(()=>[Precio])
-    @ManyToMany(() => Precio, precio=> precio.propiedad)
-    precios!:Precio[]
+    @Field()
+    @Column()
+    descripcion!: string;
 
-    @Field(()=>[TipoServicio])
-    @ManyToMany(() => TipoServicio, servicio=> servicio.propiedades)
-    servicios!:TipoServicio[]
+    @Field(() => [Precio])
+    @ManyToMany(() => Precio, precio => precio.propiedad)
+    precios!: Precio[]
 
-    @Field(()=>[TipoBeneficio])
-    @ManyToMany(() => TipoBeneficio, beneficio=> beneficio.propiedades)
-    beneficios!:TipoBeneficio[]
+    @Field(() => [TipoServicio])
+    @ManyToMany(() => TipoServicio, servicio => servicio.propiedades)
+    servicios!: TipoServicio[]
 
-    @Field(()=>[Categoria])
-    @ManyToMany(() => Categoria, categoria=> categoria.propiedades)
-    categorias!:Categoria[]
+    @Field(() => [TipoBeneficio])
+    @ManyToMany(() => TipoBeneficio, beneficio => beneficio.propiedades)
+    beneficios!: TipoBeneficio[]
 
-    @Field(()=>[Construccion])
-    @ManyToMany(() => Construccion, construccion=> construccion.propiedades)
-    construncciones!:Construccion[]
+    @Field(() => [Categoria])
+    @ManyToMany(() => Categoria, categoria => categoria.propiedades)
+    categorias!: Categoria[]
 
-    @Field(()=>[Propietario])
-    @ManyToMany(() => Propietario, propietario=> propietario.propiedades)
-    propietarios!:Propietario[]
+    @Field(() => [Construccion])
+    @ManyToMany(() => Construccion, construccion => construccion.propiedades)
+    construcciones!: Construccion[]
 
-    @Field(()=>Localizacion)
-    @OneToOne(()=> Localizacion, localizacion => localizacion.propiedad)
+    @Field(() => [Propietario])
+    @ManyToMany(() => Propietario, propietario => propietario.propiedades)
+    @JoinTable()
+    propietarios!: Propietario[]
+
+    @Field(() => Localizacion)
+    @ManyToOne(() => Localizacion, localizacion => localizacion.propiedad)
     localizacion!: Localizacion;
-    
-    @Field(()=>Usuario)
-    @ManyToOne(()=> Usuario, usuario => usuario.propiedadesRegistradas)    
+
+    @Field(() => Usuario)
+    @ManyToOne(() => Usuario, usuario => usuario.propiedadesRegistradas)
     usuario!: Usuario;
 
-    @Field(() => [Foto] )
+    @Field(() => [Foto])
     @OneToMany(() => Foto, foto => foto.propiedad)
     fotos!: Foto[];
 
     @Field(() => EntityStates)
     @Column()
-    state!: EntityStates
+    estado!: EntityStates
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    createdAt!: string
+    creado!: string
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    updateAt!: string
+    actualizado!: string
 
     @BeforeInsert()
     async beforeInsert() {
-        this.createdAt = new Date().valueOf().toString()
-        this.updateAt = this.createdAt
-        this.state = EntityStates.ACTIVE
+        this.creado = new Date().valueOf().toString()
+        this.actualizado = this.creado
+        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 
     @BeforeUpdate()
     async beforeUpdate() {
-        this.updateAt = new Date().valueOf().toString()
+        this.actualizado = new Date().valueOf().toString()
         await validateOrReject(this)
     }
+    //Propiedad estado vendida, o cualquier otro estado
 }

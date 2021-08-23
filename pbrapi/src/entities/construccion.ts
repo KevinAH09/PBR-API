@@ -1,6 +1,6 @@
 import { validateOrReject } from 'class-validator';
 import { Field, Int, ObjectType } from "type-graphql";
-import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, BeforeInsert, BeforeUpdate, JoinTable, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { EntityStates } from '../enums/entity-states.enum';
 import { Propiedad } from './propiedad';
 import { TipoConstruccion } from './tipo-construccion';
@@ -14,31 +14,32 @@ export class Construccion extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Field(()=>Propiedad)
-    @ManyToMany(() => Propiedad, propiedad=> propiedad.construncciones)
-    propiedades!:Propiedad;
+    @Field(() => Propiedad)
+    @ManyToMany(() => Propiedad, propiedad => propiedad.construcciones)
+    @JoinTable()
+    propiedades!: Propiedad;
 
-    @ManyToOne(()=> TipoConstruccion, tipoConstruccion => tipoConstruccion.construcciones)
-    @Field(()=>TipoConstruccion)
+    @ManyToOne(() => TipoConstruccion, tipoConstruccion => tipoConstruccion.construcciones)
+    @Field(() => TipoConstruccion)
     tipoConstruccion!: TipoConstruccion;
 
     @Field(() => EntityStates)
     @Column()
-    state!: EntityStates
+    estado!: EntityStates
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    createdAt!: string
+    creado!: string
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    updateAt!: string
+    actualizado!: string
 
-    @Field(()=>Int)
+    @Field(() => Int)
     @Column('float', { nullable: true })
     metroCuadrado!: number;
 
-    @Field(()=>Int)
+    @Field(() => Int)
     @Column('int', { nullable: true })
     descripcion!: number;
 
@@ -72,17 +73,17 @@ export class Construccion extends BaseEntity {
 
     @BeforeInsert()
     async beforeInsert() {
-        this.createdAt = new Date().valueOf().toString()
-        this.updateAt = this.createdAt
-        this.state = EntityStates.ACTIVE
+        this.creado = new Date().valueOf().toString()
+        this.actualizado = this.creado
+        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 
     @BeforeUpdate()
     async beforeUpdate() {
-        this.updateAt = new Date().valueOf().toString()
+        this.actualizado = new Date().valueOf().toString()
         await validateOrReject(this)
     }
-    
+
 }
 

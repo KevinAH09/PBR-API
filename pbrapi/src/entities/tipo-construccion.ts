@@ -16,32 +16,32 @@ export class TipoConstruccion extends BaseEntity {
   nombre!: string;
 
   @Field(() => [Construccion])
-  @OneToMany(() => Construccion,(Construccion) => Construccion.tipoConstruccion)
+  @OneToMany(() => Construccion, (Construccion) => Construccion.tipoConstruccion)
   construcciones!: Construccion[];
 
   @Field(() => EntityStates)
   @Column()
-  state!: EntityStates;
+  estado!: EntityStates;
 
   @Field(() => String)
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt!: string;
+  creado!: string;
 
   @Field(() => String)
   @CreateDateColumn({ type: 'timestamp' })
-  updateAt!: string;
+  actualizado!: string;
 
   @BeforeInsert()
   async beforeInsert() {
-    this.createdAt = new Date().valueOf().toString();
-    this.updateAt = this.createdAt;
-    this.state = EntityStates.ACTIVE;
+    this.creado = new Date().valueOf().toString();
+    this.actualizado = this.creado;
+    this.estado = EntityStates.ACTIVE;
     await validateOrReject(this);
   }
 
   @BeforeUpdate()
   async beforeUpdate() {
-    this.updateAt = new Date().valueOf().toString();
+    this.actualizado = new Date().valueOf().toString();
     await validateOrReject(this);
   }
 }

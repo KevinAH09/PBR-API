@@ -1,14 +1,16 @@
 import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Propiedad } from "../entities/propiedad";
+import { Usuario } from "../entities/usuario";
  import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
 class PropiedadInput {
-
-    
-
+  
     @Field()
-    numero!:string;
+    numero!:string; 
+
+    @Field()  
+    usuarioId!: number;
 
 
 }

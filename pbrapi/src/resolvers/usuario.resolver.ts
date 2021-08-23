@@ -1,24 +1,6 @@
 import { compare, hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import {
-    Arg,
-
-
-
-
-
-
-    Authorized, Ctx, Field,
-
-
-    InputType, Int, Mutation,
-
-    ObjectType, Query, Resolver,
-
-
-
-
-    UseMiddleware
+import {Arg, Authorized, Ctx, Field, InputType, Int, Mutation,ObjectType, Query, Resolver, UseMiddleware
 } from "type-graphql";
 import enviroment from "../config/enviroments.config";
 import { Usuario } from "../entities/usuario";

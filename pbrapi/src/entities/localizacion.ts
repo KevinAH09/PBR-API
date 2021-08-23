@@ -1,6 +1,6 @@
 import { validateOrReject } from "class-validator";
 import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { EntityStates } from "../enums/entity-states.enum";
 import { Propiedad } from "./propiedad";
 
@@ -39,35 +39,35 @@ export class Localizacion extends BaseEntity {
     @Field(() => String)
     @Column("text", { nullable: true })
     geolocalizacion!: string;
- 
+
     @Field(() => EntityStates)
     @Column()
-    state!: EntityStates
+    estado!: EntityStates
 
-    @OneToOne(()=> Propiedad, propiedad => propiedad.localizacion)
-    @Field(()=>Propiedad)
+    @Field(() => Propiedad)
+    @OneToMany(() => Propiedad, propiedad => propiedad.localizacion)
     propiedad!: Propiedad;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    createdAt!: string
+    creado!: string
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    updateAt!: string
+    actualizado!: string
 
     @BeforeUpdate()
     async beforeUpdate() {
-        this.updateAt = new Date().valueOf().toString()
+        this.actualizado = new Date().valueOf().toString()
         await validateOrReject(this)
     }
 
     @BeforeInsert()
     async beforeInsert() {
-        this.createdAt = new Date().valueOf().toString()
+        this.creado = new Date().valueOf().toString()
         await validateOrReject(this)
     }
-    
+
 }
 
 

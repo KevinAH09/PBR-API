@@ -13,8 +13,8 @@ class BitacoraSistemaInput {
     accion!:string;
 
 
-    @Field(()=>Usuario)
-    usuario!:Usuario
+    // @Field(()=>Usuario)
+    // usuario!:Usuario
 
 
 }

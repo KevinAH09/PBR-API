@@ -8,17 +8,17 @@ import { Propiedad } from "./propiedad";
 
 @ObjectType()
 @Entity()
-export class Precio extends BaseEntity{
+export class Precio extends BaseEntity {
     @Field(() => ID)
     @PrimaryGeneratedColumn()
-    id!:number;
-   
+    id!: number;
+
     @Field()
     @Column()
-    precio!:string;
+    precio!: string;
 
-    @Field(()=>Propiedad)
-    @ManyToOne(()=> Propiedad, propiedad => propiedad.precios)    
+    @Field(() => Propiedad)
+    @ManyToOne(() => Propiedad, propiedad => propiedad.precios)
     propiedad!: Propiedad;
 
     @Field(() => EntityStates)
@@ -27,11 +27,11 @@ export class Precio extends BaseEntity{
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    createdAt!: string
+    creado!: string
 
     @BeforeInsert()
     async beforeInsert() {
-        this.createdAt = new Date().valueOf().toString()
+        this.creado = new Date().valueOf().toString()
         this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
