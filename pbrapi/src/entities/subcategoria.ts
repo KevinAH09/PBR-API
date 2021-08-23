@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToOne } from 'typeorm';
 import { Field, Int, ObjectType } from "type-graphql";
 import { validateOrReject } from 'class-validator';
 import { EntityStates } from '../enums/entity-states.enum';
@@ -18,7 +18,7 @@ export class Subcategoria extends BaseEntity {
 
 
     @Field(() => [Categoria])
-    @OneToMany(() => Categoria, categoria => categoria.subcategorias)
+    @ManyToOne(() => Categoria, categoria => categoria.subcategorias)
     categorias!: Categoria[]
 
     @Field(() => EntityStates)

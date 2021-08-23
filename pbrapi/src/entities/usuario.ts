@@ -7,6 +7,7 @@ import { Propiedad } from "./propiedad";
 @ObjectType()
 @Entity()
 export class Usuario extends BaseEntity {
+    
     @Field(() => ID)
     @PrimaryGeneratedColumn()
     id!: number;

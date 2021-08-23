@@ -28,7 +28,7 @@ function iniciarSesion(user, password,fol) {
   });  
 };
 
-const obtenerUsuariosPorid = async (id, tok,fol) => {
+const saveUsuario = async (id, tok,fol) => {
   const response2 = await fetch(graphCoolEndpoint, {
     headers: {
       'Content-Type': 'application/json',

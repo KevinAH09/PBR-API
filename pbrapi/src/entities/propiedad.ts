@@ -6,6 +6,7 @@ import { Categoria } from './categoria';
 import { Construccion } from './construccion';
 import { Foto } from './foto';
 import { Localizacion } from './localizacion';
+import { Precio } from './precio';
 import { Propietario } from './propietario';
 import { TipoBeneficio } from './tipo-beneficio';
 import { TipoServicio } from './tipo-servicio';
@@ -22,6 +23,13 @@ export class Propiedad extends BaseEntity{
     @Column()
     numero!:string;
 
+    @Field()
+    @Column()
+    descripcion!:string;
+
+    @Field(()=>[Precio])
+    @ManyToMany(() => Precio, precio=> precio.propiedad)
+    precios!:Precio[]
 
     @Field(()=>[TipoServicio])
     @ManyToMany(() => TipoServicio, servicio=> servicio.propiedades)
