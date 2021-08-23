@@ -1,20 +1,18 @@
 import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
 import { Int } from "type-graphql";
-import { Column, ManyToOne } from "typeorm";
 
 import { Precio } from "../entities/precio";
-import { Propiedad } from "../entities/propiedad";
 import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
 class PrecioInput {
+
+
     @Field()
-    @Column()
     precio!: string;
 
-    @Field(() => Propiedad)
-    @ManyToOne(() => Propiedad, propiedad => propiedad.precios)
-    propiedad!: Propiedad;
+    @Field()
+    propiedadId!: Number;
 
 
 }
