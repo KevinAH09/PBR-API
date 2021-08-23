@@ -2,12 +2,12 @@ import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver } from "ty
 import { Int } from "type-graphql";
 import { Column, ManyToOne } from "typeorm";
 
-import { Foto } from "../entities/foto";
+import { Precio } from "../entities/precio";
 import { Propiedad } from "../entities/propiedad";
 import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
-class FotoInput {
+class PrecioInput {
     @Field()
     @Column()
     precio!: string;
@@ -20,46 +20,35 @@ class FotoInput {
 }
 
 @Resolver()
-export class FotoResolver {
+export class PrecioResolver {
     @Authorized()
-    @Mutation(() => Foto)
-    async createFoto(
-        @Arg("data", () => FotoInput) data: FotoInput
+    @Mutation(() => Precio)
+    async createPrecio(
+        @Arg("data", () => PrecioInput) data: PrecioInput
     ) {
-        const newData = Foto.create(data);
+        const newData = Precio.create(data);
         return await newData.save();
-    }
-
-    @Authorized()
-    @Mutation(() => Foto)
-    async updateFoto(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => FotoInput) data: FotoInput
-    ) {
-        await Foto.update({ id }, data);
-        const dataUpdated = await Foto.findOne(id)
-        return dataUpdated;
     }
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Boolean)
-    async deleteFoto(
+    async deletePrecio(
         @Arg("id", () => Int) id: number
     ) {
-        await Foto.delete(id);
+        await Precio.delete(id);
         return true;
     }
 
-    @Query(() => [Foto])
-    Fotos() {
-        return Foto.find()
+    @Query(() => [Precio])
+    Precios() {
+        return Precio.find()
     }
 
-    @Query(() => [Foto])
-    FotoById(
+    @Query(() => [Precio])
+    PrecioById(
         @Arg("id", () => Int) id: number
     ) {
-        return Foto.findOne(
+        return Precio.findOne(
             {
                 where: {
                     id
