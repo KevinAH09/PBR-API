@@ -18,7 +18,6 @@ export class TipoServicio extends BaseEntity {
 
     @Field(() => [Propiedad])
     @ManyToMany(() => Propiedad, propiedad => propiedad.servicios)
-    @JoinTable()
     propiedades!: Propiedad[]
 
 

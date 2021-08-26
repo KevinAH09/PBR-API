@@ -2,6 +2,7 @@ import { type } from "os";
 import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Localizacion } from "../entities/localizacion";
 import { Propiedad } from "../entities/propiedad";
+import { Propietario } from "../entities/propietario";
 import { Usuario } from "../entities/usuario";
 import { RolesTypes } from "../enums/role-types.enum";
 
@@ -19,6 +20,9 @@ class PropiedadInput {
 
     @Field(type =>ID)
     localizacion!: Localizacion[];
+
+    @Field(type => ID)
+    propietarios!: Propietario[];
 }
 
 @Resolver()

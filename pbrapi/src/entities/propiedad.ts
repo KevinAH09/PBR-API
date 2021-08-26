@@ -49,7 +49,6 @@ export class Propiedad extends BaseEntity {
 
     @Field(() => [Propietario])
     @ManyToMany(() => Propietario, propietario => propietario.propiedades)
-    @JoinTable()
     propietarios!: Propietario[];
 
     @Field(() => [Localizacion])
@@ -89,5 +88,4 @@ export class Propiedad extends BaseEntity {
         this.actualizado = new Date().valueOf().toString()
         await validateOrReject(this)
     }
-    //Propiedad estado vendida, o cualquier otro estado
 }
