@@ -10,6 +10,9 @@ class PropiedadInput {
 
     @Field()
     numero!: string;
+    
+    @Field() 
+    descripcion!: string;
 
     @Field(type =>ID)
     usuario!: Usuario[];
