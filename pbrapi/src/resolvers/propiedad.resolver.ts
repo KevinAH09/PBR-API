@@ -21,8 +21,8 @@ class PropiedadInput {
     @Field(type =>ID)
     localizacion!: Localizacion[];
 
-    @Field(type => ID)
-    propietarios!: Propietario[];
+    // @Field(type => ID)
+    // propietarios!: Propietario[];
 }
 
 @Resolver()

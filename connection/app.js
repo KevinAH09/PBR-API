@@ -16,7 +16,8 @@ function iniciarSesion(user, password) {
               email:"${user}" 
               password:"${password}")
               {
-              accessToken
+              accessToken,
+              id
             }
           }
       `
@@ -24,7 +25,10 @@ function iniciarSesion(user, password) {
     }).then(function (response) {
         return response.json();
     }).then((data) => {
-        botBCR(token);
+        const token = data.data.Login.accessToken;
+        const idUsuario=data.data.Login.id;
+        console.log(data.data);
+        botBCR(token,idUsuario);
     });
 };
 
@@ -45,8 +49,8 @@ const savePropiedades = async (tok, fol, descripcion, idUsuario,pais, divPrimari
         }),
     })
     const responseSaveLocalizacion = await saveLocalizacion.json();
-    console.log(responseSaveLocalizacion.data);
-    const idLocalizacion =  responseSaveLocalizacion.data.data.id;
+    console.log(responseSaveLocalizacion);
+    const idLocalizacion =  responseSaveLocalizacion.data.createLocalizacion.id;
 
     // ----
     const savePropiedad = await fetch(graphCoolEndpoint, {
@@ -63,7 +67,7 @@ const savePropiedades = async (tok, fol, descripcion, idUsuario,pais, divPrimari
         }),
     })
     const responseSavePropiedad = await savePropiedad.json();
-    console.log(responseSavePropiedad.data);
+    console.log(responseSavePropiedad);
 };
 // const saveLocalizacion = async (tok, pais, divPrimaria, divSecundaria, divTerciaria, divCuaternaria, dirrecion, geolocalizacion) => {
 //     const response2 = await fetch(graphCoolEndpoint, {
@@ -104,7 +108,7 @@ const savePropiedades = async (tok, fol, descripcion, idUsuario,pais, divPrimari
 //   };
 
 
-async function botBCR(token) {
+async function botBCR(token,idUsuario) {
     try {
         console.log("Iniciando el bot".blue);
         // abrir chrome
@@ -235,7 +239,7 @@ async function botBCR(token) {
             });
 
             console.log(coordenadas);
-            savePropiedades(token, fol,descripcion);
+            savePropiedades(token, folio,descripcion,idUsuario,"Costa Rica",ProvinciaCanton.split(",")[0],ProvinciaCanton.split(",")[1],distrito,"",direccionExacta,coordenadas);
 
             console.log("-------------------------------------------".red);
             await page.goBack();
