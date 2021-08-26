@@ -24,15 +24,15 @@ export class TipoServicio extends BaseEntity {
 
     @Field(() => EntityStates)
     @Column()
-    estado!: EntityStates
+    estado!: EntityStates;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    creado!: string
+    creado!: string;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    actualizado!: string
+    actualizado!: string;
 
     @BeforeInsert()
     async beforeInsert() {

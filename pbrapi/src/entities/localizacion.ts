@@ -44,7 +44,7 @@ export class Localizacion extends BaseEntity {
     @Column()
     estado!: EntityStates
 
-    @Field(() => Propiedad)
+    @Field(() => [Propiedad])
     @OneToMany(() => Propiedad, propiedad => propiedad.localizacion)
     propiedad!: Propiedad[];
 

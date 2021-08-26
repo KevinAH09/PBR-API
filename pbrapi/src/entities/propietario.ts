@@ -31,16 +31,16 @@ export class Propietario extends BaseEntity {
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    creado!: string
+    creado!: string;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    actualizado!: string
+    actualizado!: string;
 
 
     @Field(() => EntityStates)
     @Column()
-    estado!: EntityStates
+    estado!: EntityStates;
 
     @BeforeInsert()
     async beforeInsert() {

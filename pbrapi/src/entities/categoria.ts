@@ -20,23 +20,23 @@ export class Categoria extends BaseEntity {
 
     @Field(() => [Subcategoria])
     @OneToMany(() => Subcategoria, subcategoria => subcategoria.categorias)
-    subcategorias!: Subcategoria[]
+    subcategorias!: Subcategoria[];
 
     @Field(() => [Propiedad])
     @ManyToMany(() => Propiedad, propiedad => propiedad.categorias)
-    propiedades!: Propiedad[]
+    propiedades!: Propiedad[];
 
     @Field(() => EntityStates)
     @Column()
-    estado!: EntityStates
+    estado!: EntityStates;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    creado!: string
+    creado!: string;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    actualizado!: string
+    actualizado!: string;
 
     @BeforeInsert()
     async beforeInsert() {

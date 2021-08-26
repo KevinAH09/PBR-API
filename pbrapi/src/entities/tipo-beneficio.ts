@@ -19,7 +19,7 @@ export class TipoBeneficio extends BaseEntity {
     @Field(() => [Propiedad])
     @ManyToMany(() => Propiedad, propiedad => propiedad.beneficios)
     @JoinTable()
-    propiedades!: Propiedad[]
+    propiedades!: Propiedad[];
 
 
     @Field(() => EntityStates)
@@ -28,11 +28,11 @@ export class TipoBeneficio extends BaseEntity {
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    creado!: string
+    creado!: string;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    actualizado!: string
+    actualizado!: string;
 
     @BeforeInsert()
     async beforeInsert() {

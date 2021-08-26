@@ -16,17 +16,17 @@ export class BitacoraSistema extends BaseEntity {
     accion!: string;
 
 
-    @Field(() => Usuario)
+    @Field(() => [Usuario])
     @ManyToOne(() => Usuario, usuario => usuario.bitacoraSistema)
-    usuario!: Usuario[]
+    usuario!: Usuario[];
 
     @Field(() => EntityStates)
     @Column()
-    estado!: EntityStates
+    estado!: EntityStates;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    creado!: string
+    creado!: string;
 
     @BeforeInsert()
     async beforeInsert() {

@@ -46,7 +46,7 @@ export class Usuario extends BaseEntity {
 
     @Field(() => EntityStates)
     @Column()
-    estado!: EntityStates
+    estado!: EntityStates;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })

@@ -29,28 +29,28 @@ export class Propiedad extends BaseEntity {
 
     @Field(() => [Precio])
     @ManyToMany(() => Precio, precio => precio.propiedad)
-    precios!: Precio[]
+    precios!: Precio[];
 
     @Field(() => [TipoServicio])
     @ManyToMany(() => TipoServicio, servicio => servicio.propiedades)
-    servicios!: TipoServicio[]
+    servicios!: TipoServicio[];
 
     @Field(() => [TipoBeneficio])
     @ManyToMany(() => TipoBeneficio, beneficio => beneficio.propiedades)
-    beneficios!: TipoBeneficio[]
+    beneficios!: TipoBeneficio[];
 
     @Field(() => [Categoria])
     @ManyToMany(() => Categoria, categoria => categoria.propiedades)
-    categorias!: Categoria[]
+    categorias!: Categoria[];
 
     @Field(() => [Construccion])
     @ManyToMany(() => Construccion, construccion => construccion.propiedades)
-    construcciones!: Construccion[]
+    construcciones!: Construccion[];
 
     @Field(() => [Propietario])
     @ManyToMany(() => Propietario, propietario => propietario.propiedades)
     @JoinTable()
-    propietarios!: Propietario[]
+    propietarios!: Propietario[];
 
     @Field(() => [Localizacion])
     @ManyToOne(() => Localizacion, localizacion => localizacion.propiedad)
@@ -66,11 +66,11 @@ export class Propiedad extends BaseEntity {
 
     @Field(() => EntityStates)
     @Column()
-    estado!: EntityStates
+    estado!: EntityStates;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    creado!: string
+    creado!: string;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })

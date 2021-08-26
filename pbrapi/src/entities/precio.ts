@@ -17,9 +17,9 @@ export class Precio extends BaseEntity {
     @Column()
     precio!: string;
 
-    @Field(() => Propiedad)
+    @Field(() => [Propiedad])
     @ManyToOne(() => Propiedad, propiedad => propiedad.precios)
-    propiedad!: Propiedad;
+    propiedad!: Propiedad[];
 
     @Field(() => EntityStates)
     @Column()

@@ -19,21 +19,21 @@ export class Construccion extends BaseEntity {
     @JoinTable()
     propiedades!: Propiedad[];
 
+    @Field(() => [TipoConstruccion])
     @ManyToOne(() => TipoConstruccion, tipoConstruccion => tipoConstruccion.construcciones)
-    @Field(() => TipoConstruccion)
     tipoConstruccion!: TipoConstruccion[];
 
     @Field(() => EntityStates)
     @Column()
-    estado!: EntityStates
+    estado!: EntityStates;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    creado!: string
+    creado!: string;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    actualizado!: string
+    actualizado!: string;
 
     @Field(() => Int)
     @Column('float', { nullable: true })
