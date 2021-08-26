@@ -17,11 +17,11 @@ export class Construccion extends BaseEntity {
     @Field(() => Propiedad)
     @ManyToMany(() => Propiedad, propiedad => propiedad.construcciones)
     @JoinTable()
-    propiedades!: Propiedad;
+    propiedades!: Propiedad[];
 
     @ManyToOne(() => TipoConstruccion, tipoConstruccion => tipoConstruccion.construcciones)
     @Field(() => TipoConstruccion)
-    tipoConstruccion!: TipoConstruccion;
+    tipoConstruccion!: TipoConstruccion[];
 
     @Field(() => EntityStates)
     @Column()

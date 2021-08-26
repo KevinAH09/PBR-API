@@ -32,7 +32,7 @@ export class Usuario extends BaseEntity {
     password!: string;
 
     @Field(() => [Propiedad])
-    @ManyToMany(() => Propiedad, propiedad => propiedad.usuario)
+    @OneToMany(() => Propiedad, propiedad => propiedad.usuario)
     propiedadesRegistradas!: Propiedad[]
 
     @Field(() => [BitacoraSistema])

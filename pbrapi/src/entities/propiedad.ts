@@ -52,13 +52,13 @@ export class Propiedad extends BaseEntity {
     @JoinTable()
     propietarios!: Propietario[]
 
-    @Field(() => Localizacion)
+    @Field(() => [Localizacion])
     @ManyToOne(() => Localizacion, localizacion => localizacion.propiedad)
-    localizacion!: Localizacion;
+    localizacion!: Localizacion[];
 
-    @Field(() => Usuario)
+    @Field(() => [Usuario])
     @ManyToOne(() => Usuario, usuario => usuario.propiedadesRegistradas)
-    usuario!: Usuario;
+    usuario!: Usuario[];
 
     @Field(() => [Foto])
     @OneToMany(() => Foto, foto => foto.propiedad)

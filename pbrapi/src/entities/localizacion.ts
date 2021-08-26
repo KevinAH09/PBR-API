@@ -46,7 +46,7 @@ export class Localizacion extends BaseEntity {
 
     @Field(() => Propiedad)
     @OneToMany(() => Propiedad, propiedad => propiedad.localizacion)
-    propiedad!: Propiedad;
+    propiedad!: Propiedad[];
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })

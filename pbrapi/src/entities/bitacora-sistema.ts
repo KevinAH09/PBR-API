@@ -18,7 +18,7 @@ export class BitacoraSistema extends BaseEntity {
 
     @Field(() => Usuario)
     @ManyToOne(() => Usuario, usuario => usuario.bitacoraSistema)
-    usuario!: Usuario
+    usuario!: Usuario[]
 
     @Field(() => EntityStates)
     @Column()

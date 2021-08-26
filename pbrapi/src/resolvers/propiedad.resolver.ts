@@ -1,18 +1,21 @@
-import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { type } from "os";
+import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Localizacion } from "../entities/localizacion";
 import { Propiedad } from "../entities/propiedad";
 import { Usuario } from "../entities/usuario";
- import { RolesTypes } from "../enums/role-types.enum";
+import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
 class PropiedadInput {
-  
+
     @Field()
-    numero!:string; 
+    numero!: string;
 
-    @Field()  
-    usuarioId!: number;
+    @Field(type =>ID)
+    usuario!: Usuario[];
 
-
+    @Field(type =>ID)
+    localizacion!: Localizacion[];
 }
 
 @Resolver()
@@ -37,7 +40,7 @@ export class PropiedadResolver {
         return dataUpdated;
     }
 
-   
+
     @Query(() => [Propiedad])
     Propiedad() {
         return Propiedad.find()
