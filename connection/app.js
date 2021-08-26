@@ -4,14 +4,14 @@ const fs = require('fs');
 const colors = require("colors");
 
 var graphCoolEndpoint = 'http://localhost:3000/graphql';
-var num=2;
+var num = 2;
 
-function iniciarSesion(user, password,fol) {
-  fetch(graphCoolEndpoint, {
-    headers: { 'content-type': 'application/json' },
-    method: 'POST',
-    body: JSON.stringify({
-      query: `mutation{
+function iniciarSesion(user, password) {
+    fetch(graphCoolEndpoint, {
+        headers: { 'content-type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({
+            query: `mutation{
             Login(
               email:"${user}" 
               password:"${password}")
@@ -20,35 +20,91 @@ function iniciarSesion(user, password,fol) {
             }
           }
       `
-    }),
-  }).then(function (response) {
-    return response.json();
-  }).then((data) => {
-    obtenerUsuariosPorid(num, data.data.Login.accessToken,fol);
-  });  
+        }),
+    }).then(function (response) {
+        return response.json();
+    }).then((data) => {
+        botBCR(token);
+    });
 };
 
-const saveUsuario = async (id, tok,fol) => {
-  const response2 = await fetch(graphCoolEndpoint, {
-    headers: {
-      'Content-Type': 'application/json',
-      'authorization': 'bearer ' + tok
-    },
-    method: 'POST',
-    body: JSON.stringify({
-      query: `
+const savePropiedades = async (tok, fol, descripcion, idUsuario,pais, divPrimaria, divSecundaria, divTerciaria, divCuaternaria, dirrecion, geolocalizacion) => {
+    
+    //   -------------
+    const saveLocalizacion = await fetch(graphCoolEndpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': 'bearer ' + tok
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            query: `
       mutation{
-        createPropiedad(data:{numero:"${fol}"}){id}
+          createLocalizacion(data:{pais:"${pais}",divPrimaria:"${divPrimaria}",divSecundaria:"${divSecundaria}",divTerciaria:"${divTerciaria}",divCuaternaria:"${divCuaternaria}",direccion:"${dirrecion}",geolocalizacion:"${geolocalizacion}"}){id}
+      }`
+        }),
+    })
+    const responseSaveLocalizacion = await saveLocalizacion.json();
+    console.log(responseSaveLocalizacion.data);
+    const idLocalizacion =  responseSaveLocalizacion.data.data.id;
+
+    // ----
+    const savePropiedad = await fetch(graphCoolEndpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': 'bearer ' + tok
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            query: `
+      mutation{
+        createPropiedad(data:{numero:"${fol}",localizacion:${idLocalizacion},usuario:${idUsuario},descripcion: "${descripcion}"}){id}
        }`
-    }),
-  })
-  const responseJson2 = await response2.json();
-  console.log(responseJson2.data);
-
+        }),
+    })
+    const responseSavePropiedad = await savePropiedad.json();
+    console.log(responseSavePropiedad.data);
 };
+// const saveLocalizacion = async (tok, pais, divPrimaria, divSecundaria, divTerciaria, divCuaternaria, dirrecion, geolocalizacion) => {
+//     const response2 = await fetch(graphCoolEndpoint, {
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'authorization': 'bearer ' + tok
+//         },
+//         method: 'POST',
+//         body: JSON.stringify({
+//             query: `
+//         mutation{
+//             createLocalizacion(data:{pais:"${pais}",divPrimaria:"${divPrimaria}",divSecundaria:"${divSecundaria}",divTerciaria:"${divTerciaria}",divCuaternaria:"${divCuaternaria}",direccion:"${dirrecion}",geolocalizacion:"${geolocalizacion}"}){id}
+//         }`
+//         }),
+//     })
+//     const responseJson2 = await response2.json();
+//     console.log(responseJson2.data);
+//     savePropiedad()
+
+// };
+//   const save= async (token,pais,divPrimaria,divSecundaria,divTerciaria,divCuaternaria,dirrecion,geolocalizacion) => {
+//     const response2 = await fetch(graphCoolEndpoint, {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'authorization': 'bearer ' + tok
+//       },
+//       method: 'POST',
+//       body: JSON.stringify({
+//         query: `
+//         mutation{
+//             createLocalizacion(data:{pais:"${pais}",divPrimaria:"${divPrimaria}",divSecundaria:"${divSecundaria}",divTerciaria:"${divTerciaria}",divCuaternaria:"${divCuaternaria}",direccion:"${dirrecion}",geolocalizacion:"${geolocalizacion}"}){id}
+//         }`
+//       }),
+//     })
+//     const responseJson2 = await response2.json();
+//     console.log(responseJson2.data);
+
+//   };
 
 
-async function botBCR(){
+async function botBCR(token) {
     try {
         console.log("Iniciando el bot".blue);
         // abrir chrome
@@ -172,14 +228,14 @@ async function botBCR(){
             console.log(precioFinal);
             const coordenadas = await page.evaluate((x) => {
                 if (document.querySelector("div[class='table-row mapDetailSeccionBox lineSpacing3']") != null) {
-                    let str=  document.querySelector("div[class='table-row mapDetailSeccionBox lineSpacing3']").children[0].children[0].src;
+                    let str = document.querySelector("div[class='table-row mapDetailSeccionBox lineSpacing3']").children[0].children[0].src;
                     return str.split('q=').pop().split('&key')[0];
                 }
                 return "No entro";
             });
 
             console.log(coordenadas);
-            iniciarSesion("cfugusvq@hotmail.com", "12345",folio);
+            savePropiedades(token, fol,descripcion);
 
             console.log("-------------------------------------------".red);
             await page.goBack();
@@ -192,8 +248,8 @@ async function botBCR(){
     }
 
 }
+iniciarSesion("cfugusvq@hotmail.com", "12345");
 
 
-botBCR();
 
 

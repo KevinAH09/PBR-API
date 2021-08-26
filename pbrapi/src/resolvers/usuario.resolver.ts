@@ -14,6 +14,9 @@ import { isAuthenticated } from "../middleware/is-authenticated";
 class LoginResponse {
     @Field()
     accessToken?: string;
+    @Field()
+    id?: Number;
+
 }
 
 @InputType({ description: "Editable user information" })
@@ -105,7 +108,8 @@ export class UsuarioResolver {
         return {
             accessToken: sign({ usuario: usuario }, enviroment.jwtSecretKey, {
                 expiresIn: "10h"
-            })
+            }),
+            id: usuario.id
         };
     }
 }
