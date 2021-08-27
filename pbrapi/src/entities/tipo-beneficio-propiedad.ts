@@ -7,7 +7,7 @@ import { TipoBeneficio } from "./tipo-beneficio";
 
 @ObjectType()
 @Entity()
-export class Tipo_Beneficio_Propiedad extends BaseEntity {
+export class TipoBeneficioPropiedad extends BaseEntity {
   @PrimaryColumn("int")
   propiedadId!: number;
 

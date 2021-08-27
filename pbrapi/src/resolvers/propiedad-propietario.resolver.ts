@@ -1,5 +1,5 @@
 import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
-import { Propiedad_Propietario } from "../entities/propiedadPropietario";
+import { PropiedadPropietario } from "../entities/propiedad-propietario";
 import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
@@ -15,11 +15,11 @@ class PropiedadPropietarioInput {
 @Resolver()
 export class PropiedadPropietarioResolver {
     // @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Propiedad_Propietario)
+    @Mutation(() => PropiedadPropietario)
     async createPropiedadPropietario(
         @Arg("data", () => PropiedadPropietarioInput) data: PropiedadPropietarioInput
     ) {
-        const newData = Propiedad_Propietario.create(data);
+        const newData = PropiedadPropietario.create(data);
         return await newData.save();
     }
 

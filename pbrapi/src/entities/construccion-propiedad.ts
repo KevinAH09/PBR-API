@@ -7,7 +7,7 @@ import { Propiedad } from "./propiedad";
 
 @ObjectType()
 @Entity()
-export class Construccion_Propiedad extends BaseEntity {
+export class ConstruccionPropiedad extends BaseEntity {
   @PrimaryColumn("int")
   propiedadId!: number;
 

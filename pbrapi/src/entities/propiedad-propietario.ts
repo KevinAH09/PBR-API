@@ -6,7 +6,7 @@ import { Propietario } from "./propietario";
 
 @ObjectType()
 @Entity()
-export class Propiedad_Propietario extends BaseEntity {
+export class PropiedadPropietario extends BaseEntity {
   @PrimaryColumn("int")
   propiedadId!: number;
 

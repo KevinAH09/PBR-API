@@ -1,5 +1,5 @@
 import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
-import { Tipo_Servicio_Propiedad } from "../entities/tipo_servicio_propiedad";
+import { TipoServicioPropiedad } from "../entities/tipo_servicio_propiedad";
 import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
@@ -15,11 +15,11 @@ class TipoServicioPropiedadInput {
 @Resolver()
 export class TipoServicioPropiedadResolver {
     // @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Tipo_Servicio_Propiedad)
+    @Mutation(() => TipoServicioPropiedad)
     async createTipo_Servicio_Propiedad(
         @Arg("data", () => TipoServicioPropiedadInput) data: TipoServicioPropiedadInput
     ) {
-        const newData = Tipo_Servicio_Propiedad.create(data);
+        const newData = TipoServicioPropiedad.create(data);
         return await newData.save();
     }
 
