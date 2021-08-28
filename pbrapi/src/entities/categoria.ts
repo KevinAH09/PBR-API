@@ -23,7 +23,7 @@ export class Categoria extends BaseEntity {
     subcategorias!: Subcategoria[];
 
     @Field(() => [Propiedad])
-    @ManyToMany(() => Propiedad, propiedad => propiedad.categorias)
+    @OneToMany(() => Propiedad, propiedad => propiedad.categorias)
     propiedades!: Propiedad[];
 
     @Field(() => EntityStates)

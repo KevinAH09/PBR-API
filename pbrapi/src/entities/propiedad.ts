@@ -40,7 +40,7 @@ export class Propiedad extends BaseEntity {
     beneficios!: TipoBeneficio[];
 
     @Field(() => [Categoria])
-    @ManyToMany(() => Categoria, categoria => categoria.propiedades)
+    @ManyToOne(() => Categoria, categoria => categoria.propiedades)
     categorias!: Categoria[];
 
     @Field(() => [Construccion])
