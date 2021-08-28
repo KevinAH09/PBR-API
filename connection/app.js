@@ -26,14 +26,14 @@ function iniciarSesion(user, password) {
         return response.json();
     }).then((data) => {
         const token = data.data.Login.accessToken;
-        const idUsuario=data.data.Login.id;
+        const idUsuario = data.data.Login.id;
         console.log(data.data);
-        botBCR(token,idUsuario);
+        botBCR(token, idUsuario);
     });
 };
 
-const savePropiedades = async (tok, fol, descripcion, idUsuario,pais, divPrimaria, divSecundaria, divTerciaria, divCuaternaria, dirrecion, geolocalizacion) => {
-    
+const savePropiedades = async (tok, fol, descripcion, idUsuario, pais, divPrimaria, divSecundaria, divTerciaria, divCuaternaria, dirrecion, geolocalizacion, precioIncial, precioFinal, AgenteVenta, TelefonoAgenteVenta, EmailAgenteVenta) => {
+
     //   -------------
     const saveLocalizacion = await fetch(graphCoolEndpoint, {
         headers: {
@@ -50,7 +50,7 @@ const savePropiedades = async (tok, fol, descripcion, idUsuario,pais, divPrimari
     })
     const responseSaveLocalizacion = await saveLocalizacion.json();
     console.log(responseSaveLocalizacion);
-    const idLocalizacion =  responseSaveLocalizacion.data.createLocalizacion.id;
+    const idLocalizacion = responseSaveLocalizacion.data.createLocalizacion.id;
 
     // ----
     const savePropiedad = await fetch(graphCoolEndpoint, {
@@ -68,6 +68,73 @@ const savePropiedades = async (tok, fol, descripcion, idUsuario,pais, divPrimari
     })
     const responseSavePropiedad = await savePropiedad.json();
     console.log(responseSavePropiedad);
+    const idPropiedad = responseSavePropiedad.data.createPropiedad.id;
+    // ----
+    const savePropieTario = await fetch(graphCoolEndpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': 'bearer ' + tok
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            query: `
+            mutation{
+                createPropietario(data:{nombre:"${AgenteVenta}",email:"${EmailAgenteVenta}",telefono:"${TelefonoAgenteVenta}"}){id}
+              }`
+        }),
+    })
+    const responsesavePropieTario = await savePropieTario.json();
+    console.log(responsesavePropieTario);
+    const idPropietario= responsesavePropieTario.data.createPropietario.id;
+    // ----
+    const savePropieTarioPropiedad = await fetch(graphCoolEndpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': 'bearer ' + tok
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            query: `
+            mutation{
+                createPropiedadPropietario(data:{propiedadId:${idPropiedad},propietarioId:${idPropietario}}){creado}
+              }`
+        }),
+    })
+    const responsesavePropieTarioPropiedad = await savePropieTarioPropiedad.json();
+    console.log(responsesavePropieTarioPropiedad);
+    // ----
+    const savePrecioPropiedadIni = await fetch(graphCoolEndpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': 'bearer ' + tok
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            query: `
+            mutation{
+                createPrecio(data:{precio:"${precioIncial}",propiedad:${idPropiedad}}){id}
+              }`
+        }),
+    });
+    const responsesavePrecioPropiedadIni = await savePrecioPropiedadIni.json();
+    console.log(responsesavePrecioPropiedadIni);
+    setTimeout(() => {
+        const savePrecioPropiedadFin = fetch(graphCoolEndpoint, {
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': 'bearer ' + tok
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                query: `
+                mutation{
+                    createPrecio(data:{precio:"${precioFinal}",propiedad:${idPropiedad}}){id}
+                  }`
+            }),
+        });
+        // const responsesavePrecioPropiedadFin = savePrecioPropiedadFin.json();
+        // console.log(responsesavePrecioPropiedadFin);
+    }, 2000);
 };
 // const saveLocalizacion = async (tok, pais, divPrimaria, divSecundaria, divTerciaria, divCuaternaria, dirrecion, geolocalizacion) => {
 //     const response2 = await fetch(graphCoolEndpoint, {
@@ -108,7 +175,7 @@ const savePropiedades = async (tok, fol, descripcion, idUsuario,pais, divPrimari
 //   };
 
 
-async function botBCR(token,idUsuario) {
+async function botBCR(token, idUsuario) {
     try {
         console.log("Iniciando el bot".blue);
         // abrir chrome
@@ -237,9 +304,33 @@ async function botBCR(token,idUsuario) {
                 }
                 return "No entro";
             });
-
             console.log(coordenadas);
-            savePropiedades(token, folio,descripcion,idUsuario,"Costa Rica",ProvinciaCanton.split(",")[0],ProvinciaCanton.split(",")[1],distrito,"",direccionExacta,coordenadas);
+
+            const AgenteVenta = await page.evaluate((x) => {
+                if (document.querySelector("div[class='table-row lineSpacing3 executiveDetailSeccionBox']") != null) {
+                    return document.querySelector("div[class='table-row lineSpacing3 executiveDetailSeccionBox']").children[0].children[1].textContent;
+                }
+                return "No entro";
+            });
+            console.log(AgenteVenta);
+
+            const TelefonoAgenteVenta = await page.evaluate((x) => {
+                if (document.querySelector("div[class='table-row lineSpacing3 executiveDetailSeccionBox']") != null) {
+                    return document.querySelector("div[class='table-row lineSpacing3 executiveDetailSeccionBox']").children[1].children[1].children[0].textContent;
+                }
+                return "No entro";
+            });
+            console.log(TelefonoAgenteVenta);
+
+            const EmailAgenteVenta = await page.evaluate((x) => {
+                if (document.querySelector("div[class='table-row lineSpacing3 executiveDetailSeccionBox']") != null) {
+                    return document.querySelector("div[class='table-row lineSpacing3 executiveDetailSeccionBox']").children[2].children[1].children[0].textContent;
+                }
+                return "No entro";
+            });
+            console.log(EmailAgenteVenta);
+            // --------------------------------------------------------------------
+            savePropiedades(token, folio, descripcion, idUsuario, "Costa Rica", ProvinciaCanton.split(",")[0], ProvinciaCanton.split(",")[1], distrito, "", direccionExacta, coordenadas, precioIncial, precioFinal, AgenteVenta, TelefonoAgenteVenta, EmailAgenteVenta);
 
             console.log("-------------------------------------------".red);
             await page.goBack();
