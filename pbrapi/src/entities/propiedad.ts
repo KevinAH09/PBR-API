@@ -25,6 +25,10 @@ export class Propiedad extends BaseEntity {
 
     @Field()
     @Column()
+    extension!: string;
+
+    @Field()
+    @Column({length:5000})
     descripcion!: string;
 
     @Field(() => [Precio])
@@ -40,7 +44,7 @@ export class Propiedad extends BaseEntity {
     beneficios!: TipoBeneficio[];
 
     @Field(() => [Categoria])
-    @ManyToOne(() => Categoria, categoria => categoria.propiedades)
+    @ManyToOne(() => Categoria, categoria => categoria.propiedad)
     categoria!: Categoria[];
 
     @Field(() => [Construccion])

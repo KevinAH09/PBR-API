@@ -3,7 +3,6 @@ import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver }
 import { Categoria } from "../entities/categoria";
 import { Localizacion } from "../entities/localizacion";
 import { Propiedad } from "../entities/propiedad";
-import { Propietario } from "../entities/propietario";
 import { Usuario } from "../entities/usuario";
 import { RolesTypes } from "../enums/role-types.enum";
 
@@ -15,6 +14,9 @@ class PropiedadInput {
     
     @Field() 
     descripcion!: string;
+
+    @Field()
+    extension!: string;
 
     @Field(type =>ID)
     usuario!: Usuario[];

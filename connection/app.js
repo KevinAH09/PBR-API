@@ -32,7 +32,7 @@ function iniciarSesion(user, password) {
     });
 };
 
-const savePropiedades = async (tok, fol, descripcion, idUsuario, pais, divPrimaria, divSecundaria, divTerciaria, divCuaternaria, dirrecion, geolocalizacion, precioIncial, precioFinal, AgenteVenta, TelefonoAgenteVenta, EmailAgenteVenta) => {
+const savePropiedades = async (tok, fol, descripcion,tamano, idUsuario, pais, divPrimaria, divSecundaria, divTerciaria, divCuaternaria, dirrecion, geolocalizacion, precioIncial, precioFinal, AgenteVenta, TelefonoAgenteVenta, EmailAgenteVenta) => {
 
     //   -------------
     const saveLocalizacion = await fetch(graphCoolEndpoint, {
@@ -62,7 +62,7 @@ const savePropiedades = async (tok, fol, descripcion, idUsuario, pais, divPrimar
         body: JSON.stringify({
             query: `
       mutation{
-        createPropiedad(data:{numero:"${fol}",localizacion:${idLocalizacion},usuario:${idUsuario},descripcion: "${descripcion}"}){id}
+        createPropiedad(data:{numero:"${fol}",localizacion:${idLocalizacion},extension:"${tamano}",categoria:1,usuario:${idUsuario},descripcion: "${descripcion}"}){id}
        }`
         }),
     })
@@ -330,7 +330,7 @@ async function botBCR(token, idUsuario) {
             });
             console.log(EmailAgenteVenta);
             // --------------------------------------------------------------------
-            savePropiedades(token, folio, descripcion, idUsuario, "Costa Rica", ProvinciaCanton.split(",")[0], ProvinciaCanton.split(",")[1], distrito, "", direccionExacta, coordenadas, precioIncial, precioFinal, AgenteVenta, TelefonoAgenteVenta, EmailAgenteVenta);
+            savePropiedades(token, folio, descripcion,tamano, idUsuario, "Costa Rica", ProvinciaCanton.split(",")[0], ProvinciaCanton.split(",")[1], distrito, "", direccionExacta, coordenadas,precioIncial, precioFinal, AgenteVenta, TelefonoAgenteVenta, EmailAgenteVenta);
 
             console.log("-------------------------------------------".red);
             await page.goBack();
