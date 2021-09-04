@@ -1,6 +1,7 @@
 import { compare, hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import {Arg, Authorized, Ctx, Field, InputType, Int, Mutation,ObjectType, Query, Resolver, UseMiddleware
+import {
+    Arg, Authorized, Ctx, Field, InputType, Int, Mutation, ObjectType, Query, Resolver, UseMiddleware
 } from "type-graphql";
 import enviroment from "../config/enviroments.config";
 import { Usuario } from "../entities/usuario";
@@ -36,6 +37,27 @@ class UsuarioInput {
     @Field(type => RolesTypes)
     role!: RolesTypes;
 }
+@InputType({ description: "Editable user information" })
+class UsuarioInput2 {
+    @Field({ nullable: true })
+    nombre!: string;
+
+    @Field({ nullable: true })
+    email!: string;
+
+    @Field({ nullable: true })
+    telefono!: string;
+
+    @Field(type => RolesTypes)
+    role!: RolesTypes;
+}
+@InputType({ description: "Editable user password" })
+class UsuarioInput3 {
+
+    @Field({ nullable: true })
+    password!: string;
+
+}
 
 
 @Resolver()
@@ -45,18 +67,30 @@ export class UsuarioResolver {
     async users() {
         return Usuario.find();
     }
-    
+
     @Query(() => Usuario)
     async UsuarioById(@Arg("id", () => Int) id: number) {
-        return Usuario.findOne({where: {id}});
+        return Usuario.findOne({ where: { id } });
     }
 
     @Authorized("ADMIN")
     @Mutation(() => Usuario)
     async updateUser(
         @Arg("id", () => Int) id: number,
-        @Arg("data", () => UsuarioInput) data: UsuarioInput
+        @Arg("data", () => UsuarioInput2) data: UsuarioInput2
     ) {
+        await Usuario.update({ id }, data);
+        const dataUpdated = await Usuario.findOne(id);
+        return dataUpdated;
+    }
+    @Authorized("ADMIN")
+    @Mutation(() => Usuario)
+    async updatePassword(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => UsuarioInput3) data: UsuarioInput3
+    ) {
+        const hashedPassword = await hash(data.password, 13);
+        data.password = hashedPassword;
         await Usuario.update({ id }, data);
         const dataUpdated = await Usuario.findOne(id);
         return dataUpdated;
@@ -77,7 +111,7 @@ export class UsuarioResolver {
         const hashedPassword = await hash(data.password, 13);
 
         try {
-            data.password=hashedPassword;
+            data.password = hashedPassword;
             await Usuario.insert(
                 data
             );
@@ -88,7 +122,7 @@ export class UsuarioResolver {
 
         return true;
     }
-    
+
 
     @Mutation(() => LoginResponse)
     async Login(@Arg("email") email: string, @Arg("password") password: string) {
