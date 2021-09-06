@@ -32,7 +32,7 @@ export class Propiedad extends BaseEntity {
     descripcion!: string;
 
     @Field(() => [Precio])
-    @ManyToMany(() => Precio, precio => precio.propiedad)
+    @OneToMany(() => Precio, precio => precio.propiedad)
     precios!: Precio[];
 
     @Field(() => [TipoServicio])
