@@ -35,9 +35,9 @@ export class Usuario extends BaseEntity {
     @Column("text", { nullable: true })
     imagen!: string;
 
-    @Field(() => [Propiedad])
+    @Field(() => Propiedad)
     @OneToMany(() => Propiedad, propiedad => propiedad.usuario)
-    propiedadesRegistradas!: Propiedad[]
+    propiedadesRegistradas!: Propiedad[];
 
     @Field(() => [BitacoraSistema])
     @OneToMany(() => BitacoraSistema, bitacoraSistema => bitacoraSistema.usuario)

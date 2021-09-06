@@ -43,7 +43,7 @@ export class Propiedad extends BaseEntity {
     @ManyToMany(() => TipoBeneficio, beneficio => beneficio.propiedades)
     beneficios!: TipoBeneficio[];
 
-    @Field(() => [Categoria])
+    @Field(() => Categoria)
     @ManyToOne(() => Categoria, categoria => categoria.propiedad)
     categoria!: Categoria[];
 
@@ -55,15 +55,15 @@ export class Propiedad extends BaseEntity {
     @ManyToMany(() => Propietario, propietario => propietario.propiedades)
     propietarios!: Propietario[];
 
-    @Field(() => [Localizacion])
+    @Field(() => Localizacion)
     @ManyToOne(() => Localizacion, localizacion => localizacion.propiedad)
     localizacion!: Localizacion[];
 
-    @Field(() => [Usuario])
+    @Field(() => Usuario)
     @ManyToOne(() => Usuario, usuario => usuario.propiedadesRegistradas)
     usuario!: Usuario[];
 
-    @Field(() => [Foto])
+    @Field(() => Foto)
     @OneToMany(() => Foto, foto => foto.propiedad)
     fotos!: Foto[];
 

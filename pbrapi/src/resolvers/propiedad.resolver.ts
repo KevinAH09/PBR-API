@@ -63,7 +63,9 @@ export class PropiedadResolver {
             {
                 where: {
                     id
-                }
+                },
+                relations:["usuario","localizacion","categoria","fotos"],
+       
             }
         );
     }
