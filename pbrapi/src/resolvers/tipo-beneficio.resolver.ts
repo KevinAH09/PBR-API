@@ -42,12 +42,12 @@ export class TipoBeneficioResolver {
         return true;
     }
 
-    @Query(() => [TipoBeneficio])
+    @Query(() => TipoBeneficio)
     TipoBeneficios() {
         return TipoBeneficio.find()
     }
 
-    @Query(() => [TipoBeneficio])
+    @Query(() => TipoBeneficio)
     TipoBeneficioById(
         @Arg("id", () => Int) id: number
     ) {

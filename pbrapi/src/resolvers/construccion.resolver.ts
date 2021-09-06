@@ -68,12 +68,12 @@ export class ConstruccionResolver {
     //     return true;
     // }
 
-    @Query(() => [Construccion])
+    @Query(() => Construccion)
     Construccion() {
         return Construccion.find()
     }
 
-    @Query(() => [Construccion])
+    @Query(() => Construccion)
     ConstruccionById(
         @Arg("id", () => Int) id: number
     ) {

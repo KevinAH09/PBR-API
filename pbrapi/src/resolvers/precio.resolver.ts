@@ -38,12 +38,12 @@ export class PrecioResolver {
         return true;
     }
 
-    @Query(() => [Precio])
+    @Query(() => Precio)
     Precios() {
         return Precio.find()
     }
 
-    @Query(() => [Precio])
+    @Query(() => Precio)
     PrecioById(
         @Arg("id", () => Int) id: number
     ) {

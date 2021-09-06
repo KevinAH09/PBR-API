@@ -42,12 +42,12 @@ export class SubcategoriaResolver {
         return true;
     }
 
-    @Query(() => [Subcategoria])
+    @Query(() => Subcategoria)
     Subcategorias() {
         return Subcategoria.find()
     }
 
-    @Query(() => [Subcategoria])
+    @Query(() => Subcategoria)
     SubcategoriaById(
         @Arg("id", () => Int) id: number
     ) {

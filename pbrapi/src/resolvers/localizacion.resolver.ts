@@ -58,12 +58,12 @@ export class LocalizacionResolver {
         return true;
     }
 
-    @Query(() => [Localizacion])
+    @Query(() => Localizacion)
     Localizacions() {
         return Localizacion.find()
     }
 
-    @Query(() => [Localizacion])
+    @Query(() => Localizacion)
     LocalizacionById(
         @Arg("id", () => Int) id: number
     ) {

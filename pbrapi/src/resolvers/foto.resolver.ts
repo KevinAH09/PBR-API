@@ -47,12 +47,12 @@ export class FotoResolver {
         return true;
     }
 
-    @Query(() => [Foto])
+    @Query(() => Foto)
     Fotos() {
         return Foto.find()
     }
 
-    @Query(() => [Foto])
+    @Query(() => Foto)
     FotoById(
         @Arg("id", () => Int) id: number
     ) {

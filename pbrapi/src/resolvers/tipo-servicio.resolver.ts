@@ -42,12 +42,12 @@ export class TipoServicioResolver {
         return true;
     }
 
-    @Query(() => [TipoServicio])
+    @Query(() => TipoServicio)
     TipoServicios() {
         return TipoServicio.find()
     }
 
-    @Query(() => [TipoServicio])
+    @Query(() => TipoServicio)
     TipoServicioById(
         @Arg("id", () => Int) id: number
     ) {

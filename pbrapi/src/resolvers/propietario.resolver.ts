@@ -48,12 +48,12 @@ export class PropietarioResolver {
         return true;
     }
 
-    @Query(() => [Propietario])
+    @Query(() => Propietario)
     Propietarios() {
         return Propietario.find()
     }
 
-    @Query(() => [Propietario])
+    @Query(() => Propietario)
     PropietarioById(
         @Arg("id", () => Int) id: number
     ) {

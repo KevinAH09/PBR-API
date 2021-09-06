@@ -42,12 +42,12 @@ export class TipoConstruccionResolver {
         return true;
     }
 
-    @Query(() => [TipoConstruccion])
+    @Query(() => TipoConstruccion)
     TipoConstruccions() {
         return TipoConstruccion.find()
     }
 
-    @Query(() => [TipoConstruccion])
+    @Query(() => TipoConstruccion)
     TipoConstruccionById(
         @Arg("id", () => Int) id: number
     ) {
