@@ -17,8 +17,6 @@ import { PrecioResolver } from './resolvers/precio.resolver';
 import { BitacoraSistemaResolver } from './resolvers/bitacora-sistema.resolver';
 import { LocalizacionResolver } from './resolvers/localizacion.resolver';
 import { TipoConstruccionResolver } from './resolvers/tipo-construccion.resolver';
-import { PropiedadPropietarioResolver } from './resolvers/propiedad-propietario.resolver';
-import { ConstruccionPropiedadResolver } from './resolvers/construccion-propiedad.resolver';
 import {TipoBeneficioPropiedadResolver  } from './resolvers/tipo-Beneficio-propiedad.resolver';
 import {TipoServicioPropiedadResolver  } from './resolvers/tipo-Servicio-propiedad.resolver';
 
@@ -30,7 +28,7 @@ export async function startServer() {
         schema: await buildSchema({
 
             resolvers: [PrecioResolver, PropiedadResolver, PropietarioResolver, TipoServicioResolver, TipoBeneficioResolver, UsuarioResolver, ConstruccionResolver, CategoriaResolver, SubcategoriaResolver, FotoResolver,
-                BitacoraSistemaResolver, LocalizacionResolver, TipoConstruccionResolver,PropiedadPropietarioResolver,ConstruccionPropiedadResolver,TipoBeneficioPropiedadResolver,TipoServicioPropiedadResolver],
+                BitacoraSistemaResolver, LocalizacionResolver, TipoConstruccionResolver,TipoBeneficioPropiedadResolver,TipoServicioPropiedadResolver],
             authChecker: isAuthorizated
         }),
         context: ({ req, res }) => ({ req, res }),

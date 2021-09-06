@@ -1,6 +1,6 @@
 import { validateOrReject } from "class-validator";
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { EntityStates } from "../enums/entity-states.enum";
 import { Propiedad } from "./propiedad";
 
@@ -26,7 +26,7 @@ export class Propietario extends BaseEntity {
 
 
     @Field(() => [Propiedad])
-    @ManyToMany(() => Propiedad, propiedad => propiedad.propietarios)
+    @ManyToOne(() => Propiedad, propiedad => propiedad.propietarios)
     propiedades!: Propiedad[];
 
     @Field(() => String)

@@ -48,11 +48,11 @@ export class Propiedad extends BaseEntity {
     categoria!: Categoria[];
 
     @Field(() => [Construccion])
-    @ManyToMany(() => Construccion, construccion => construccion.propiedades)
+    @OneToMany(() => Construccion, construccion => construccion.propiedades)
     construcciones!: Construccion[];
 
     @Field(() => [Propietario])
-    @ManyToMany(() => Propietario, propietario => propietario.propiedades)
+    @OneToMany(() => Propietario, propietario => propietario.propiedades)
     propietarios!: Propietario[];
 
     @Field(() => Localizacion)
