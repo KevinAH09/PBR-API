@@ -8,23 +8,22 @@ import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
 class PropiedadInput {
-
-    @Field()
+    @Field({ nullable: true })
     numero!: string;
-    
-    @Field() 
+
+    @Field({ nullable: true })
     descripcion!: string;
 
-    @Field()
+    @Field({ nullable: true })
     extension!: string;
 
-    @Field(type =>ID)
+    @Field(type =>ID,{ nullable: true })
     usuario!: Usuario[];
 
-    @Field(type =>ID)
+    @Field(type =>ID,{ nullable: true })
     localizacion!: Localizacion[];
 
-    @Field(type => ID)
+    @Field(type => ID,{ nullable: true })
     categoria!: Categoria[];
 }
 
@@ -51,12 +50,12 @@ export class PropiedadResolver {
     }
 
 
-    @Query(() => [Propiedad])
+    @Query(() => Propiedad)
     Propiedad() {
         return Propiedad.find()
     }
 
-    @Query(() => [Propiedad])
+    @Query(() => Propiedad)
     PropiedadById(
         @Arg("id", () => Int) id: number
     ) {

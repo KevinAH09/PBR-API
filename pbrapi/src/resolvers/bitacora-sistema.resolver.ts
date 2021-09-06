@@ -31,12 +31,12 @@ export class BitacoraSistemaResolver {
     }
 
 
-    @Query(() => [BitacoraSistema])
+    @Query(() => BitacoraSistema)
     BitacoraSistemas() {
         return BitacoraSistema.find()
     }
 
-    @Query(() => [BitacoraSistema])
+    @Query(() => BitacoraSistema)
     BitacoraSistemaById(
         @Arg("id", () => Int) id: number
     ) {

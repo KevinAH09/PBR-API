@@ -30,6 +30,10 @@ export class Usuario extends BaseEntity {
 
     @Column("text", { nullable: true })
     password!: string;
+    
+    @Field(() => String)
+    @Column("text", { nullable: true })
+    imagen!: string;
 
     @Field(() => [Propiedad])
     @OneToMany(() => Propiedad, propiedad => propiedad.usuario)

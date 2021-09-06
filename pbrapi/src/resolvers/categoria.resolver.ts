@@ -43,12 +43,12 @@ export class CategoriaResolver {
         return true;
     }
 
-    @Query(() => [Categoria])
+    @Query(() => Categoria)
     Categorias() {
         return Categoria.find()
     }
 
-    @Query(() => [Categoria])
+    @Query(() => Categoria)
     CategoriaById(
         @Arg("id", () => Int) id: number
     ) {

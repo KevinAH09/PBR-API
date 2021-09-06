@@ -34,6 +34,9 @@ class UsuarioInput {
     @Field({ nullable: true })
     telefono!: string;
 
+    @Field({ nullable: true })
+    imagen!: string;
+
     @Field(type => RolesTypes)
     role!: RolesTypes;
 }
@@ -53,10 +56,8 @@ class UsuarioInput2 {
 }
 @InputType({ description: "Editable user password" })
 class UsuarioInput3 {
-
     @Field({ nullable: true })
     password!: string;
-
 }
 
 
