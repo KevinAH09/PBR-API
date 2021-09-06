@@ -63,7 +63,7 @@ export class Propiedad extends BaseEntity {
     @ManyToOne(() => Usuario, usuario => usuario.propiedadesRegistradas)
     usuario!: Usuario[];
 
-    @Field(() => Foto)
+    @Field(() => [Foto])
     @OneToMany(() => Foto, foto => foto.propiedad)
     fotos!: Foto[];
 
