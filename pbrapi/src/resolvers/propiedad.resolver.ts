@@ -2,6 +2,7 @@ import { type } from "os";
 import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Categoria } from "../entities/categoria";
 import { Localizacion } from "../entities/localizacion";
+import { Precio } from "../entities/precio";
 import { Propiedad } from "../entities/propiedad";
 import { Usuario } from "../entities/usuario";
 import { RolesTypes } from "../enums/role-types.enum";
@@ -25,6 +26,9 @@ class PropiedadInput {
 
     @Field(type => ID,{ nullable: true })
     categoria!: Categoria[];
+
+    @Field(type => ID,{ nullable: true })
+    precios!: Precio[];
 }
 
 @Resolver()
@@ -64,7 +68,7 @@ export class PropiedadResolver {
                 where: {
                     id
                 },
-                relations:["usuario","localizacion","categoria","fotos"],
+                relations:["usuario","localizacion","categoria","fotos","precios"],
        
             }
         );
