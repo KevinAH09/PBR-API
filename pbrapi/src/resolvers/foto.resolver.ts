@@ -6,13 +6,9 @@ import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
 class FotoInput {
+
     @Field()
     tag!: string
-
-    @Field()
-    base64!: string
-
-
     
 }
 

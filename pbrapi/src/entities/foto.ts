@@ -16,10 +16,6 @@ export class Foto extends BaseEntity {
     @Column()
     tag!: string;
 
-    @Field()
-    @Column()
-    base64!: string;
-
     @Field(() => Propiedad)
     @ManyToOne(() => Propiedad, propiedad => propiedad.fotos)
     propiedad!: Propiedad[];
