@@ -1,5 +1,6 @@
-import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, ID, InputType, Mutation, Query, Resolver } from "type-graphql";
 import { Int } from "type-graphql";
+import { Propiedad } from "../entities/propiedad";
 
 import { Propietario } from "../entities/propietario";
 import { RolesTypes } from "../enums/role-types.enum";
@@ -14,6 +15,9 @@ class PropietarioInput {
 
     @Field()
     email!: string
+
+    @Field(type =>ID)
+    propiedad!: Propiedad[];
 
 }
 

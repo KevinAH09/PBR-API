@@ -24,10 +24,9 @@ export class Propietario extends BaseEntity {
     @Column()
     email!: string;
 
-
     @Field(() => [Propiedad])
     @ManyToOne(() => Propiedad, propiedad => propiedad.propietarios)
-    propiedades!: Propiedad[];
+    propiedad!: Propiedad[];
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })

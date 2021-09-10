@@ -165,31 +165,6 @@ async function botBCR(token, idUsuario) {
                 visible: true,
             });
             console.log("Se empieza a barrer la propiedad "+i);
-            const listImg = await page.evaluate(() => {
-                const list = document.querySelector("div[class='table-cell cell55 imageList']").querySelectorAll("a[href='#myGallery']");
-                const srcs = [];
-                list.forEach(element => {
-                    srcs.push(element.children[0].src);
-                });
-                return srcs;
-
-            });
-            console.log("Descarga de imagenes...");
-            // Se recorre la lsita de imagenes para descragarlas, en el servidor-------------------------------------------------------------
-            for (let j = 0; j < listImg.length; j++) {
-                var viewSource = await page.goto(listImg[j]);
-                fs.writeFile("./src/img/" + i + j + ".jpg", await viewSource.buffer(), function (err) {
-                    if (err) {
-                        return console.log(err);
-                    }
-
-                });
-                await page.goBack();
-            };
-            // Se detiene el codigo, en espera de que la pagina carge---------------------------------------
-            await page.waitForSelector("label[class='textType2 strongText mainTitle']", {
-                visible: true,
-            });
             console.log("Obtencion de datos de la propiedad...");
             // Se obtiene la provincia y el canton de la propiedad
             const ProvinciaCanton = await page.evaluate((x) => {
@@ -288,6 +263,31 @@ async function botBCR(token, idUsuario) {
             
             //Se envia los datos a guardar en base de datos
             savePropiedades(token, folio, descripcion, tamano, idUsuario, "Costa Rica", ProvinciaCanton.split(",")[0], ProvinciaCanton.split(",")[1], distrito, "", direccionExacta, coordenadas, precioIncial, precioFinal, AgenteVenta, TelefonoAgenteVenta, EmailAgenteVenta);
+            const listImg = await page.evaluate(() => {
+                const list = document.querySelector("div[class='table-cell cell55 imageList']").querySelectorAll("a[href='#myGallery']");
+                const srcs = [];
+                list.forEach(element => {
+                    srcs.push(element.children[0].src);
+                });
+                return srcs;
+
+            });
+            console.log("Descarga de imagenes...");
+            // Se recorre la lsita de imagenes para descragarlas, en el servidor-------------------------------------------------------------
+            for (let j = 0; j < listImg.length; j++) {
+                var viewSource = await page.goto(listImg[j]);
+                fs.writeFile("./src/img/" + i + j + ".jpg", await viewSource.buffer(), function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+
+                });
+                await page.goBack();
+            };
+            // Se detiene el codigo, en espera de que la pagina carge---------------------------------------
+            await page.waitForSelector("label[class='textType2 strongText mainTitle']", {
+                visible: true,
+            });
             console.log("Se termina a barrer la propiedad "+i);
             
             await page.goBack();

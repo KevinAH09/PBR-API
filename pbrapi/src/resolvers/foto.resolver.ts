@@ -1,7 +1,8 @@
-import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, ID, InputType, Mutation, Query, Resolver } from "type-graphql";
 import { Int } from "type-graphql";
 
 import { Foto } from "../entities/foto";
+import { Propiedad } from "../entities/propiedad";
 import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
@@ -10,6 +11,8 @@ class FotoInput {
     @Field()
     tag!: string
     
+    @Field(type =>ID)
+    propiedad!: Propiedad[];
 }
 
 @Resolver()

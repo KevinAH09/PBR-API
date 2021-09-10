@@ -16,7 +16,7 @@ export class Construccion extends BaseEntity {
 
     @Field(() => Propiedad)
     @ManyToOne(() => Propiedad, propiedad => propiedad.construcciones)
-    propiedades!: Propiedad[];
+    propiedad!: Propiedad[];
 
     @Field(() => [TipoConstruccion])
     @ManyToOne(() => TipoConstruccion, tipoConstruccion => tipoConstruccion.construcciones)
