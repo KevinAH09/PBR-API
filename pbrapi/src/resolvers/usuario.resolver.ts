@@ -59,6 +59,11 @@ class UsuarioInput3 {
     @Field({ nullable: true })
     password!: string;
 }
+@InputType({ description: "Editable user foto" })
+class UsuarioInput4 {
+    @Field({ nullable: true })
+    imagen!: string;
+}
 
 
 @Resolver()
@@ -79,6 +84,16 @@ export class UsuarioResolver {
     async updateUser(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => UsuarioInput2) data: UsuarioInput2
+    ) {
+        await Usuario.update({ id }, data);
+        const dataUpdated = await Usuario.findOne(id);
+        return dataUpdated;
+    }
+    @Authorized("ADMIN")
+    @Mutation(() => Usuario)
+    async updatePhoto(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => UsuarioInput4) data: UsuarioInput4
     ) {
         await Usuario.update({ id }, data);
         const dataUpdated = await Usuario.findOne(id);
