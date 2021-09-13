@@ -18,16 +18,16 @@ class PropiedadInput {
     @Field({ nullable: true })
     extension!: string;
 
-    @Field(type =>ID,{ nullable: true })
+    @Field(type => ID, { nullable: true })
     usuario!: Usuario[];
 
-    @Field(type =>ID,{ nullable: true })
+    @Field(type => ID, { nullable: true })
     localizacion!: Localizacion[];
 
-    @Field(type => ID,{ nullable: true })
+    @Field(type => ID, { nullable: true })
     categoria!: Categoria[];
 
-    @Field(type => ID,{ nullable: true })
+    @Field(type => ID, { nullable: true })
     precios!: Precio[];
 }
 
@@ -54,9 +54,11 @@ export class PropiedadResolver {
     }
 
 
-    @Query(() => Propiedad)
+    @Query(() => [Propiedad])
     Propiedad() {
-        return Propiedad.find()
+        return Propiedad.find({
+            relations: ["usuario", "localizacion", "categoria", "fotos", "precios"]
+        })
     }
 
     @Query(() => Propiedad)
@@ -68,8 +70,8 @@ export class PropiedadResolver {
                 where: {
                     id
                 },
-                relations:["usuario","localizacion","categoria","fotos","precios"],
-       
+                relations: ["usuario", "localizacion", "categoria", "fotos", "precios"],
+
             }
         );
     }
