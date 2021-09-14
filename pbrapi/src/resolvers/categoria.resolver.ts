@@ -43,7 +43,7 @@ export class CategoriaResolver {
         return true;
     }
 
-    @Query(() => Categoria)
+    @Query(() => [Categoria])
     Categorias() {
         return Categoria.find()
     }

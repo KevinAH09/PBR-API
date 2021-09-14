@@ -1,5 +1,6 @@
 import { type } from "os";
 import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { getConnection } from "typeorm";
 import { Categoria } from "../entities/categoria";
 import { Localizacion } from "../entities/localizacion";
 import { Precio } from "../entities/precio";
@@ -60,6 +61,35 @@ export class PropiedadResolver {
             relations: ["usuario", "localizacion", "categoria", "fotos", "precios"]
         })
     }
+    @Query(() => [Propiedad])
+    async PropiedadByLocalizacionAndCategoriaAndPrecioAprox(
+        @Arg("categoriaNombre", () => String) categoriaNombre: String,
+        @Arg("pais", () => String) pais: String,
+        @Arg("divprimaria", () => String) provincia: String,
+        @Arg("precio", () => String) precio: String
+    ) {
+        let propiedades = await getConnection()
+        .getRepository(Propiedad)
+        .createQueryBuilder("propiedad")
+        .innerJoinAndSelect("propiedad.categoria", "categoria")
+        .innerJoinAndSelect("propiedad.localizacion", "localizacion")
+        .innerJoinAndSelect("propiedad.fotos", "fotos")
+        .innerJoinAndSelect("propiedad.usuario", "usuario")
+        .innerJoinAndSelect("propiedad.precios", "precios");
+        if(categoriaNombre){
+            propiedades=propiedades.andWhere("categoria.nombre =:categorianombre")
+        }
+        if(pais){
+            propiedades=propiedades.andWhere("localizacion.pais =:pais")
+        }
+        
+        // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
+        // .orderBy("photo.id", "DESC")
+        // .skip(5)
+        // .take(10)
+        propiedades = propiedades.setParameters({ categorianombre:categoriaNombre , pais:pais});
+        return propiedades.getMany();
+    }
 
     @Query(() => Propiedad)
     PropiedadById(
@@ -67,6 +97,7 @@ export class PropiedadResolver {
     ) {
         return Propiedad.findOne(
             {
+                
                 where: {
                     id
                 },
