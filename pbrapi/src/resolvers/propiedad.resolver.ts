@@ -65,7 +65,7 @@ export class PropiedadResolver {
     async PropiedadByLocalizacionAndCategoriaAndPrecioAprox(
         @Arg("categoriaNombre", () => String) categoriaNombre: String,
         @Arg("pais", () => String) pais: String,
-        @Arg("divprimaria", () => String) provincia: String,
+        @Arg("divprimaria", () => String) divprimaria: String,
         @Arg("precio", () => String) precio: String
     ) {
         let propiedades = await getConnection()
@@ -82,6 +82,12 @@ export class PropiedadResolver {
         if(pais){
             propiedades=propiedades.andWhere("localizacion.pais =:pais")
         }
+        if(divprimaria){
+            propiedades=propiedades.andWhere("localizacion.pais =:pais")
+        }
+        // if(precio){
+        //     propiedades=propiedades.andWhere("localizacion.pais =:pais")
+        // }
         
         // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
         // .orderBy("photo.id", "DESC")
