@@ -1,19 +1,19 @@
 import { registerEnumType } from 'type-graphql'
 
 export enum EntityStates {
-    ACTIVE = 'Active',
-    INACTIVE = 'Inactive' 
+    ACTIVO = 'Activo',
+    INACTIVO = 'Inactivo' 
 }
 
 registerEnumType(EntityStates, {
     name: 'EntityStates',
     description: 'States of entities information',
     valuesConfig: {
-        ACTIVE: {
-            description: 'Active state',
+        ACTIVO: {
+            description: 'Estado Activo ',
         },
-        INACTIVE: {
-            description: 'Inactive state',
+        INACTIVO: {
+            description: 'Estado Inactivo',
         },
     },
 })

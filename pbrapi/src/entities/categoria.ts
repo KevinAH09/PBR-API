@@ -26,10 +26,6 @@ export class Categoria extends BaseEntity {
     @OneToMany(() => Propiedad, propiedad => propiedad.categoria)
     propiedad!: Propiedad[];
 
-    @Field(() => EntityStates)
-    @Column()
-    estado!: EntityStates;
-
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
     creado!: string;
@@ -42,7 +38,6 @@ export class Categoria extends BaseEntity {
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
         this.actualizado = this.creado
-        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 

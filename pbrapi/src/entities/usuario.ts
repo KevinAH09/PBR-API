@@ -64,7 +64,7 @@ export class Usuario extends BaseEntity {
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
         this.actualizado = this.creado
-        this.estado = EntityStates.ACTIVE
+        this.estado = EntityStates.ACTIVO
         await validateOrReject(this)
     }
 

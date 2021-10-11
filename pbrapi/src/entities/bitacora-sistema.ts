@@ -20,10 +20,6 @@ export class BitacoraSistema extends BaseEntity {
     @ManyToOne(() => Usuario, usuario => usuario.bitacoraSistema)
     usuario!: Usuario[];
 
-    @Field(() => EntityStates)
-    @Column()
-    estado!: EntityStates;
-
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
     creado!: string;
@@ -31,7 +27,6 @@ export class BitacoraSistema extends BaseEntity {
     @BeforeInsert()
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
-        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 

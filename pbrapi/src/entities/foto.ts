@@ -24,14 +24,9 @@ export class Foto extends BaseEntity {
     @CreateDateColumn({ type: 'timestamp' })
     creado!: string;
 
-    @Field(() => EntityStates)
-    @Column()
-    estado!: EntityStates
-
     @BeforeInsert()
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
-        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 

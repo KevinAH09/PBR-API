@@ -21,10 +21,6 @@ export class Precio extends BaseEntity {
     @ManyToOne(() => Propiedad, propiedad => propiedad.precios)
     propiedad!: Propiedad[];
 
-    @Field(() => EntityStates)
-    @Column()
-    estado!: EntityStates
-
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
     creado!: string
@@ -32,7 +28,6 @@ export class Precio extends BaseEntity {
     @BeforeInsert()
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
-        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 

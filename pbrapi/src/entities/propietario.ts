@@ -36,15 +36,9 @@ export class Propietario extends BaseEntity {
     @CreateDateColumn({ type: 'timestamp' })
     actualizado!: string;
 
-
-    @Field(() => EntityStates)
-    @Column()
-    estado!: EntityStates;
-
     @BeforeInsert()
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
-        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 

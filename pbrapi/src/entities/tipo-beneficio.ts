@@ -20,11 +20,6 @@ export class TipoBeneficio extends BaseEntity {
     @ManyToMany(() => Propiedad, propiedad => propiedad.beneficios)
     propiedades!: Propiedad[];
 
-
-    @Field(() => EntityStates)
-    @Column()
-    estado!: EntityStates
-
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
     creado!: string;
@@ -37,7 +32,6 @@ export class TipoBeneficio extends BaseEntity {
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
         this.actualizado = this.creado
-        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 

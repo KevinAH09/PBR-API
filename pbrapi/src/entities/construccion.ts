@@ -22,10 +22,6 @@ export class Construccion extends BaseEntity {
     @ManyToOne(() => TipoConstruccion, tipoConstruccion => tipoConstruccion.construcciones)
     tipoConstruccion!: TipoConstruccion[];
 
-    @Field(() => EntityStates)
-    @Column()
-    estado!: EntityStates;
-
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
     creado!: string;
@@ -74,7 +70,6 @@ export class Construccion extends BaseEntity {
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
         this.actualizado = this.creado
-        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 

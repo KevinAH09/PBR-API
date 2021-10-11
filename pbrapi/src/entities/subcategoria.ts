@@ -21,10 +21,6 @@ export class Subcategoria extends BaseEntity {
     @ManyToOne(() => Categoria, categoria => categoria.subcategorias)
     categorias!: Categoria[];
 
-    @Field(() => EntityStates)
-    @Column()
-    estado!: EntityStates;
-
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
     creado!: string;
@@ -37,7 +33,6 @@ export class Subcategoria extends BaseEntity {
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
         this.actualizado = this.creado
-        this.estado = EntityStates.ACTIVE
         await validateOrReject(this)
     }
 

@@ -40,10 +40,6 @@ export class Localizacion extends BaseEntity {
     @Column("text", { nullable: true })
     geolocalizacion!: string;
 
-    @Field(() => EntityStates)
-    @Column()
-    estado!: EntityStates
-
     @Field(() => Propiedad)
     @OneToMany(() => Propiedad, propiedad => propiedad.localizacion)
     propiedad!: Propiedad[];
