@@ -5,6 +5,7 @@ import {
 } from "type-graphql";
 import enviroment from "../config/enviroments.config";
 import { Usuario } from "../entities/usuario";
+import { EntityStates } from "../enums/entity-states.enum";
 import { RolesTypes } from "../enums/role-types.enum";
 import { Context } from "../interfaces/context.interface";
 import { isAuthenticated } from "../middleware/is-authenticated";
@@ -17,10 +18,12 @@ class LoginResponse {
     accessToken?: string;
     @Field()
     id?: Number;
+    @Field()
+    estado?: EntityStates;
 
 }
 
-@InputType({ description: "Editable user information" })
+@InputType({ description: "Register user information" })
 class UsuarioInput {
     @Field({ nullable: true })
     nombre!: string;
@@ -39,6 +42,9 @@ class UsuarioInput {
 
     @Field(type => RolesTypes)
     role!: RolesTypes;
+
+    @Field(type => EntityStates)
+    estado!: EntityStates;
 }
 @InputType({ description: "Editable user information" })
 class UsuarioInput2 {
@@ -63,6 +69,11 @@ class UsuarioInput3 {
 class UsuarioInput4 {
     @Field({ nullable: true })
     imagen!: string;
+}
+@InputType({ description: "Editable estado usuario" })
+class UsuarioInput5 {
+    @Field(type => EntityStates)
+    estado!: EntityStates;
 }
 
 
@@ -99,6 +110,17 @@ export class UsuarioResolver {
         const dataUpdated = await Usuario.findOne(id);
         return dataUpdated;
     }
+    @Authorized("ADMIN")
+    @Mutation(() => Usuario)
+    async updateState(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => UsuarioInput5) data: UsuarioInput5
+    ) {
+        await Usuario.update({ id }, data);
+        const dataUpdated = await Usuario.findOne(id);
+        return dataUpdated;
+    }
+
     @Authorized("ADMIN")
     @Mutation(() => Usuario)
     async updatePassword(
@@ -159,7 +181,8 @@ export class UsuarioResolver {
             accessToken: sign({ usuario: usuario }, enviroment.jwtSecretKey, {
                 expiresIn: "10h"
             }),
-            id: usuario.id
+            id: usuario.id,
+            estado: usuario.estado
         };
     }
 }

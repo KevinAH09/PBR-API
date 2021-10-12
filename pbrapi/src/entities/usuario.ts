@@ -49,7 +49,7 @@ export class Usuario extends BaseEntity {
     role!: RolesTypes;
 
     @Field(() => EntityStates)
-    @Column()
+    @Column("text")
     estado!: EntityStates;
 
     @Field(() => String)
@@ -64,7 +64,6 @@ export class Usuario extends BaseEntity {
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
         this.actualizado = this.creado
-        this.estado = EntityStates.ACTIVO
         await validateOrReject(this)
     }
 
