@@ -107,17 +107,17 @@ export class UsuarioResolver {
         @Arg("data", () => UsuarioInput4) data: UsuarioInput4
     ) {
         await Usuario.update({ id }, data);
-        const dataUpdated = await Usuario.findOne(id);
-        return dataUpdated;
+        // const dataUpdated = await Usuario.findOne(id);
+        return this.users();
     }
     @Authorized("ADMIN")
-    @Mutation(() => Usuario)
+    @Mutation(() => [Usuario])
     async updateState(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => UsuarioInput5) data: UsuarioInput5
     ) {
         await Usuario.update({ id }, data);
-        const dataUpdated = await Usuario.findOne(id);
+        const dataUpdated = await Usuario.find();
         return dataUpdated;
     }
 
