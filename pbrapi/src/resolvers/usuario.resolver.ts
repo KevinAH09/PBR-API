@@ -3,12 +3,14 @@ import { sign } from "jsonwebtoken";
 import {
     Arg, Authorized, Ctx, Field, InputType, Int, Mutation, ObjectType, Query, Resolver, UseMiddleware
 } from "type-graphql";
+import { Like } from "typeorm";
 import enviroment from "../config/enviroments.config";
 import { Usuario } from "../entities/usuario";
 import { EntityStates } from "../enums/entity-states.enum";
 import { RolesTypes } from "../enums/role-types.enum";
 import { Context } from "../interfaces/context.interface";
 import { isAuthenticated } from "../middleware/is-authenticated";
+import { getConnection } from "typeorm";
 
 
 
@@ -184,5 +186,59 @@ export class UsuarioResolver {
             id: usuario.id,
             estado: usuario.estado
         };
+    }
+    @Query(() => [Usuario])
+    async UsuarioByName(@Arg("nombre", () => String) nombre: String) {
+        let usuario = await getConnection()
+        .getRepository(Usuario)
+        .createQueryBuilder('u')
+        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado', 'u.role'])
+        .where('u.nombre like :nombre', { nombre: `%${nombre}%` })
+        .getMany();
+        return usuario;
+    }
+
+    @Query(() => [Usuario])
+    async UsuarioByEmail(@Arg("email", () => String) email: String) {
+        let usuario = await getConnection()
+        .getRepository(Usuario)
+        .createQueryBuilder('u')
+        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado', 'u.role'])
+        .where('u.email like :email', { email: `%${email}%` })
+        .getMany();
+        return usuario;
+    }
+
+    @Query(() => [Usuario])
+    async UsuarioByTelephone(@Arg("telefono", () => String) telefono: String) {
+        let usuario = await getConnection()
+        .getRepository(Usuario)
+        .createQueryBuilder('u')
+        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado','u.role'])
+        .where('u.telefono like :telefono', { telefono: `%${telefono}%` })
+        .getMany();
+        return usuario;
+    }
+
+    @Query(() => [Usuario])
+    async UsuarioByState(@Arg("estado", () => String) estado: String) {
+        let usuario = await getConnection()
+        .getRepository(Usuario)
+        .createQueryBuilder('u')
+        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado', 'u.role'])
+        .where('u.estado like :estado', { estado: `%${estado}%` })
+        .getMany();
+        return usuario;
+    }
+
+    @Query(() => [Usuario])
+    async UsuarioByRol(@Arg("role", () => String) role: String) {
+        let usuario = await getConnection()
+        .getRepository(Usuario)
+        .createQueryBuilder('u')
+        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado', 'u.role'])
+        .where('u.role like :role', { role: `%${role}%` })
+        .getMany();
+        return usuario;
     }
 }
