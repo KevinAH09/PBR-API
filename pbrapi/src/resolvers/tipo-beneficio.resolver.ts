@@ -42,7 +42,7 @@ export class TipoBeneficioResolver {
         return true;
     }
 
-    @Query(() => TipoBeneficio)
+    @Query(() => [TipoBeneficio])
     TipoBeneficios() {
         return TipoBeneficio.find()
     }
