@@ -1,6 +1,6 @@
 import { validateOrReject } from "class-validator";
-import { Field, ObjectType } from "type-graphql";
-import { Entity, JoinColumn, PrimaryColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToMany } from "typeorm";
+import { Field, ID, ObjectType } from "type-graphql";
+import { Entity, JoinColumn, PrimaryColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToMany, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { Propiedad } from "./propiedad";
 import { TipoBeneficio } from "./tipo-beneficio";
 
@@ -8,19 +8,18 @@ import { TipoBeneficio } from "./tipo-beneficio";
 @ObjectType()
 @Entity()
 export class TipoBeneficioPropiedad extends BaseEntity {
-  @PrimaryColumn("int")
-  propiedadId!: number;
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-  @PrimaryColumn("int")
-  tipoBeneficioId!: number;
+  @Field(() => Propiedad)
+  @ManyToOne(() => Propiedad, propiedad => propiedad.tipoBeneficioPropiedad)
+  propiedadIds!: Propiedad[];
 
-  @ManyToMany(() => TipoBeneficio)
-  @JoinColumn()
-  tipoBeneficio!: TipoBeneficio;
-
-  @ManyToMany(() => Propiedad)
-  @JoinColumn()
-  propiedad!: Propiedad;
+  @Field(() => TipoBeneficio)
+  @ManyToOne(() => TipoBeneficio, tipobeneficio => tipobeneficio.tipoBeneficioPropiedad)
+  tipobeneficioId!: TipoBeneficio[];
+  
 
   @Field(() => String)
   @CreateDateColumn({ type: 'timestamp' })

@@ -1,15 +1,19 @@
 import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Propiedad } from "../entities/propiedad";
+import { TipoBeneficio } from "../entities/tipo-beneficio";
+import { TipoServicio } from "../entities/tipo-servicio";
 import { TipoServicioPropiedad } from "../entities/tipo_servicio_propiedad";
 import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
 class TipoServicioPropiedadInput {
 
-    @Field()
-    propiedadId!: number;
 
-    @Field()
-    tipoServicioId!: number;
+    @Field(()=>ID)
+    tiposervicioId!: TipoServicio[];
+
+    @Field(()=>ID)
+    propiedadId!: Propiedad[];   
 }
 
 @Resolver()
