@@ -39,31 +39,31 @@ export class Construccion extends BaseEntity {
     descripcion!: number;
 
     @Field()
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     bano!: string;
 
     @Field()
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     sala!: string;
 
     @Field()
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     planta!: string;
 
     @Field()
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     cocina!: string;
 
     @Field()
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     dormitorio!: string;
 
     @Field()
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     material!: string;
 
     @Field()
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     garage!: string;
 
     @BeforeInsert()

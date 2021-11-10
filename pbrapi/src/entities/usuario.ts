@@ -16,23 +16,23 @@ export class Usuario extends BaseEntity {
 
     @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE])
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     nombre!: string;
 
     @Authorized([RolesTypes.ADMIN])
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     telefono!: string;
 
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     email!: string;
 
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     password!: string;
     
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     imagen!: string;
 
     @Field(() => Propiedad)
@@ -45,11 +45,11 @@ export class Usuario extends BaseEntity {
 
     @Authorized(RolesTypes.ADMIN)
     @Field(type => RolesTypes)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     role!: RolesTypes;
 
     @Field(() => EntityStates)
-    @Column("text")
+    @Column("varchar")
     estado!: EntityStates;
 
     @Field(() => String)

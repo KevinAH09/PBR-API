@@ -13,31 +13,31 @@ export class Localizacion extends BaseEntity {
     id!: number;
 
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     pais!: string;
 
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     divPrimaria!: string;
 
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     divSecundaria!: string;
 
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     divTerciaria!: string;
 
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     divCuaternaria!: string;
 
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     direccion!: string;
 
     @Field(() => String)
-    @Column("text", { nullable: true })
+    @Column("varchar", { nullable: true })
     geolocalizacion!: string;
 
     @Field(() => Propiedad)
