@@ -42,7 +42,7 @@ export class TipoServicioResolver {
         return true;
     }
 
-    @Query(() => TipoServicio)
+    @Query(() => [TipoServicio])
     TipoServicios() {
         return TipoServicio.find()
     }
