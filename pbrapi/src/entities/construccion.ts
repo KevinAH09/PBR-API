@@ -18,7 +18,7 @@ export class Construccion extends BaseEntity {
     @ManyToOne(() => Propiedad, propiedad => propiedad.construcciones)
     propiedad!: Propiedad[];
 
-    @Field(() => [TipoConstruccion])
+    @Field(() => TipoConstruccion)
     @ManyToOne(() => TipoConstruccion, tipoConstruccion => tipoConstruccion.construcciones)
     tipoConstruccion!: TipoConstruccion[];
 
@@ -35,8 +35,8 @@ export class Construccion extends BaseEntity {
     metroCuadrado!: number;
 
     @Field(() => Int)
-    @Column('int', { nullable: true })
-    descripcion!: number;
+    @Column('varchar', { nullable: true })
+    descripcion!: string;
 
     @Field()
     @Column("varchar", { nullable: true })

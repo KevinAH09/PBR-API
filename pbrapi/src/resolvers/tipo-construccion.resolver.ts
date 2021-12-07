@@ -1,4 +1,6 @@
-import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { Int } from "type-graphql";
+
 import { TipoConstruccion } from "../entities/tipo-construccion";
 import { RolesTypes } from "../enums/role-types.enum";
 
@@ -42,8 +44,8 @@ export class TipoConstruccionResolver {
         return true;
     }
 
-    @Query(() => TipoConstruccion)
-    TipoConstruccions() {
+    @Query(() => [TipoConstruccion])
+    TipoConstrucciones() {
         return TipoConstruccion.find()
     }
 

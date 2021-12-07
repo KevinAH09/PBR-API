@@ -1,18 +1,28 @@
-import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Construccion } from "../entities/construccion";
+import { Propiedad } from "../entities/propiedad";
+import { TipoConstruccion } from "../entities/tipo-construccion";
 
 // import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
 class ConstruccionInput {
+
+
     @Field()
     id!: number;
+
+    @Field(type =>ID)
+    tipoConstruccion!: TipoConstruccion[];
+
+    @Field(type =>ID)
+    propiedad!: Propiedad[];
 
     @Field()
     metroCuadrado!: number;
 
     @Field()
-    descripcion!: number;
+    descripcion!: string;
 
     @Field()
     bano!: string;
@@ -72,6 +82,7 @@ export class ConstruccionResolver {
     Construccion() {
         return Construccion.find()
     }
+    
 
     @Query(() => Construccion)
     ConstruccionById(
