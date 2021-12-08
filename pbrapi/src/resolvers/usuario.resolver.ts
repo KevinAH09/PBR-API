@@ -189,6 +189,7 @@ export class UsuarioResolver {
             estado: usuario.estado
         };
     }
+    
     @Query(() => [Usuario])
     async UsuarioByName(@Arg("nombre", () => String) nombre: String) {
         let usuario = await getConnection()
