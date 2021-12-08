@@ -110,7 +110,9 @@ export class UsuarioResolver {
     ) {
         await Usuario.update({ id }, data);
         // const dataUpdated = await Usuario.findOne(id);
-        return this.users();
+        // return this.users();
+        const dataUpdated = await Usuario.findOne(id);
+        return dataUpdated;
     }
     @Authorized("ADMIN")
     @Mutation(() => [Usuario])
