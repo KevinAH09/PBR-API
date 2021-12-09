@@ -9,17 +9,14 @@ import { TipoConstruccion } from "../entities/tipo-construccion";
 class ConstruccionInput {
 
 
-    @Field()
-    id!: number;
-
-    @Field(type =>ID)
+    @Field(type =>Int)
     tipoConstruccion!: TipoConstruccion[];
 
-    @Field(type =>ID)
+    @Field(type =>Int)
     propiedad!: Propiedad[];
 
     @Field()
-    metroCuadrado!: number;
+    metroCuadrado!: string;
 
     @Field()
     descripcion!: string;

@@ -30,9 +30,9 @@ export class Construccion extends BaseEntity {
     @CreateDateColumn({ type: 'timestamp' })
     actualizado!: string;
 
-    @Field(() => Int)
-    @Column('float', { nullable: true })
-    metroCuadrado!: number;
+    @Field(() => String)
+    @Column("varchar", { nullable: true })
+    metroCuadrado!: string;
 
     @Field(() => Int)
     @Column('varchar', { nullable: true })

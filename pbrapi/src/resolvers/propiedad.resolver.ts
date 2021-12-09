@@ -19,17 +19,17 @@ class PropiedadInput {
     @Field({ nullable: true })
     extension!: string;
 
-    @Field(type => ID, { nullable: true })
+    @Field(type => Int,{ nullable: true })
     usuario!: Usuario[];
 
-    @Field(type => ID, { nullable: true })
+    @Field(type => Int,{ nullable: true })
     localizacion!: Localizacion[];
 
-    @Field(type => ID, { nullable: true })
+    @Field(type => Int, { nullable: true })
     categoria!: Categoria[];
 
-    @Field(type => ID, { nullable: true })
-    precios!: Precio[];
+    // @Field(type => Int, { nullable: true })
+    // precios!: Precio[];
 }
 
 @Resolver()
