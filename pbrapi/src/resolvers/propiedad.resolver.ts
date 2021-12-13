@@ -61,6 +61,21 @@ export class PropiedadResolver {
             relations: ["usuario", "localizacion", "categoria", "fotos", "precios"]
         })
     }
+
+    @Query(() => Int)
+    async PropiedadByFolio(
+        @Arg("numero", () => String) numero: String,
+    ) {
+        let propiedades = await getConnection()
+        .getRepository(Propiedad)
+        .createQueryBuilder("propiedad");
+        if(numero){
+            propiedades=propiedades.andWhere("propiedad.numero =:numero")
+        }
+        propiedades = propiedades.setParameters({ numero:numero});
+        return propiedades.getCount();
+    }
+
     @Query(() => [Propiedad])
     async PropiedadByLocalizacionAndCategoriaAndPrecioAprox(
         @Arg("categoriaNombre", () => String) categoriaNombre: String,
