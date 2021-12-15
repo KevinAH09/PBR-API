@@ -12,7 +12,7 @@ class PrecioInput {
     @Field()
     precio!: string;
 
-    @Field(type =>ID)
+    @Field(type =>Int)
     propiedad!: Propiedad[];
 
 

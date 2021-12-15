@@ -16,7 +16,7 @@ class PropietarioInput {
     @Field()
     email!: string
 
-    @Field(type =>ID)
+    @Field(type =>Int)
     propiedad!: Propiedad[];
 
 }

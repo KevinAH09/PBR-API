@@ -11,7 +11,7 @@ class FotoInput {
     @Field()
     tag!: string
     
-    @Field(type =>ID)
+    @Field(type =>Int)
     propiedad!: Propiedad[];
 }
 

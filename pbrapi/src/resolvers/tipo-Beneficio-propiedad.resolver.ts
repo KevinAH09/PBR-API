@@ -8,10 +8,10 @@ import { RolesTypes } from "../enums/role-types.enum";
 class TipoBeneficioPropiedadInput {
 
 
-    @Field(()=>ID)
+    @Field(type => Int)
     tipobeneficioId!: TipoBeneficio[];
 
-    @Field(()=>ID)
+    @Field(type => Int)
     propiedadIds!: Propiedad[];   
 }
 
