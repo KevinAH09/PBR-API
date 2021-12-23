@@ -18,10 +18,27 @@ import { getConnection } from "typeorm";
 class LoginResponse {
     @Field()
     accessToken?: string;
+
     @Field()
     id?: Number;
+
     @Field()
     estado?: EntityStates;
+
+    @Field()
+    nombre!: string;
+
+    @Field()
+    telefono!: string;
+
+    @Field()
+    email!: string;
+
+    @Field(type => RolesTypes)
+    role!: RolesTypes;
+
+    @Field()
+    imagen!: string;
 
 }
 
@@ -186,7 +203,13 @@ export class UsuarioResolver {
                 expiresIn: "10h"
             }),
             id: usuario.id,
-            estado: usuario.estado
+            estado: usuario.estado,
+            nombre:usuario.nombre,
+            email:usuario.email,
+            telefono:usuario.telefono,
+            imagen:usuario.imagen,
+            role:usuario.role
+
         };
     }
     
