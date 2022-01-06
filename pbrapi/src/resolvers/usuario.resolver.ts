@@ -252,7 +252,7 @@ export class UsuarioResolver {
         .getRepository(Usuario)
         .createQueryBuilder('u')
         .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado', 'u.role'])
-        .where('u.estado like :estado', { estado: `%${estado}%` })
+        .where('u.estado like :estado', { estado: `${estado}%` })
         .getMany();
         return usuario;
     }
