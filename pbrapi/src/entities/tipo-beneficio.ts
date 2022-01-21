@@ -22,11 +22,11 @@ export class TipoBeneficio extends BaseEntity {
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    creado!: string;
+    creado!: string
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })
-    actualizado!: string;
+    actualizado!: string
 
     @BeforeInsert()
     async beforeInsert() {

@@ -18,8 +18,10 @@ export class TipoBeneficioResolver {
     async createTipoBeneficio(
         @Arg("data", () => TipoBeneficioInput) data: TipoBeneficioInput
     ) {
-        const newData = TipoBeneficio.create(data);
-        return await newData.save();
+        await TipoBeneficio.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized()
