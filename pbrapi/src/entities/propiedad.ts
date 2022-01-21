@@ -70,7 +70,7 @@ export class Propiedad extends BaseEntity {
     fotos!: Foto[];
 
     @Field(() => EntityStates)
-    @Column()
+    @Column("varchar")
     estado!: EntityStates;
 
     @Field(() => String)
@@ -85,7 +85,6 @@ export class Propiedad extends BaseEntity {
     async beforeInsert() {
         this.creado = new Date().valueOf().toString()
         this.actualizado = this.creado
-        this.estado = EntityStates.ACTIVO
         await validateOrReject(this)
     }
 

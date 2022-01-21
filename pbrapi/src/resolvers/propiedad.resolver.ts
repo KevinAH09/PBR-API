@@ -3,9 +3,9 @@ import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver }
 import { getConnection } from "typeorm";
 import { Categoria } from "../entities/categoria";
 import { Localizacion } from "../entities/localizacion";
-import { Precio } from "../entities/precio";
 import { Propiedad } from "../entities/propiedad";
 import { Usuario } from "../entities/usuario";
+import { EntityStates } from "../enums/entity-states.enum";
 import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
@@ -28,10 +28,9 @@ class PropiedadInput {
     @Field(type => Int, { nullable: true })
     categoria!: Categoria[];
 
-    // @Field(type => Int, { nullable: true })
-    // precios!: Precio[];
+    @Field(type => EntityStates)
+    estado!: EntityStates;
 }
-
 @Resolver()
 export class PropiedadResolver {
     @Authorized(RolesTypes.ADMIN)
