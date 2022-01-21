@@ -34,8 +34,10 @@ export class LocalizacionResolver {
     async createLocalizacion(
         @Arg("data", () => LocalizacionInput) data: LocalizacionInput
     ) {
-        const newData = Localizacion.create(data);
-        return await newData.save();
+        await Localizacion.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized()

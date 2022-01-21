@@ -12,7 +12,7 @@ class TipoBeneficioPropiedadInput {
     tipobeneficioId!: TipoBeneficio[];
 
     @Field(type => Int)
-    propiedadIds!: Propiedad[];   
+    propiedadIds!: Propiedad[];
 }
 
 @Resolver()
@@ -22,8 +22,10 @@ export class TipoBeneficioPropiedadResolver {
     async createTipo_Beneficio_Propiedad(
         @Arg("data", () => TipoBeneficioPropiedadInput) data: TipoBeneficioPropiedadInput
     ) {
-        const newData = TipoBeneficioPropiedad.create(data);
-        return await newData.save();
+        await TipoBeneficioPropiedad.insert(
+            data
+        );
+        return await data;
     }
 
     // @Authorized(RolesTypes.ADMIN)

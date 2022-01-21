@@ -7,10 +7,10 @@ import { RolesTypes } from "../enums/role-types.enum";
 @InputType()
 class BitacoraSistemaInput {
     @Field()
-    id!:number;
-   
+    id!: number;
+
     @Field()
-    accion!:string;
+    accion!: string;
 
 
     // @Field(()=>Usuario)
@@ -26,8 +26,10 @@ export class BitacoraSistemaResolver {
     async createBitacoraSistema(
         @Arg("data", () => BitacoraSistemaInput) data: BitacoraSistemaInput
     ) {
-        const newData = BitacoraSistema.create(data);
-        return await newData.save();
+        await BitacoraSistema.insert(
+            data
+        );
+        return await data;
     }
 
 

@@ -16,7 +16,7 @@ class PropietarioInput {
     @Field()
     email!: string
 
-    @Field(type =>Int)
+    @Field(type => Int)
     propiedad!: Propiedad[];
 
 }
@@ -28,8 +28,10 @@ export class PropietarioResolver {
     async createPropietario(
         @Arg("data", () => PropietarioInput) data: PropietarioInput
     ) {
-        const newData = Propietario.create(data);
-        return await newData.save();
+        await Propietario.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized(RolesTypes.ADMIN)

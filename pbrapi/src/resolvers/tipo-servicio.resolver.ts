@@ -8,7 +8,7 @@ import { RolesTypes } from "../enums/role-types.enum";
 class TipoServicioInput {
     @Field()
     nombre!: string
-    
+
 }
 
 @Resolver()
@@ -18,8 +18,10 @@ export class TipoServicioResolver {
     async createTipoServicio(
         @Arg("data", () => TipoServicioInput) data: TipoServicioInput
     ) {
-        const newData = TipoServicio.create(data);
-        return await newData.save();
+        await TipoServicio.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized()

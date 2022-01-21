@@ -8,7 +8,7 @@ import { RolesTypes } from "../enums/role-types.enum";
 class SubcategoriaInput {
     @Field()
     nombre!: string
-    
+
 }
 
 @Resolver()
@@ -18,8 +18,10 @@ export class SubcategoriaResolver {
     async createSubcategoria(
         @Arg("data", () => SubcategoriaInput) data: SubcategoriaInput
     ) {
-        const newData = Subcategoria.create(data);
-        return await newData.save();
+        await Subcategoria.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized()

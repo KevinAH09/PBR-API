@@ -22,8 +22,10 @@ export class FotoResolver {
     async createFoto(
         @Arg("data", () => FotoInput) data: FotoInput
     ) {
-        const newData = Foto.create(data);
-        return await newData.save();
+        await Foto.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized()

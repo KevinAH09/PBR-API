@@ -9,10 +9,10 @@ import { TipoConstruccion } from "../entities/tipo-construccion";
 class ConstruccionInput {
 
 
-    @Field(type =>Int)
+    @Field(type => Int)
     tipoConstruccion!: TipoConstruccion[];
 
-    @Field(type =>Int)
+    @Field(type => Int)
     propiedad!: Propiedad[];
 
     @Field()
@@ -41,7 +41,7 @@ class ConstruccionInput {
 
     @Field()
     garage!: string;
-   
+
 }
 
 @Resolver()
@@ -51,8 +51,10 @@ export class ConstruccionResolver {
     async createConstruccion(
         @Arg("data", () => ConstruccionInput) data: ConstruccionInput
     ) {
-        const newData = Construccion.create(data);
-        return await newData.save();
+        await Construccion.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized()
@@ -79,7 +81,7 @@ export class ConstruccionResolver {
     Construccion() {
         return Construccion.find()
     }
-    
+
 
     @Query(() => Construccion)
     ConstruccionById(

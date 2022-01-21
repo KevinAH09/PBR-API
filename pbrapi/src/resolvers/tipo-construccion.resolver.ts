@@ -20,8 +20,10 @@ export class TipoConstruccionResolver {
     async createTipoConstruccion(
         @Arg("data", () => TipoConstruccionInput) data: TipoConstruccionInput
     ) {
-        const newData = TipoConstruccion.create(data);
-        return await newData.save();
+        await TipoConstruccion.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized()

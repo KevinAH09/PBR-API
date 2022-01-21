@@ -12,7 +12,7 @@ class PrecioInput {
     @Field()
     precio!: string;
 
-    @Field(type =>Int)
+    @Field(type => Int)
     propiedad!: Propiedad[];
 
 
@@ -25,8 +25,10 @@ export class PrecioResolver {
     async createPrecio(
         @Arg("data", () => PrecioInput) data: PrecioInput
     ) {
-        const newData = Precio.create(data);
-        return await newData.save();
+        await Precio.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized(RolesTypes.ADMIN)

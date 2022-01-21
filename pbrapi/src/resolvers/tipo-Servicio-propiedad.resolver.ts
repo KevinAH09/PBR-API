@@ -13,7 +13,7 @@ class TipoServicioPropiedadInput {
     tiposervicioId!: TipoServicio[];
 
     @Field(type => Int)
-    propiedadId!: Propiedad[];   
+    propiedadId!: Propiedad[];
 }
 
 @Resolver()
@@ -23,8 +23,10 @@ export class TipoServicioPropiedadResolver {
     async createTipo_Servicio_Propiedad(
         @Arg("data", () => TipoServicioPropiedadInput) data: TipoServicioPropiedadInput
     ) {
-        const newData = TipoServicioPropiedad.create(data);
-        return await newData.save();
+        await TipoServicioPropiedad.insert(
+            data
+        );
+        return await data;
     }
 
     // @Authorized(RolesTypes.ADMIN)

@@ -19,8 +19,10 @@ export class CategoriaResolver {
     async createCategoria(
         @Arg("data", () => CategoriaInput) data: CategoriaInput
     ) {
-        const newData = Categoria.create(data);
-        return await newData.save();
+        await Categoria.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized()

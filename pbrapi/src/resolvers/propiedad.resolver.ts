@@ -19,10 +19,10 @@ class PropiedadInput {
     @Field({ nullable: true })
     extension!: string;
 
-    @Field(type => Int,{ nullable: true })
+    @Field(type => Int, { nullable: true })
     usuario!: Usuario[];
 
-    @Field(type => Int,{ nullable: true })
+    @Field(type => Int, { nullable: true })
     localizacion!: Localizacion[];
 
     @Field(type => Int, { nullable: true })
@@ -39,8 +39,10 @@ export class PropiedadResolver {
     async createPropiedad(
         @Arg("data", () => PropiedadInput) data: PropiedadInput
     ) {
-        const newData = Propiedad.create(data);
-        return await newData.save();
+        await Propiedad.insert(
+            data
+        );
+        return await data;
     }
 
     @Authorized(RolesTypes.ADMIN)
@@ -67,12 +69,12 @@ export class PropiedadResolver {
         @Arg("numero", () => String) numero: String,
     ) {
         let propiedades = await getConnection()
-        .getRepository(Propiedad)
-        .createQueryBuilder("propiedad");
-        if(numero){
-            propiedades=propiedades.andWhere("propiedad.numero =:numero")
+            .getRepository(Propiedad)
+            .createQueryBuilder("propiedad");
+        if (numero) {
+            propiedades = propiedades.andWhere("propiedad.numero =:numero")
         }
-        propiedades = propiedades.setParameters({ numero:numero});
+        propiedades = propiedades.setParameters({ numero: numero });
         return propiedades.getCount();
     }
 
@@ -84,31 +86,31 @@ export class PropiedadResolver {
         @Arg("precio", () => String) precio: String
     ) {
         let propiedades = await getConnection()
-        .getRepository(Propiedad)
-        .createQueryBuilder("propiedad")
-        .innerJoinAndSelect("propiedad.categoria", "categoria")
-        .innerJoinAndSelect("propiedad.localizacion", "localizacion")
-        .innerJoinAndSelect("propiedad.fotos", "fotos")
-        .innerJoinAndSelect("propiedad.usuario", "usuario")
-        .innerJoinAndSelect("propiedad.precios", "precios");
-        if(categoriaNombre){
-            propiedades=propiedades.andWhere("categoria.nombre =:categorianombre")
+            .getRepository(Propiedad)
+            .createQueryBuilder("propiedad")
+            .innerJoinAndSelect("propiedad.categoria", "categoria")
+            .innerJoinAndSelect("propiedad.localizacion", "localizacion")
+            .innerJoinAndSelect("propiedad.fotos", "fotos")
+            .innerJoinAndSelect("propiedad.usuario", "usuario")
+            .innerJoinAndSelect("propiedad.precios", "precios");
+        if (categoriaNombre) {
+            propiedades = propiedades.andWhere("categoria.nombre =:categorianombre")
         }
-        if(pais){
-            propiedades=propiedades.andWhere("localizacion.pais =:pais")
+        if (pais) {
+            propiedades = propiedades.andWhere("localizacion.pais =:pais")
         }
-        if(divprimaria){
-            propiedades=propiedades.andWhere("localizacion.pais =:pais")
+        if (divprimaria) {
+            propiedades = propiedades.andWhere("localizacion.pais =:pais")
         }
         // if(precio){
         //     propiedades=propiedades.andWhere("localizacion.pais =:pais")
         // }
-        
+
         // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({ categorianombre:categoriaNombre , pais:pais});
+        propiedades = propiedades.setParameters({ categorianombre: categoriaNombre, pais: pais });
         return propiedades.getMany();
     }
 
@@ -118,7 +120,7 @@ export class PropiedadResolver {
     ) {
         return Propiedad.findOne(
             {
-                
+
                 where: {
                     id
                 },
