@@ -82,7 +82,8 @@ export class PropiedadResolver {
         @Arg("categoriaNombre", () => String) categoriaNombre: String,
         @Arg("pais", () => String) pais: String,
         @Arg("divprimaria", () => String) divprimaria: String,
-        @Arg("precio", () => String) precio: String
+        @Arg("precioMax", () => String) precioMax: String,
+        @Arg("precioMin", () => String) precioMin: String
     ) {
         let propiedades = await getConnection()
             .getRepository(Propiedad)
@@ -98,18 +99,20 @@ export class PropiedadResolver {
         if (pais) {
             propiedades = propiedades.andWhere("localizacion.pais =:pais")
         }
-        if (divprimaria) {
-            propiedades = propiedades.andWhere("localizacion.pais =:pais")
-        }
-        // if(precio){
-        //     propiedades=propiedades.andWhere("localizacion.pais =:pais")
+        // if (divprimaria) {
+        //     propiedades = propiedades.andWhere("localizacion.pais =:pais")
         // }
-
+        // SELECT p.id FROM precio p WHERE p.propiedadId = 239 AND p.precio BETWEEN 0 AND 1000000000000000000000 ORDER BY(p.creado) DESC LIMIT 1
+        if(precioMin){
+            propiedades=propiedades.andWhere('precios.id = (SELECT p.id FROM precio p WHERE p.propiedadId =propiedad.id AND p.precio BETWEEN '+precioMin+' AND '+precioMax+' ORDER BY(p.creado) DESC LIMIT 1)')
+        }
+        
         // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({ categorianombre: categoriaNombre, pais: pais });
+        propiedades = propiedades.setParameters({ categorianombre: categoriaNombre, pais: pais ,precioMin:precioMin,precioMax:precioMax});
+        console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
 
