@@ -10,10 +10,10 @@ class TipoServicioPropiedadInput {
 
 
     @Field(type => Int)
-    tiposervicioId!: TipoServicio[];
+    tiposervicio!: TipoServicio[];
 
     @Field(type => Int)
-    propiedadId!: Propiedad[];
+    propiedad!: Propiedad[];
 }
 
 @Resolver()

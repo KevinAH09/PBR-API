@@ -39,15 +39,15 @@ export class Propiedad extends BaseEntity {
     precios!: Precio[];
 
     @Field(() => [TipoServicioPropiedad])
-    @OneToMany(() => TipoServicioPropiedad, tiposerviciopropiedad => tiposerviciopropiedad.propiedadId)
+    @OneToMany(() => TipoServicioPropiedad, tiposerviciopropiedad => tiposerviciopropiedad.propiedad)
     tipoServicioPropiedad!: TipoServicioPropiedad[];
 
     @Field(() => [TipoBeneficioPropiedad])
-    @OneToMany(() => TipoBeneficioPropiedad, tipobeneficiopropiedad => tipobeneficiopropiedad.propiedadIds)
+    @OneToMany(() => TipoBeneficioPropiedad, tipobeneficiopropiedad => tipobeneficiopropiedad.propiedad)
     tipoBeneficioPropiedad!: TipoServicioPropiedad[];
 
     @Field(() => [PropiedadUsuario])
-    @OneToMany(() => PropiedadUsuario, propiedadUsuario => propiedadUsuario.propiedadId)
+    @OneToMany(() => PropiedadUsuario, propiedadUsuario => propiedadUsuario.propiedad)
     propiedadUsuario!: PropiedadUsuario[];
 
     @Field(() => Categoria)

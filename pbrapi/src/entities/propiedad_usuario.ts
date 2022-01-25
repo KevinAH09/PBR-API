@@ -14,11 +14,11 @@ export class PropiedadUsuario extends BaseEntity {
 
   @Field(() => Usuario)
   @ManyToOne(() => Usuario, usuario => usuario.propiedadUsuario)
-  usuarioId!: Usuario[];
+  usuario!: Usuario[];
 
   @Field(() => Propiedad)
   @ManyToOne(() => Propiedad, propiedad => propiedad.propiedadUsuario)
-  propiedadId!: Propiedad[];
+  propiedad!: Propiedad[];
 
   @Field(() => Boolean)
   @Column("boolean")

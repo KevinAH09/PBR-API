@@ -45,7 +45,7 @@ export class Usuario extends BaseEntity {
     bitacoraSistema!: BitacoraSistema[];
 
     @Field(() => [PropiedadUsuario])
-    @OneToMany(() => PropiedadUsuario, propiedadUsuario => propiedadUsuario.usuarioId)
+    @OneToMany(() => PropiedadUsuario, propiedadUsuario => propiedadUsuario.usuario)
     propiedadUsuario!: PropiedadUsuario[];
 
     @Authorized(RolesTypes.ADMIN)

@@ -14,11 +14,11 @@ export class TipoServicioPropiedad extends BaseEntity {
 
   @Field(() => TipoServicio)
   @ManyToOne(() => TipoServicio, tiposervicio => tiposervicio.tipoServicioPropiedad)
-  tiposervicioId!: TipoServicio[];
+  tiposervicio!: TipoServicio[];
 
   @Field(() => Propiedad)
   @ManyToOne(() => Propiedad, propiedad => propiedad.tipoServicioPropiedad)
-  propiedadId!: Propiedad[];
+  propiedad!: Propiedad[];
 
 
   @Field(() => String)

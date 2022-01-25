@@ -17,7 +17,7 @@ export class TipoServicio extends BaseEntity {
     nombre!: string;
 
     @Field(() => [TipoServicioPropiedad])
-    @OneToMany(() => TipoServicioPropiedad, tiposerviciopropiedad => tiposerviciopropiedad.tiposervicioId)
+    @OneToMany(() => TipoServicioPropiedad, tiposerviciopropiedad => tiposerviciopropiedad.tiposervicio)
     tipoServicioPropiedad!: TipoServicioPropiedad[];
     // @Field(() => [Propiedad])
     // @ManyToMany(() => Propiedad, propiedad => propiedad.servicios)

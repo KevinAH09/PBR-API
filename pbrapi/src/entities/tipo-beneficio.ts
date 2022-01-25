@@ -17,7 +17,7 @@ export class TipoBeneficio extends BaseEntity {
 
 
     @Field(() => [TipoBeneficioPropiedad])
-    @OneToMany(() => TipoBeneficioPropiedad, tipobeneficiopropiedad => tipobeneficiopropiedad.tipobeneficioId)
+    @OneToMany(() => TipoBeneficioPropiedad, tipobeneficiopropiedad => tipobeneficiopropiedad.tipobeneficio)
     tipoBeneficioPropiedad!: TipoBeneficioPropiedad[];
 
     @Field(() => String)

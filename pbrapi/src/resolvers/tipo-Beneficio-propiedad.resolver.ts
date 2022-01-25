@@ -9,10 +9,10 @@ class TipoBeneficioPropiedadInput {
 
 
     @Field(type => Int)
-    tipobeneficioId!: TipoBeneficio[];
+    tipobeneficio!: TipoBeneficio[];
 
     @Field(type => Int)
-    propiedadIds!: Propiedad[];
+    propiedad!: Propiedad[];
 }
 
 @Resolver()
@@ -40,10 +40,10 @@ export class TipoBeneficioPropiedadResolver {
     // }
 
 
-    // @Query(() => [Propiedad])
-    // Propiedad() {
-    //     return Propiedad.find()
-    // }
+    @Query(() => [TipoBeneficioPropiedad])
+    TipoBeneficioPropiedad() {
+        return TipoBeneficioPropiedad.find()
+    }
 
     // @Query(() => [Propiedad])
     // PropiedadById(
