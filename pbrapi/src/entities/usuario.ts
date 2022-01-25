@@ -5,6 +5,7 @@ import { EntityStates } from '../enums/entity-states.enum';
 import { RolesTypes } from "../enums/role-types.enum";
 import { BitacoraSistema } from "./bitacora-sistema";
 import { Propiedad } from "./propiedad";
+import { PropiedadUsuario } from "./propiedad_usuario";
 
 @ObjectType()
 @Entity()
@@ -42,6 +43,10 @@ export class Usuario extends BaseEntity {
     @Field(() => [BitacoraSistema])
     @OneToMany(() => BitacoraSistema, bitacoraSistema => bitacoraSistema.usuario)
     bitacoraSistema!: BitacoraSistema[];
+
+    @Field(() => [PropiedadUsuario])
+    @OneToMany(() => PropiedadUsuario, propiedadUsuario => propiedadUsuario.usuarioId)
+    propiedadUsuario!: PropiedadUsuario[];
 
     @Authorized(RolesTypes.ADMIN)
     @Field(type => RolesTypes)
