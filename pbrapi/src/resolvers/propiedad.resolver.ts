@@ -93,6 +93,8 @@ export class PropiedadResolver {
             .innerJoinAndSelect("propiedad.fotos", "fotos")
             .innerJoinAndSelect("propiedad.usuario", "usuario")
             .innerJoinAndSelect("propiedad.precios", "precios");
+        
+            console.log(categoriaNombre);
         if (categoriaNombre) {
             propiedades = propiedades.andWhere("categoria.nombre =:categorianombre")
         }
@@ -112,7 +114,7 @@ export class PropiedadResolver {
         // .skip(5)
         // .take(10)
         propiedades = propiedades.setParameters({ categorianombre: categoriaNombre, pais: pais ,precioMin:precioMin,precioMax:precioMax});
-        console.log(propiedades.getQuery());
+        // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
 
