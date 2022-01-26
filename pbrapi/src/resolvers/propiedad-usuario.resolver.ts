@@ -56,6 +56,11 @@ export class PropiedadUsuarioResolver {
             .getRepository(PropiedadUsuario)
             .createQueryBuilder("propiedad_usuario")
             .innerJoinAndSelect("propiedad_usuario.propiedad", "propiedad")
+            .innerJoinAndSelect("propiedad.categoria", "categoria")
+            .innerJoinAndSelect("propiedad.localizacion", "localizacion")
+            .innerJoinAndSelect("propiedad.fotos", "fotos")
+            .innerJoinAndSelect("propiedad.usuario", "usuario")
+            .innerJoinAndSelect("propiedad.precios", "precios")
             .andWhere("(propiedad_usuario.favorita =1)")
             .andWhere("(propiedad_usuario.usuario =:usuarioid)");
         //     console.log(categoriaNombre);
