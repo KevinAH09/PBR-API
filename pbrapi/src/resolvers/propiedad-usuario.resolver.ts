@@ -31,16 +31,26 @@ export class PropiedadUsuarioResolver {
         return await data;
     }
 
+//     mutation{
+//         updatePropiedad_Usuario(id:15,data:{propiedad:240,usuario:3,favorita:false}){id}
+ 
+// }
+
+// mutation{
+//     createPropiedad_Usuario(data:{propiedad:240,usuario:3,favorita:true}){id}
+
+// }
+
     // @Authorized(RolesTypes.ADMIN)
-    // @Mutation(() => Propiedad_Propietario)
-    // async updatePropiedadPropietario(
-    //     @Arg("id", () => Int) id: number,
-    //     @Arg("data", () => PropiedadPropietarioInput) data: PropiedadPropietarioInput
-    // ) {
-    //     await Propiedad_Propietario.update({ id }, data);
-    //     const dataUpdated = await Propiedad_Propietario.findOne(id)
-    //     return dataUpdated;
-    // }
+    @Mutation(() => PropiedadUsuario)
+    async updatePropiedad_Usuario(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => PropiedadUsuarioInput) data: PropiedadUsuarioInput
+    ) {
+        await PropiedadUsuario.update({ id }, data);
+        const dataUpdated = await PropiedadUsuario.findOne(id)
+        return dataUpdated;
+    }
 
 
     @Query(() => [PropiedadUsuario])
