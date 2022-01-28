@@ -73,27 +73,32 @@ export class PropiedadUsuarioResolver {
             .innerJoinAndSelect("propiedad.precios", "precios")
             .andWhere("(propiedad_usuario.favorita =1)")
             .andWhere("(propiedad_usuario.usuario =:usuarioid)");
-        //     console.log(categoriaNombre);
-        // if (categoriaNombre) {
-        //     propiedades = propiedades.andWhere("categoria.nombre =:categorianombre")
-        // }
-        // if (pais) {
-        //     propiedades = propiedades.andWhere("localizacion.pais =:pais")
-        // }
-        // // if (divprimaria) {
-        // //     propiedades = propiedades.andWhere("localizacion.pais =:pais")
-        // // }
-        // // SELECT p.id FROM precio p WHERE p.propiedadId = 239 AND p.precio BETWEEN 0 AND 1000000000000000000000 ORDER BY(p.creado) DESC LIMIT 1
-        // if(precioMin){
-        //     propiedades=propiedades.andWhere('precios.id = (SELECT p.id FROM precio p WHERE p.propiedadId =propiedad.id AND p.precio BETWEEN '+precioMin+' AND '+precioMax+' ORDER BY(p.creado) DESC LIMIT 1)')
-        // }
         
-        
-        // // .orderBy("photo.id", "DESC")
-        // // .skip(5)
-        // // .take(10)
         propiedades = propiedades.setParameters({ usuarioid: usuarioid} );
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
+    }
+
+    @Query(() => PropiedadUsuario)
+    async PropiedadUsuarioByusuarioIdAndPropiedadId(
+        @Arg("usuarioid", () => Int) usuarioid: number,
+        @Arg("propiedadid", () => Int) propiedadid: number
+    ) {
+        let propiedades = await getConnection()
+            .getRepository(PropiedadUsuario)
+            .createQueryBuilder("propiedad_usuario")
+            .innerJoinAndSelect("propiedad_usuario.propiedad", "propiedad")
+            .innerJoinAndSelect("propiedad.categoria", "categoria")
+            .innerJoinAndSelect("propiedad.localizacion", "localizacion")
+            .innerJoinAndSelect("propiedad.fotos", "fotos")
+            .innerJoinAndSelect("propiedad.usuario", "usuario")
+            .innerJoinAndSelect("propiedad.precios", "precios")
+            .andWhere("(propiedad_usuario.propiedad =:propiedadid )")
+            .andWhere("(propiedad_usuario.usuario =:usuarioid)")
+            .limit(1);
+        
+        propiedades = propiedades.setParameters({ usuarioid: usuarioid,propiedadid:propiedadid} );
+        // console.log(propiedades.getQuery());
+        return propiedades.getOne();
     }
 }
