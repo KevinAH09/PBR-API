@@ -142,7 +142,7 @@ export class PropiedadResolver {
                 where: {
                     id
                 },
-                relations: ["usuario", "localizacion", "categoria", "fotos", "precios"],
+                relations: ["usuario", "localizacion", "categoria", "fotos", "precios","propietarios"],
 
             }
         );
