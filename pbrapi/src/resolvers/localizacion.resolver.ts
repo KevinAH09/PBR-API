@@ -25,6 +25,12 @@ class LocalizacionInput {
 
     @Field(() => String)
     geolocalizacion!: string;
+
+    @Field(() => String)
+    latitud!: string;
+
+    @Field(() => String)
+    longitud!: string;
 }
 
 @Resolver()
