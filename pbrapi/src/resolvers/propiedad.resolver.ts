@@ -92,6 +92,19 @@ export class PropiedadResolver {
     }
 
     @Query(() => [Propiedad])
+    async PropiedadByCercanas() {
+        let propiedades = await getConnection()
+            .getRepository(Propiedad)
+            .createQueryBuilder("propiedad")
+            .innerJoinAndSelect("propiedad.categoria", "categoria")
+            .innerJoinAndSelect("propiedad.localizacion", "localizacion")
+            .innerJoinAndSelect("propiedad.fotos", "fotos")
+            .innerJoinAndSelect("propiedad.usuario", "usuario")
+            .innerJoinAndSelect("propiedad.precios", "precios").orderBy("propiedad.creado").take(10);
+        return propiedades.getMany();
+    }
+
+    @Query(() => [Propiedad])
     async PropiedadByLocalizacionAndCategoriaAndPrecioAprox(
         @Arg("categoriaNombre", () => String) categoriaNombre: String,
         @Arg("pais", () => String) pais: String,
