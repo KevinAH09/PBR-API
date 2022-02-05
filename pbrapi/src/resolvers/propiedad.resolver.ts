@@ -93,10 +93,10 @@ export class PropiedadResolver {
 
     @Query(() => [Propiedad])
     async PropiedadByCercanas(
-        @Arg("latInferior", () => String) latInferior: String,
-        @Arg("logInferior", () => String) logInferior: String,
-        @Arg("latSuperior", () => String) latSuperior: String,
-        @Arg("logSuperior", () => String) logSuperior: String,
+        @Arg("latInferior", () => Number) latInferior: Number,
+        @Arg("logInferior", () => Number) logInferior: Number,
+        @Arg("latSuperior", () => Number) latSuperior: Number,
+        @Arg("logSuperior", () => Number) logSuperior: Number,
     ) {
         let propiedades = await getConnection()
             .getRepository(Propiedad)
@@ -107,9 +107,9 @@ export class PropiedadResolver {
             .innerJoinAndSelect("propiedad.usuario", "usuario")
             .innerJoinAndSelect("propiedad.precios", "precios")
             .andWhere("localizacion.latitud > :latInferior")
-            .andWhere("localizacion.longitud > :logInferior")
+            .andWhere("localizacion.longitud < :logInferior")
             .andWhere("localizacion.latitud < :latSuperior")
-            .andWhere("localizacion.longitud < :logSuperior");
+            .andWhere("localizacion.longitud > :logSuperior");
 
             propiedades = propiedades.setParameters({ latInferior: latInferior, logInferior: logInferior, latSuperior: latSuperior, logSuperior: logSuperior });
 

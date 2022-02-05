@@ -40,13 +40,13 @@ export class Localizacion extends BaseEntity {
     @Column("varchar", { nullable: true })
     geolocalizacion!: string;
 
-    @Field(() => String)
-    @Column("varchar", { nullable: true })
-    latitud!: string;
+    @Field(() => Number)
+    @Column("float", { nullable: true })
+    latitud!: Number;
 
-    @Field(() => String)
-    @Column("varchar", { nullable: true })
-    longitud!: string;
+    @Field(() => Number)
+    @Column("float", { nullable: true })
+    longitud!: Number;
 
     @Field(() => Propiedad)
     @OneToMany(() => Propiedad, propiedad => propiedad.localizacion)
