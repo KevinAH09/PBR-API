@@ -15,12 +15,12 @@ export class Usuario extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE])
+    // @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE])
     @Field(() => String)
     @Column("varchar", { nullable: true })
     nombre!: string;
 
-    @Authorized([RolesTypes.ADMIN])
+    // @Authorized([RolesTypes.ADMIN])
     @Field(() => String)
     @Column("varchar", { nullable: true })
     telefono!: string;
@@ -40,7 +40,7 @@ export class Usuario extends BaseEntity {
     @OneToMany(() => Propiedad, propiedad => propiedad.usuario)
     propiedadesRegistradas!: Propiedad[];
 
-    @Field(() => [BitacoraSistema])
+    @Field(() => BitacoraSistema)
     @OneToMany(() => BitacoraSistema, bitacoraSistema => bitacoraSistema.usuario)
     bitacoraSistema!: BitacoraSistema[];
 
@@ -48,7 +48,7 @@ export class Usuario extends BaseEntity {
     @OneToMany(() => PropiedadUsuario, propiedadUsuario => propiedadUsuario.usuario)
     propiedadUsuario!: PropiedadUsuario[];
 
-    @Authorized(RolesTypes.ADMIN)
+    // @Authorized(RolesTypes.ADMIN)
     @Field(type => RolesTypes)
     @Column("varchar", { nullable: true })
     role!: RolesTypes;

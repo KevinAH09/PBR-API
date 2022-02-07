@@ -6,16 +6,12 @@ import { RolesTypes } from "../enums/role-types.enum";
 
 @InputType()
 class BitacoraSistemaInput {
-    @Field()
-    id!: number;
 
-    @Field()
+    @Field({ nullable: false })
     accion!: string;
 
-
-    // @Field(()=>Usuario)
-    // usuario!:Usuario
-
+    @Field(type => Int)
+    usuario!: Usuario[];
 
 }
 
@@ -33,11 +29,15 @@ export class BitacoraSistemaResolver {
     }
 
 
-    @Query(() => BitacoraSistema)
+    @Authorized()
+    @Query(() => [BitacoraSistema])
     BitacoraSistemas() {
-        return BitacoraSistema.find()
+        return BitacoraSistema.find({
+            relations: ["usuario"]
+        })
     }
 
+    @Authorized()
     @Query(() => BitacoraSistema)
     BitacoraSistemaById(
         @Arg("id", () => Int) id: number

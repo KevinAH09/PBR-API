@@ -1,6 +1,7 @@
-import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { TipoBeneficio } from "../entities/tipo-beneficio";
 import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 
 @InputType()
@@ -13,7 +14,9 @@ class TipoBeneficioInput {
 
 @Resolver()
 export class TipoBeneficioResolver {
-    @Authorized()
+    
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoBeneficio)
     async createTipoBeneficio(
         @Arg("data", () => TipoBeneficioInput) data: TipoBeneficioInput
@@ -24,7 +27,8 @@ export class TipoBeneficioResolver {
         return await data;
     }
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoBeneficio)
     async updateTipoBeneficio(
         @Arg("id", () => Int) id: number,
@@ -35,7 +39,8 @@ export class TipoBeneficioResolver {
         return dataUpdated;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteTipoBeneficio(
         @Arg("id", () => Int) id: number
@@ -44,11 +49,15 @@ export class TipoBeneficioResolver {
         return true;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [TipoBeneficio])
     TipoBeneficios() {
         return TipoBeneficio.find()
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => TipoBeneficio)
     TipoBeneficioById(
         @Arg("id", () => Int) id: number

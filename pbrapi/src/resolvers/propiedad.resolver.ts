@@ -1,5 +1,5 @@
 import { type } from "os";
-import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Categoria } from "../entities/categoria";
 import { Localizacion } from "../entities/localizacion";
@@ -7,6 +7,7 @@ import { Propiedad } from "../entities/propiedad";
 import { Usuario } from "../entities/usuario";
 import { EntityStates } from "../enums/entity-states.enum";
 import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 @InputType()
 class PropiedadInput {
@@ -33,7 +34,9 @@ class PropiedadInput {
 }
 @Resolver()
 export class PropiedadResolver {
-    @Authorized(RolesTypes.ADMIN)
+
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Propiedad)
     async createPropiedad(
         @Arg("data", () => PropiedadInput) data: PropiedadInput
@@ -44,7 +47,8 @@ export class PropiedadResolver {
         return await data;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Propiedad)
     async updatePropiedad(
         @Arg("id", () => Int) id: number,
@@ -55,7 +59,8 @@ export class PropiedadResolver {
         return dataUpdated;
     }
 
-
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     Propiedad() {
         return Propiedad.find({
@@ -63,7 +68,8 @@ export class PropiedadResolver {
         })
     }
 
-
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Int)
     async PropiedadByFolio(
         @Arg("numero", () => String) numero: String,
@@ -78,6 +84,8 @@ export class PropiedadResolver {
         return propiedades.getCount();
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     async PropiedadByRecientes() {
         let propiedades = await getConnection()
@@ -91,6 +99,8 @@ export class PropiedadResolver {
         return propiedades.getMany();
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     async PropiedadByCercanas(
         @Arg("latInferior", () => Number) latInferior: Number,
@@ -116,6 +126,8 @@ export class PropiedadResolver {
         return propiedades.getMany();
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     async PropiedadByLocalizacionAndCategoriaAndPrecioAprox(
         @Arg("categoriaNombre", () => String) categoriaNombre: String,
@@ -157,6 +169,8 @@ export class PropiedadResolver {
         return propiedades.getMany();
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Propiedad)
     PropiedadById(
         @Arg("id", () => Int) id: number

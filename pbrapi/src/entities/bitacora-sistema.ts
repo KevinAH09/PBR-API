@@ -11,11 +11,11 @@ export class BitacoraSistema extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Field()
-    @Column()
+    @Field(() => String)
+    @Column("varchar", { nullable: true })
     accion!: string;
 
-    @Field(() => [Usuario])
+    @Field(() => Usuario)
     @ManyToOne(() => Usuario, usuario => usuario.bitacoraSistema)
     usuario!: Usuario[];
 

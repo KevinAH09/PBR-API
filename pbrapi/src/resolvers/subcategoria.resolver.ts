@@ -1,8 +1,9 @@
-import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Int } from "type-graphql";
 
 import { Subcategoria } from "../entities/subcategoria";
 import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 @InputType()
 class SubcategoriaInput {
@@ -13,7 +14,9 @@ class SubcategoriaInput {
 
 @Resolver()
 export class SubcategoriaResolver {
-    @Authorized()
+    
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Subcategoria)
     async createSubcategoria(
         @Arg("data", () => SubcategoriaInput) data: SubcategoriaInput
@@ -24,7 +27,8 @@ export class SubcategoriaResolver {
         return await data;
     }
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Subcategoria)
     async updateSubcategoria(
         @Arg("id", () => Int) id: number,
@@ -35,7 +39,8 @@ export class SubcategoriaResolver {
         return dataUpdated;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteSubcategoria(
         @Arg("id", () => Int) id: number
@@ -44,11 +49,15 @@ export class SubcategoriaResolver {
         return true;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Subcategoria)
     Subcategorias() {
         return Subcategoria.find()
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Subcategoria)
     SubcategoriaById(
         @Arg("id", () => Int) id: number

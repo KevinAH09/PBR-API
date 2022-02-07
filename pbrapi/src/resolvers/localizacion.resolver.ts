@@ -1,6 +1,7 @@
-import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Localizacion } from "../entities/localizacion";
 import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 
 @InputType()
@@ -35,18 +36,21 @@ class LocalizacionInput {
 
 @Resolver()
 export class LocalizacionResolver {
-    @Authorized()
+
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Localizacion)
     async createLocalizacion(
         @Arg("data", () => LocalizacionInput) data: LocalizacionInput
-    ) {
+    ): Promise<LocalizacionInput> {
         await Localizacion.insert(
             data
         );
         return await data;
     }
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Localizacion)
     async updateLocalizacion(
         @Arg("id", () => Int) id: number,
@@ -57,7 +61,8 @@ export class LocalizacionResolver {
         return dataUpdated;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteLocalizacion(
         @Arg("id", () => Int) id: number
@@ -66,11 +71,15 @@ export class LocalizacionResolver {
         return true;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Localizacion)
     Localizacions() {
         return Localizacion.find()
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Localizacion)
     LocalizacionById(
         @Arg("id", () => Int) id: number

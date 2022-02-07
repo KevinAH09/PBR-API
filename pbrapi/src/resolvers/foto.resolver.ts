@@ -1,9 +1,10 @@
-import { Arg, Authorized, Field, ID, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, ID, InputType, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Int } from "type-graphql";
 
 import { Foto } from "../entities/foto";
 import { Propiedad } from "../entities/propiedad";
 import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 @InputType()
 class FotoInput {
@@ -17,18 +18,21 @@ class FotoInput {
 
 @Resolver()
 export class FotoResolver {
-    @Authorized()
+    
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Foto)
     async createFoto(
         @Arg("data", () => FotoInput) data: FotoInput
-    ) {
+    ): Promise<FotoInput> {
         await Foto.insert(
             data
         );
         return await data;
     }
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Foto)
     async updateFoto(
         @Arg("id", () => Int) id: number,
@@ -39,7 +43,8 @@ export class FotoResolver {
         return dataUpdated;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteFoto(
         @Arg("id", () => Int) id: number
@@ -48,11 +53,15 @@ export class FotoResolver {
         return true;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Foto)
     Fotos() {
         return Foto.find()
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Foto)
     FotoById(
         @Arg("id", () => Int) id: number

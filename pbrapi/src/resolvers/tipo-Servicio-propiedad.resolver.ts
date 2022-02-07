@@ -1,9 +1,10 @@
-import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Propiedad } from "../entities/propiedad";
 import { TipoBeneficio } from "../entities/tipo-beneficio";
 import { TipoServicio } from "../entities/tipo-servicio";
 import { TipoServicioPropiedad } from "../entities/tipo_servicio_propiedad";
 import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 @InputType()
 class TipoServicioPropiedadInput {
@@ -18,7 +19,9 @@ class TipoServicioPropiedadInput {
 
 @Resolver()
 export class TipoServicioPropiedadResolver {
-    // @Authorized(RolesTypes.ADMIN)
+    
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoServicioPropiedad)
     async createTipo_Servicio_Propiedad(
         @Arg("data", () => TipoServicioPropiedadInput) data: TipoServicioPropiedadInput

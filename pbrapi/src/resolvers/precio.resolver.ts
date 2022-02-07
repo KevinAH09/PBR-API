@@ -1,9 +1,10 @@
-import { Arg, Authorized, Field, ID, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, ID, InputType, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Int } from "type-graphql";
 
 import { Precio } from "../entities/precio";
 import { Propiedad } from "../entities/propiedad";
 import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 @InputType()
 class PrecioInput {
@@ -20,7 +21,9 @@ class PrecioInput {
 
 @Resolver()
 export class PrecioResolver {
-    @Authorized()
+    
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Precio)
     async createPrecio(
         @Arg("data", () => PrecioInput) data: PrecioInput
@@ -31,7 +34,8 @@ export class PrecioResolver {
         return await data;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deletePrecio(
         @Arg("id", () => Int) id: number
@@ -40,11 +44,15 @@ export class PrecioResolver {
         return true;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Precio)
     Precios() {
         return Precio.find()
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Precio)
     PrecioById(
         @Arg("id", () => Int) id: number

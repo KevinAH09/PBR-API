@@ -1,9 +1,10 @@
-import { Arg, Authorized, Field, ID, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, ID, InputType, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Int } from "type-graphql";
 import { Propiedad } from "../entities/propiedad";
 
 import { Propietario } from "../entities/propietario";
 import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 @InputType()
 class PropietarioInput {
@@ -23,7 +24,9 @@ class PropietarioInput {
 
 @Resolver()
 export class PropietarioResolver {
-    @Authorized(RolesTypes.ADMIN)
+    
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Propietario)
     async createPropietario(
         @Arg("data", () => PropietarioInput) data: PropietarioInput
@@ -34,7 +37,8 @@ export class PropietarioResolver {
         return await data;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Propietario)
     async updatePropietario(
         @Arg("id", () => Int) id: number,
@@ -45,7 +49,8 @@ export class PropietarioResolver {
         return dataUpdated;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deletePropietario(
         @Arg("id", () => Int) id: number
@@ -54,11 +59,15 @@ export class PropietarioResolver {
         return true;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Propietario)
     Propietarios() {
         return Propietario.find()
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Propietario)
     PropietarioById(
         @Arg("id", () => Int) id: number

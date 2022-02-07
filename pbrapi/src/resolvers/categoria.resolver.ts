@@ -1,5 +1,6 @@
-import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Int } from "type-graphql";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 import { Categoria } from "../entities/categoria";
 import { RolesTypes } from "../enums/role-types.enum";
@@ -14,7 +15,9 @@ class CategoriaInput {
 
 @Resolver()
 export class CategoriaResolver {
-    @Authorized()
+
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Categoria)
     async createCategoria(
         @Arg("data", () => CategoriaInput) data: CategoriaInput
@@ -25,7 +28,8 @@ export class CategoriaResolver {
         return await data;
     }
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Categoria)
     async updateCategoria(
         @Arg("id", () => Int) id: number,
@@ -36,7 +40,8 @@ export class CategoriaResolver {
         return dataUpdated;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteCategoria(
         @Arg("id", () => Int) id: number
@@ -45,11 +50,15 @@ export class CategoriaResolver {
         return true;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Categoria])
     Categorias() {
         return Categoria.find()
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Categoria)
     CategoriaById(
         @Arg("id", () => Int) id: number

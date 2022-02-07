@@ -99,17 +99,22 @@ class UsuarioInput5 {
 @Resolver()
 export class UsuarioResolver {
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Usuario])
     async users() {
         return Usuario.find();
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => Usuario)
     async UsuarioById(@Arg("id", () => Int) id: number) {
         return Usuario.findOne({ where: { id } });
     }
 
-    @Authorized("ADMIN")
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CLIENTE, RolesTypes.CLIENTE_AVANZADO, RolesTypes.SCRAPPER, RolesTypes.SENSADOR, RolesTypes.VALIDADOR, RolesTypes.NONE])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Usuario)
     async updateUser(
         @Arg("id", () => Int) id: number,
@@ -119,19 +124,21 @@ export class UsuarioResolver {
         const dataUpdated = await Usuario.findOne(id);
         return dataUpdated;
     }
-    @Authorized("ADMIN")
+
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CLIENTE, RolesTypes.CLIENTE_AVANZADO, RolesTypes.SCRAPPER, RolesTypes.SENSADOR, RolesTypes.VALIDADOR, RolesTypes.NONE])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Usuario)
     async updatePhoto(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => UsuarioInput4) data: UsuarioInput4
     ) {
         await Usuario.update({ id }, data);
-        // const dataUpdated = await Usuario.findOne(id);
-        // return this.users();
         const dataUpdated = await Usuario.findOne(id);
         return dataUpdated;
     }
-    @Authorized("ADMIN")
+
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => [Usuario])
     async updateState(
         @Arg("id", () => Int) id: number,
@@ -142,7 +149,8 @@ export class UsuarioResolver {
         return dataUpdated;
     }
 
-    @Authorized("ADMIN")
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CLIENTE, RolesTypes.CLIENTE_AVANZADO, RolesTypes.SCRAPPER, RolesTypes.SENSADOR, RolesTypes.VALIDADOR, RolesTypes.NONE])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Usuario)
     async updatePassword(
         @Arg("id", () => Int) id: number,
@@ -155,14 +163,8 @@ export class UsuarioResolver {
         return dataUpdated;
     }
 
-    @Query(() => String)
+    @Authorized([RolesTypes.ADMIN])
     @UseMiddleware(isAuthenticated)
-    async Me(@Ctx() { usuario }: Context) {
-        console.log(JSON.stringify(usuario));
-
-        return `El usuario id : ${usuario!.id}`;
-    }
-
     @Mutation(() => Boolean)
     async Register(
         @Arg("data", () => UsuarioInput) data: UsuarioInput
@@ -204,67 +206,77 @@ export class UsuarioResolver {
             }),
             id: usuario.id,
             estado: usuario.estado,
-            nombre:usuario.nombre,
-            email:usuario.email,
-            telefono:usuario.telefono,
-            imagen:usuario.imagen,
-            role:usuario.role
+            nombre: usuario.nombre,
+            email: usuario.email,
+            telefono: usuario.telefono,
+            imagen: usuario.imagen,
+            role: usuario.role
 
         };
     }
-    
+
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Usuario])
     async UsuarioByName(@Arg("nombre", () => String) nombre: String) {
         let usuario = await getConnection()
-        .getRepository(Usuario)
-        .createQueryBuilder('u')
-        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado', 'u.role'])
-        .where('u.nombre like :nombre', { nombre: `%${nombre}%` })
-        .getMany();
+            .getRepository(Usuario)
+            .createQueryBuilder('u')
+            .select(['u.id', 'u.nombre', 'u.telefono', 'u.email', 'u.estado', 'u.role'])
+            .where('u.nombre like :nombre', { nombre: `%${nombre}%` })
+            .getMany();
         return usuario;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Usuario])
     async UsuarioByEmail(@Arg("email", () => String) email: String) {
         let usuario = await getConnection()
-        .getRepository(Usuario)
-        .createQueryBuilder('u')
-        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado', 'u.role'])
-        .where('u.email like :email', { email: `%${email}%` })
-        .getMany();
+            .getRepository(Usuario)
+            .createQueryBuilder('u')
+            .select(['u.id', 'u.nombre', 'u.telefono', 'u.email', 'u.estado', 'u.role'])
+            .where('u.email like :email', { email: `%${email}%` })
+            .getMany();
         return usuario;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Usuario])
     async UsuarioByTelephone(@Arg("telefono", () => String) telefono: String) {
         let usuario = await getConnection()
-        .getRepository(Usuario)
-        .createQueryBuilder('u')
-        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado','u.role'])
-        .where('u.telefono like :telefono', { telefono: `%${telefono}%` })
-        .getMany();
+            .getRepository(Usuario)
+            .createQueryBuilder('u')
+            .select(['u.id', 'u.nombre', 'u.telefono', 'u.email', 'u.estado', 'u.role'])
+            .where('u.telefono like :telefono', { telefono: `%${telefono}%` })
+            .getMany();
         return usuario;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Usuario])
     async UsuarioByState(@Arg("estado", () => String) estado: String) {
         let usuario = await getConnection()
-        .getRepository(Usuario)
-        .createQueryBuilder('u')
-        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado', 'u.role'])
-        .where('u.estado like :estado', { estado: `${estado}%` })
-        .getMany();
+            .getRepository(Usuario)
+            .createQueryBuilder('u')
+            .select(['u.id', 'u.nombre', 'u.telefono', 'u.email', 'u.estado', 'u.role'])
+            .where('u.estado like :estado', { estado: `${estado}%` })
+            .getMany();
         return usuario;
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [Usuario])
     async UsuarioByRol(@Arg("role", () => String) role: String) {
         let usuario = await getConnection()
-        .getRepository(Usuario)
-        .createQueryBuilder('u')
-        .select(['u.id','u.nombre', 'u.telefono','u.email', 'u.estado', 'u.role'])
-        .where('u.role like :role', { role: `%${role}%` })
-        .getMany();
+            .getRepository(Usuario)
+            .createQueryBuilder('u')
+            .select(['u.id', 'u.nombre', 'u.telefono', 'u.email', 'u.estado', 'u.role'])
+            .where('u.role like :role', { role: `%${role}%` })
+            .getMany();
         return usuario;
     }
 }

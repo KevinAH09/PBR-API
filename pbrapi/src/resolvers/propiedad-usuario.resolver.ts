@@ -1,8 +1,10 @@
-import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Propiedad } from "../entities/propiedad";
 import { getConnection } from "typeorm";
 import { PropiedadUsuario } from "../entities/propiedad_usuario";
 import { Usuario } from "../entities/usuario";
+import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 @InputType()
 class PropiedadUsuarioInput {
@@ -20,7 +22,9 @@ class PropiedadUsuarioInput {
 
 @Resolver()
 export class PropiedadUsuarioResolver {
-    // @Authorized(RolesTypes.ADMIN)
+
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => PropiedadUsuario)
     async createPropiedad_Usuario(
         @Arg("data", () => PropiedadUsuarioInput) data: PropiedadUsuarioInput
@@ -31,17 +35,18 @@ export class PropiedadUsuarioResolver {
         return await data;
     }
 
-//     mutation{
-//         updatePropiedad_Usuario(id:15,data:{propiedad:240,usuario:3,favorita:false}){id}
- 
-// }
+    //     mutation{
+    //         updatePropiedad_Usuario(id:15,data:{propiedad:240,usuario:3,favorita:false}){id}
 
-// mutation{
-//     createPropiedad_Usuario(data:{propiedad:240,usuario:3,favorita:true}){id}
+    // }
 
-// }
+    // mutation{
+    //     createPropiedad_Usuario(data:{propiedad:240,usuario:3,favorita:true}){id}
 
-    // @Authorized(RolesTypes.ADMIN)
+    // }
+
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => PropiedadUsuario)
     async updatePropiedad_Usuario(
         @Arg("id", () => Int) id: number,
@@ -52,12 +57,15 @@ export class PropiedadUsuarioResolver {
         return dataUpdated;
     }
 
-
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [PropiedadUsuario])
     PropiedadUsuario() {
         return PropiedadUsuario.find()
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [PropiedadUsuario])
     async PropiedadUsuarioByusuarioId(
         @Arg("usuarioid", () => Int) usuarioid: number
@@ -73,12 +81,14 @@ export class PropiedadUsuarioResolver {
             .innerJoinAndSelect("propiedad.precios", "precios")
             .andWhere("(propiedad_usuario.favorita =1)")
             .andWhere("(propiedad_usuario.usuario =:usuarioid)");
-        
-        propiedades = propiedades.setParameters({ usuarioid: usuarioid} );
+
+        propiedades = propiedades.setParameters({ usuarioid: usuarioid });
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
 
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => PropiedadUsuario)
     async PropiedadUsuarioByusuarioIdAndPropiedadId(
         @Arg("usuarioid", () => Int) usuarioid: number,
@@ -96,8 +106,8 @@ export class PropiedadUsuarioResolver {
             .andWhere("(propiedad_usuario.propiedad =:propiedadid )")
             .andWhere("(propiedad_usuario.usuario =:usuarioid)")
             .limit(1);
-        
-        propiedades = propiedades.setParameters({ usuarioid: usuarioid,propiedadid:propiedadid} );
+
+        propiedades = propiedades.setParameters({ usuarioid: usuarioid, propiedadid: propiedadid });
         // console.log(propiedades.getQuery());
         return propiedades.getOne();
     }
