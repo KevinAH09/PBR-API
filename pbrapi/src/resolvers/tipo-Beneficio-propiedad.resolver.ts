@@ -1,4 +1,5 @@
 import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { getConnection } from "typeorm";
 import { Propiedad } from "../entities/propiedad";
 import { TipoBeneficio } from "../entities/tipo-beneficio";
 import { TipoBeneficioPropiedad } from "../entities/tipo-beneficio-propiedad";
@@ -50,16 +51,18 @@ export class TipoBeneficioPropiedadResolver {
         return TipoBeneficioPropiedad.find()
     }
 
-    // @Query(() => [Propiedad])
-    // PropiedadById(
-    //     @Arg("id", () => Int) id: number
-    // ) {
-    //     return Propiedad.findOne(
-    //         {
-    //             where: {
-    //                 id
-    //             }
-    //         }
-    //     );
-    // }
+    @Query(() => [TipoBeneficioPropiedad])
+    async TipoBeneficioByPropiedadId(
+        @Arg("id", () => Int) id: number
+    ) {
+        let tipoBeneficio = await getConnection().
+        getRepository(TipoBeneficioPropiedad).
+        createQueryBuilder("tipo_beneficio_propiedad").
+        innerJoinAndSelect("tipo_beneficio_propiedad.tipobeneficio","tipo_beneficio")
+        .where("tipo_beneficio_propiedad.propiedadId = :id")
+        tipoBeneficio = tipoBeneficio.setParameters({ id: id})
+
+        return tipoBeneficio.getMany();
+        
+    }
 }
