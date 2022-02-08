@@ -34,7 +34,7 @@ export class Construccion extends BaseEntity {
     @Column("varchar", { nullable: true })
     metroCuadrado!: string;
 
-    @Field(() => Int)
+    @Field(() => String)
     @Column('varchar', { nullable: true })
     descripcion!: string;
 

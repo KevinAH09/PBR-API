@@ -121,7 +121,7 @@ export class PropiedadResolver {
             .andWhere("localizacion.latitud < :latSuperior")
             .andWhere("localizacion.longitud > :logSuperior");
 
-            propiedades = propiedades.setParameters({ latInferior: latInferior, logInferior: logInferior, latSuperior: latSuperior, logSuperior: logSuperior });
+        propiedades = propiedades.setParameters({ latInferior: latInferior, logInferior: logInferior, latSuperior: latSuperior, logSuperior: logSuperior });
 
         return propiedades.getMany();
     }
@@ -172,18 +172,22 @@ export class PropiedadResolver {
     @Authorized([RolesTypes.ADMIN])
     @UseMiddleware(isAuthenticated)
     @Query(() => Propiedad)
-    PropiedadById(
+    async PropiedadById(
         @Arg("id", () => Int) id: number
     ) {
-        return Propiedad.findOne(
-            {
-
-                where: {
-                    id
-                },
-                relations: ["usuario", "localizacion", "categoria", "fotos", "precios","propietarios"],
-
-            }
-        );
+        let propiedades = await getConnection()
+            .getRepository(Propiedad)
+            .createQueryBuilder("propiedad")
+            .leftJoinAndSelect("propiedad.categoria", "categoria")
+            .leftJoinAndSelect("propiedad.localizacion", "localizacion")
+            .leftJoinAndSelect("propiedad.fotos", "fotos")
+            .leftJoinAndSelect("propiedad.usuario", "usuario")
+            .leftJoinAndSelect("propiedad.precios", "precios")
+            .leftJoinAndSelect("propiedad.propietarios", "propietarios")
+            .leftJoinAndSelect("propiedad.construcciones", "construcciones")
+            .leftJoinAndSelect("construcciones.tipoConstruccion", "tipoConstruccion")
+            .where("propiedad.id = :id")
+        propiedades = propiedades.setParameters({ id: id });
+        return propiedades.getOne();
     }
 }
