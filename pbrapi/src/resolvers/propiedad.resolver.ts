@@ -91,11 +91,11 @@ export class PropiedadResolver {
         let propiedades = await getConnection()
             .getRepository(Propiedad)
             .createQueryBuilder("propiedad")
-            .innerJoinAndSelect("propiedad.categoria", "categoria")
-            .innerJoinAndSelect("propiedad.localizacion", "localizacion")
-            .innerJoinAndSelect("propiedad.fotos", "fotos")
-            .innerJoinAndSelect("propiedad.usuario", "usuario")
-            .innerJoinAndSelect("propiedad.precios", "precios").orderBy("propiedad.creado").take(10);
+            .leftJoinAndSelect("propiedad.categoria", "categoria")
+            .leftJoinAndSelect("propiedad.localizacion", "localizacion")
+            .leftJoinAndSelect("propiedad.fotos", "fotos")
+            .leftJoinAndSelect("propiedad.usuario", "usuario")
+            .leftJoinAndSelect("propiedad.precios", "precios").orderBy("propiedad.creado", "DESC").take(10);
         return propiedades.getMany();
     }
 
@@ -111,11 +111,11 @@ export class PropiedadResolver {
         let propiedades = await getConnection()
             .getRepository(Propiedad)
             .createQueryBuilder("propiedad")
-            .innerJoinAndSelect("propiedad.categoria", "categoria")
-            .innerJoinAndSelect("propiedad.localizacion", "localizacion")
-            .innerJoinAndSelect("propiedad.fotos", "fotos")
-            .innerJoinAndSelect("propiedad.usuario", "usuario")
-            .innerJoinAndSelect("propiedad.precios", "precios")
+            .leftJoinAndSelect("propiedad.categoria", "categoria")
+            .leftJoinAndSelect("propiedad.localizacion", "localizacion")
+            .leftJoinAndSelect("propiedad.fotos", "fotos")
+            .leftJoinAndSelect("propiedad.usuario", "usuario")
+            .leftJoinAndSelect("propiedad.precios", "precios")
             .andWhere("localizacion.latitud > :latInferior")
             .andWhere("localizacion.longitud < :logInferior")
             .andWhere("localizacion.latitud < :latSuperior")
@@ -139,11 +139,11 @@ export class PropiedadResolver {
         let propiedades = await getConnection()
             .getRepository(Propiedad)
             .createQueryBuilder("propiedad")
-            .innerJoinAndSelect("propiedad.categoria", "categoria")
-            .innerJoinAndSelect("propiedad.localizacion", "localizacion")
-            .innerJoinAndSelect("propiedad.fotos", "fotos")
-            .innerJoinAndSelect("propiedad.usuario", "usuario")
-            .innerJoinAndSelect("propiedad.precios", "precios");
+            .leftJoinAndSelect("propiedad.categoria", "categoria")
+            .leftJoinAndSelect("propiedad.localizacion", "localizacion")
+            .leftJoinAndSelect("propiedad.fotos", "fotos")
+            .leftJoinAndSelect("propiedad.usuario", "usuario")
+            .leftJoinAndSelect("propiedad.precios", "precios");
 
         console.log(categoriaNombre);
         if (categoriaNombre) {
