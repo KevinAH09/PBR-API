@@ -36,10 +36,6 @@ export class Localizacion extends BaseEntity {
     @Column("varchar", { nullable: true })
     direccion!: string;
 
-    @Field(() => String)
-    @Column("varchar", { nullable: true })
-    geolocalizacion!: string;
-
     @Field(() => Number)
     @Column("float", { nullable: true })
     latitud!: Number;

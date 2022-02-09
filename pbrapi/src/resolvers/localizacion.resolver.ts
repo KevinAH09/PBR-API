@@ -24,9 +24,6 @@ class LocalizacionInput {
     @Field(() => String)
     direccion!: string;
 
-    @Field(() => String)
-    geolocalizacion!: string;
-
     @Field(() => Number)
     latitud!: Number;
 
