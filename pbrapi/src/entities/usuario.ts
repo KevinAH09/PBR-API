@@ -1,5 +1,5 @@
 import { Authorized, Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, ManyToMany, OneToMany, CreateDateColumn, BeforeInsert, BeforeUpdate, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToMany, Unique, OneToMany, CreateDateColumn, BeforeInsert, BeforeUpdate, PrimaryGeneratedColumn } from "typeorm";
 import { validateOrReject } from 'class-validator';
 import { EntityStates } from '../enums/entity-states.enum';
 import { RolesTypes } from "../enums/role-types.enum";
@@ -26,12 +26,12 @@ export class Usuario extends BaseEntity {
     telefono!: string;
 
     @Field(() => String)
-    @Column("varchar", { nullable: true })
+    @Column("varchar", { nullable: true, unique: true })
     email!: string;
 
     @Column("varchar", { nullable: true })
     password!: string;
-    
+
     @Field(() => String)
     @Column("varchar", { nullable: true })
     imagen!: string;
