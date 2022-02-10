@@ -202,7 +202,7 @@ export class UsuarioResolver {
 
         return {
             accessToken: sign({ usuario: usuario }, enviroment.jwtSecretKey, {
-                expiresIn: "10h"
+                expiresIn: "8h"
             }),
             id: usuario.id,
             estado: usuario.estado,
