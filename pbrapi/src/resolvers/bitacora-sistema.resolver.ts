@@ -1,7 +1,9 @@
-import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { getConnection } from "typeorm";
 import { BitacoraSistema } from "../entities/bitacora-sistema";
 import { Usuario } from "../entities/usuario";
 import { RolesTypes } from "../enums/role-types.enum";
+import { isAuthenticated } from "../middleware/is-authenticated";
 
 
 @InputType()
@@ -17,7 +19,9 @@ class BitacoraSistemaInput {
 
 @Resolver()
 export class BitacoraSistemaResolver {
-    @Authorized()
+
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => BitacoraSistema)
     async createBitacoraSistema(
         @Arg("data", () => BitacoraSistemaInput) data: BitacoraSistemaInput
@@ -29,7 +33,8 @@ export class BitacoraSistemaResolver {
     }
 
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [BitacoraSistema])
     BitacoraSistemas() {
         return BitacoraSistema.find({
@@ -37,7 +42,8 @@ export class BitacoraSistemaResolver {
         })
     }
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
     @Query(() => BitacoraSistema)
     BitacoraSistemaById(
         @Arg("id", () => Int) id: number
@@ -49,5 +55,22 @@ export class BitacoraSistemaResolver {
                 }
             }
         );
+    }
+
+    @Authorized([RolesTypes.ADMIN])
+    @UseMiddleware(isAuthenticated)
+    @Query(() => [BitacoraSistema])
+    async BitacoraFecha(
+        @Arg("creadoInf", () => String) creadoInf: String,
+        @Arg("creadoPost", () => String) creadoPost: String,
+    ) {
+        let bitacora = await getConnection()
+            .getRepository(BitacoraSistema)
+            .createQueryBuilder('bitacora')
+            .leftJoinAndSelect("bitacora.usuario", "usuario")
+            .andWhere("bitacora.creado >= :creadoInf")
+            .orWhere("bitacora.creado <= :creadoPost");
+        bitacora = bitacora.setParameters({ creadoInf: creadoInf, creadoPost: creadoPost });
+        return bitacora.getMany();
     }
 }
