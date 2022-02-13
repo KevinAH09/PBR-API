@@ -68,8 +68,7 @@ export class BitacoraSistemaResolver {
             .getRepository(BitacoraSistema)
             .createQueryBuilder('bitacora')
             .leftJoinAndSelect("bitacora.usuario", "usuario")
-            .andWhere("bitacora.creado >= :creadoInf")
-            .orWhere("bitacora.creado <= :creadoPost");
+            .where("bitacora.creado <= :creadoPost and bitacora.creado >= :creadoInf");
         bitacora = bitacora.setParameters({ creadoInf: creadoInf, creadoPost: creadoPost });
         return bitacora.getMany();
     }
