@@ -73,12 +73,12 @@ export class PropiedadUsuarioResolver {
         let propiedades = await getConnection()
             .getRepository(PropiedadUsuario)
             .createQueryBuilder("propiedad_usuario")
-            .innerJoinAndSelect("propiedad_usuario.propiedad", "propiedad")
-            .innerJoinAndSelect("propiedad.categoria", "categoria")
-            .innerJoinAndSelect("propiedad.localizacion", "localizacion")
-            .innerJoinAndSelect("propiedad.fotos", "fotos")
-            .innerJoinAndSelect("propiedad.usuario", "usuario")
-            .innerJoinAndSelect("propiedad.precios", "precios")
+            .leftJoinAndSelect("propiedad_usuario.propiedad", "propiedad")
+            .leftJoinAndSelect("propiedad.categoria", "categoria")
+            .leftJoinAndSelect("propiedad.localizacion", "localizacion")
+            .leftJoinAndSelect("propiedad.fotos", "fotos")
+            .leftJoinAndSelect("propiedad.usuario", "usuario")
+            .leftJoinAndSelect("propiedad.precios", "precios")
             .andWhere("(propiedad_usuario.favorita =1)")
             .andWhere("(propiedad_usuario.usuario =:usuarioid)");
 
