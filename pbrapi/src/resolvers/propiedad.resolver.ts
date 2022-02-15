@@ -150,7 +150,7 @@ export class PropiedadResolver {
             propiedades = propiedades.andWhere("categoria.nombre =:categorianombre")
         }
         if (pais) {
-            propiedades = propiedades.andWhere("localizacion.pais =:pais")
+            propiedades = propiedades.andWhere("UPPER(localizacion.pais) =UPPER(:pais)")
         }
         // if (divprimaria) {
         //     propiedades = propiedades.andWhere("localizacion.pais =:pais")
