@@ -152,9 +152,9 @@ export class PropiedadResolver {
         if (pais) {
             propiedades = propiedades.andWhere("UPPER(localizacion.pais) =UPPER(:pais)")
         }
-        // if (divprimaria) {
-        //     propiedades = propiedades.andWhere("localizacion.pais =:pais")
-        // }
+        if (divprimaria) {
+            propiedades = propiedades.andWhere("UPPER(localizacion.divPrimaria) = UPPER(:divprimaria)")
+        }
         // SELECT p.id FROM precio p WHERE p.propiedadId = 239 AND p.precio BETWEEN 0 AND 1000000000000000000000 ORDER BY(p.creado) DESC LIMIT 1
         if (precioMin) {
             propiedades = propiedades.andWhere('precios.id = (SELECT p.id FROM precio p WHERE p.propiedadId =propiedad.id AND p.precio BETWEEN ' + precioMin + ' AND ' + precioMax + ' ORDER BY(p.creado) DESC LIMIT 1)')
@@ -164,7 +164,7 @@ export class PropiedadResolver {
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({ categorianombre: categoriaNombre, pais: pais, precioMin: precioMin, precioMax: precioMax });
+        propiedades = propiedades.setParameters({ categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax });
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
