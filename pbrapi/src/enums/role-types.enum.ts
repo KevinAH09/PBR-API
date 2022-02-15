@@ -3,7 +3,7 @@ import { registerEnumType } from 'type-graphql'
 export enum RolesTypes {
     NONE = '',
     ADMIN = 'ADMIN',
-    SENSADOR = 'SENSADOR',
+    CENSADOR = 'CENSADOR',
     AGENTE = 'AGENTE',
     VALIDADOR = 'VALIDADOR',
     SCRAPPER = 'SCRAPPER',
@@ -16,8 +16,8 @@ registerEnumType(RolesTypes, {
     name: 'RolesTypes',
     description: 'Roles types of the application',
     valuesConfig: {
-        SENSADOR: {
-            description: 'Sensador user role',
+        CENSADOR: {
+            description: 'Censador user role',
         },
         ADMIN: {
             description: 'Admin user role',
