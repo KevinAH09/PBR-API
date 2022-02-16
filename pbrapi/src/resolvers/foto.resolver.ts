@@ -1,5 +1,6 @@
 import { Arg, Authorized, Field, ID, InputType, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Int } from "type-graphql";
+import { EntityStates } from "../enums/entity-states.enum";
 
 import { Foto } from "../entities/foto";
 import { Propiedad } from "../entities/propiedad";
@@ -14,6 +15,9 @@ class FotoInput {
     
     @Field(type =>Int)
     propiedad!: Propiedad[];
+
+    @Field(type => EntityStates)
+    estado!: EntityStates;
 }
 
 @Resolver()
