@@ -96,7 +96,7 @@ export class PropiedadResolver {
             .leftJoinAndSelect("propiedad.fotos", "fotos")
             .leftJoinAndSelect("propiedad.usuario", "usuario")
             .leftJoinAndSelect("propiedad.precios", "precios")
-            .where("propiedad.estado != 'INACTIVO'")
+            .where("propiedad.estado != 'Inactivo'")
             .orderBy("propiedad.creado", "DESC").take(10);
         return propiedades.getMany();
     }
@@ -118,7 +118,7 @@ export class PropiedadResolver {
             .leftJoinAndSelect("propiedad.fotos", "fotos")
             .leftJoinAndSelect("propiedad.usuario", "usuario")
             .leftJoinAndSelect("propiedad.precios", "precios")
-            .where("propiedad.estado != 'INACTIVO'")
+            .where("propiedad.estado != 'Inactivo'")
             .andWhere("localizacion.latitud > :latInferior")
             .andWhere("localizacion.longitud < :logInferior")
             .andWhere("localizacion.latitud < :latSuperior")
@@ -147,7 +147,7 @@ export class PropiedadResolver {
             .leftJoinAndSelect("propiedad.fotos", "fotos")
             .leftJoinAndSelect("propiedad.usuario", "usuario")
             .leftJoinAndSelect("propiedad.precios", "precios")
-            .where("propiedad.estado != 'INACTIVO'");
+            .where("propiedad.estado != 'Inactivo'");
 
         console.log(categoriaNombre);
         if (categoriaNombre) {
@@ -191,7 +191,7 @@ export class PropiedadResolver {
             .leftJoinAndSelect("propiedad.construcciones", "construcciones")
             .leftJoinAndSelect("construcciones.tipoConstruccion", "tipoConstruccion")
             .where("propiedad.id = :id")
-            .andWhere("propiedad.estado != 'INACTIVO'")
+            .andWhere("propiedad.estado != 'Inactivo'")
         propiedades = propiedades.setParameters({ id: id });
         return propiedades.getOne();
     }
