@@ -20,9 +20,9 @@ export class Foto extends BaseEntity {
     @ManyToOne(() => Propiedad, propiedad => propiedad.fotos)
     propiedad!: Propiedad[];
 
-    @Field(() => EntityStates)
-    @Column("varchar")
-    estado!: EntityStates;
+    @Field()
+    @Column()
+    nombre!: string;
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })

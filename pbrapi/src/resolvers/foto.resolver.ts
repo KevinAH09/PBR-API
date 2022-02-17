@@ -16,8 +16,8 @@ class FotoInput {
     @Field(type =>Int)
     propiedad!: Propiedad[];
 
-    @Field(type => EntityStates)
-    estado!: EntityStates;
+    @Field()
+    nombre!: string;
 }
 
 @Resolver()
