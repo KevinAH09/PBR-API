@@ -17,7 +17,7 @@ class TipoConstruccionInput {
 @Resolver()
 export class TipoConstruccionResolver {
     
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoConstruccion)
     async createTipoConstruccion(
@@ -29,7 +29,7 @@ export class TipoConstruccionResolver {
         return await data;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoConstruccion)
     async updateTipoConstruccion(
@@ -41,7 +41,7 @@ export class TipoConstruccionResolver {
         return dataUpdated;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteTipoConstruccion(
@@ -51,14 +51,14 @@ export class TipoConstruccionResolver {
         return true;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [TipoConstruccion])
     TipoConstrucciones() {
         return TipoConstruccion.find()
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => TipoConstruccion)
     TipoConstruccionById(

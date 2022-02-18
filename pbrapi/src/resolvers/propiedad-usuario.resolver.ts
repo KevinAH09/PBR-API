@@ -23,7 +23,7 @@ class PropiedadUsuarioInput {
 @Resolver()
 export class PropiedadUsuarioResolver {
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => PropiedadUsuario)
     async createPropiedad_Usuario(
@@ -45,7 +45,7 @@ export class PropiedadUsuarioResolver {
 
     // }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => PropiedadUsuario)
     async updatePropiedad_Usuario(
@@ -57,14 +57,14 @@ export class PropiedadUsuarioResolver {
         return dataUpdated;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [PropiedadUsuario])
     PropiedadUsuario() {
         return PropiedadUsuario.find()
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [PropiedadUsuario])
     async PropiedadUsuarioByusuarioId(
@@ -87,7 +87,7 @@ export class PropiedadUsuarioResolver {
         return propiedades.getMany();
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => PropiedadUsuario)
     async PropiedadUsuarioByusuarioIdAndPropiedadId(

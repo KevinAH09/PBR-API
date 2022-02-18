@@ -22,7 +22,7 @@ class PrecioInput {
 @Resolver()
 export class PrecioResolver {
     
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Precio)
     async createPrecio(
@@ -34,7 +34,7 @@ export class PrecioResolver {
         return await data;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deletePrecio(
@@ -44,14 +44,14 @@ export class PrecioResolver {
         return true;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => Precio)
     Precios() {
         return Precio.find()
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => Precio)
     PrecioById(

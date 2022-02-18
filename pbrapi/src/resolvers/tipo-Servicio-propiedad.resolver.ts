@@ -21,7 +21,7 @@ class TipoServicioPropiedadInput {
 @Resolver()
 export class TipoServicioPropiedadResolver {
     
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoServicioPropiedad)
     async createTipo_Servicio_Propiedad(
@@ -33,6 +33,8 @@ export class TipoServicioPropiedadResolver {
         return await data;
     }
 
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [TipoServicioPropiedad])
     async TipoServicioByPropiedadId(
         @Arg("id", () => Int) id: number

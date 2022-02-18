@@ -15,7 +15,7 @@ class TipoBeneficioInput {
 @Resolver()
 export class TipoBeneficioResolver {
     
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoBeneficio)
     async createTipoBeneficio(
@@ -27,7 +27,7 @@ export class TipoBeneficioResolver {
         return await data;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoBeneficio)
     async updateTipoBeneficio(
@@ -39,7 +39,7 @@ export class TipoBeneficioResolver {
         return dataUpdated;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteTipoBeneficio(
@@ -49,14 +49,14 @@ export class TipoBeneficioResolver {
         return true;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [TipoBeneficio])
     TipoBeneficios() {
         return TipoBeneficio.find()
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => TipoBeneficio)
     TipoBeneficioById(

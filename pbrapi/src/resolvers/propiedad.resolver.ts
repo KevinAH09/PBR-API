@@ -35,7 +35,7 @@ class PropiedadInput {
 @Resolver()
 export class PropiedadResolver {
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Propiedad)
     async createPropiedad(
@@ -47,7 +47,7 @@ export class PropiedadResolver {
         return await data;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Propiedad)
     async updatePropiedad(
@@ -59,7 +59,7 @@ export class PropiedadResolver {
         return dataUpdated;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     Propiedad() {
@@ -68,7 +68,7 @@ export class PropiedadResolver {
         })
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => Int)
     async PropiedadByFolio(
@@ -84,7 +84,7 @@ export class PropiedadResolver {
         return propiedades.getCount();
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     async PropiedadByRecientes() {
@@ -101,7 +101,7 @@ export class PropiedadResolver {
         return propiedades.getMany();
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     async PropiedadByCercanas(
@@ -129,7 +129,7 @@ export class PropiedadResolver {
         return propiedades.getMany();
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     async PropiedadByLocalizacionAndCategoriaAndPrecioAprox(
@@ -184,7 +184,7 @@ export class PropiedadResolver {
         return propiedades.getMany();
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => Propiedad)
     async PropiedadById(

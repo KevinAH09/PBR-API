@@ -73,23 +73,24 @@ export class ConstruccionResolver {
         return dataUpdated;
     }
 
-    // @Authorized(RolesTypes.ADMIN)
-    // @Mutation(() => Boolean)
-    // async deleteTipoServicio(
-    //     @Arg("id", () => Int) id: number
-    // ) {
-    //     await TipoServicio.delete(id);
-    //     return true;
-    // }
+    @Authorized(RolesTypes.ADMIN)
+    @UseMiddleware(isAuthenticated)
+    @Mutation(() => Boolean)
+    async deleteConstrucciones(
+        @Arg("id", () => Int) id: number
+    ) {
+        await Construccion.delete(id);
+        return true;
+    }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => Construccion)
     Construccion() {
         return Construccion.find()
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => Construccion)
     ConstruccionById(

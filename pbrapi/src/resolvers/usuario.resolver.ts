@@ -106,14 +106,14 @@ export class UsuarioResolver {
         return Usuario.find();
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN,RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => Usuario)
     async UsuarioById(@Arg("id", () => Int) id: number) {
         return Usuario.findOne({ where: { id } });
     }
 
-    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CLIENTE, RolesTypes.CLIENTE_AVANZADO, RolesTypes.SCRAPPER, RolesTypes.CENSADOR, RolesTypes.VALIDADOR, RolesTypes.NONE])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Usuario)
     async updateUser(
@@ -125,7 +125,7 @@ export class UsuarioResolver {
         return dataUpdated;
     }
 
-    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CLIENTE, RolesTypes.CLIENTE_AVANZADO, RolesTypes.SCRAPPER, RolesTypes.CENSADOR, RolesTypes.VALIDADOR, RolesTypes.NONE])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE,  RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Usuario)
     async updatePhoto(
@@ -149,7 +149,7 @@ export class UsuarioResolver {
         return dataUpdated;
     }
 
-    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CLIENTE, RolesTypes.CLIENTE_AVANZADO, RolesTypes.SCRAPPER, RolesTypes.CENSADOR, RolesTypes.VALIDADOR, RolesTypes.NONE])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Usuario)
     async updatePassword(

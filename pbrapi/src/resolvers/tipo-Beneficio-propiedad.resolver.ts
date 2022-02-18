@@ -20,7 +20,7 @@ class TipoBeneficioPropiedadInput {
 @Resolver()
 export class TipoBeneficioPropiedadResolver {
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoBeneficioPropiedad)
     async createTipo_Beneficio_Propiedad(
@@ -33,24 +33,25 @@ export class TipoBeneficioPropiedadResolver {
     }
 
     // @Authorized(RolesTypes.ADMIN)
-    // @Mutation(() => Propiedad_Propietario)
-    // async updatePropiedadPropietario(
-    //     @Arg("id", () => Int) id: number,
-    //     @Arg("data", () => PropiedadPropietarioInput) data: PropiedadPropietarioInput
+    // @UseMiddleware(isAuthenticated)
+    // @Mutation(() => Boolean)
+    // async delete_Beneficio_Propiedad(
+    //     @Arg("id", () => Int) id: number
     // ) {
-    //     await Propiedad_Propietario.update({ id }, data);
-    //     const dataUpdated = await Propiedad_Propietario.findOne(id)
-    //     return dataUpdated;
+    //     await TipoBeneficioPropiedadInput.delete(id);
+    //     return true;
     // }
 
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [TipoBeneficioPropiedad])
     TipoBeneficioPropiedad() {
         return TipoBeneficioPropiedad.find()
     }
 
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @UseMiddleware(isAuthenticated)
     @Query(() => [TipoBeneficioPropiedad])
     async TipoBeneficioByPropiedadId(
         @Arg("id", () => Int) id: number

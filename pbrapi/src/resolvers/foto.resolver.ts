@@ -12,8 +12,8 @@ class FotoInput {
 
     @Field()
     tag!: string
-    
-    @Field(type =>Int)
+
+    @Field(type => Int)
     propiedad!: Propiedad[];
 
     @Field()
@@ -22,8 +22,8 @@ class FotoInput {
 
 @Resolver()
 export class FotoResolver {
-    
-    @Authorized([RolesTypes.ADMIN])
+
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Foto)
     async createFoto(
@@ -35,7 +35,7 @@ export class FotoResolver {
         return await data;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Foto)
     async updateFoto(
@@ -47,7 +47,7 @@ export class FotoResolver {
         return dataUpdated;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteFoto(
@@ -57,14 +57,14 @@ export class FotoResolver {
         return true;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => Foto)
     Fotos() {
         return Foto.find()
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => Foto)
     FotoById(
