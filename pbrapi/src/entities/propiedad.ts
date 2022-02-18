@@ -26,9 +26,9 @@ export class Propiedad extends BaseEntity {
     @Column()
     numero!: string;
 
-    @Field()
-    @Column()
-    extension!: string;
+    @Field(() => Number)
+    @Column("float", { nullable: true })
+    extension!: Number;
 
     @Field()
     @Column({length:5000})

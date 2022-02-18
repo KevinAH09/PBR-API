@@ -17,8 +17,8 @@ class PropiedadInput {
     @Field({ nullable: true })
     descripcion!: string;
 
-    @Field({ nullable: true })
-    extension!: string;
+    @Field(() => Number)
+    extension!: Number;
 
     @Field(type => Int, { nullable: true })
     usuario!: Usuario[];
