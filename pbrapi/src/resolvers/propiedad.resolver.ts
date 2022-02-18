@@ -137,7 +137,9 @@ export class PropiedadResolver {
         @Arg("pais", () => String) pais: String,
         @Arg("divprimaria", () => String) divprimaria: String,
         @Arg("precioMax", () => String) precioMax: String,
-        @Arg("precioMin", () => String) precioMin: String
+        @Arg("precioMin", () => String) precioMin: String,
+        @Arg("extencionMin", () => Number) extencionMin: Number,
+        @Arg("extencionMax", () => Number) extencionMax: Number,
     ) {
         let propiedades = await getConnection()
             .getRepository(Propiedad)
@@ -159,16 +161,19 @@ export class PropiedadResolver {
         if (divprimaria) {
             propiedades = propiedades.andWhere("UPPER(localizacion.divPrimaria) = UPPER(:divprimaria)")
         }
-        // SELECT p.id FROM precio p WHERE p.propiedadId = 239 AND p.precio BETWEEN 0 AND 1000000000000000000000 ORDER BY(p.creado) DESC LIMIT 1
         if (precioMin) {
             propiedades = propiedades.andWhere('precios.id = (SELECT p.id FROM precio p WHERE p.propiedadId =propiedad.id AND p.precio BETWEEN ' + precioMin + ' AND ' + precioMax + ' ORDER BY(p.creado) DESC LIMIT 1)')
+        }
+        // SELECT p.id FROM precio p WHERE p.propiedadId = 239 AND p.precio BETWEEN 0 AND 1000000000000000000000 ORDER BY(p.creado) DESC LIMIT 1
+        if (extencionMin != null) {
+            propiedades = propiedades.andWhere('propiedad.extension BETWEEN  :extencionMin  AND  :extencionMax ')
         }
 
         // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({ categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax });
+        propiedades = propiedades.setParameters({ categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
