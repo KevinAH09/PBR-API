@@ -49,4 +49,24 @@ export class TipoServicioPropiedadResolver {
         return tipoServicio.getMany();
         
     }
+
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @UseMiddleware(isAuthenticated)
+    @Mutation(() => Boolean)
+    async delete_Servicio_Propiedad(
+        @Arg("tiposervicioId", () => Int) tiposervicioId: number,
+        @Arg("propiedadId", () => Int) propiedadId: number
+    ) {
+        await getConnection()
+            .getRepository(TipoServicioPropiedad)
+            .createQueryBuilder('tipo')
+            .leftJoinAndSelect("tipo.propiedad", "propiedad")
+            .leftJoinAndSelect("tipo.tiposervicio", "tiposervicio")
+            .delete()
+            .where("tiposervicio.id = :tiposervicioId", { tiposervicioId })
+            .andWhere("propiedad.id = :propiedadId", { propiedadId })
+            .execute();
+        return true;
+
+    }
 }

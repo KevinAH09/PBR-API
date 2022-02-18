@@ -32,15 +32,25 @@ export class TipoBeneficioPropiedadResolver {
         return await data;
     }
 
-    // @Authorized(RolesTypes.ADMIN)
-    // @UseMiddleware(isAuthenticated)
-    // @Mutation(() => Boolean)
-    // async delete_Beneficio_Propiedad(
-    //     @Arg("id", () => Int) id: number
-    // ) {
-    //     await TipoBeneficioPropiedadInput.delete(id);
-    //     return true;
-    // }
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @UseMiddleware(isAuthenticated)
+    @Mutation(() => Boolean)
+    async delete_Beneficio_Propiedad(
+        @Arg("tipobeneficioId", () => Int) tipobeneficioId: number,
+        @Arg("propiedadId", () => Int) propiedadId: number
+    ) {
+        await getConnection()
+            .getRepository(TipoBeneficioPropiedad)
+            .createQueryBuilder('tipo')
+            .leftJoinAndSelect("tipo.propiedad", "propiedad")
+            .leftJoinAndSelect("tipo.tipobeneficio", "tipobeneficio")
+            .delete()
+            .where("tipobeneficio.id = :tipobeneficioId", { tipobeneficioId })
+            .andWhere("propiedad.id = :propiedadId", { propiedadId })
+            .execute();
+        return true;
+
+    }
 
 
     @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
@@ -57,13 +67,13 @@ export class TipoBeneficioPropiedadResolver {
         @Arg("id", () => Int) id: number
     ) {
         let tipoBeneficio = await getConnection().
-        getRepository(TipoBeneficioPropiedad).
-        createQueryBuilder("tipo_beneficio_propiedad").
-        innerJoinAndSelect("tipo_beneficio_propiedad.tipobeneficio","tipo_beneficio")
-        .where("tipo_beneficio_propiedad.propiedadId = :id")
-        tipoBeneficio = tipoBeneficio.setParameters({ id: id})
+            getRepository(TipoBeneficioPropiedad).
+            createQueryBuilder("tipo_beneficio_propiedad").
+            innerJoinAndSelect("tipo_beneficio_propiedad.tipobeneficio", "tipo_beneficio")
+            .where("tipo_beneficio_propiedad.propiedadId = :id")
+        tipoBeneficio = tipoBeneficio.setParameters({ id: id })
 
         return tipoBeneficio.getMany();
-        
+
     }
 }
