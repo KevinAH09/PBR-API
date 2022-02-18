@@ -138,6 +138,8 @@ export class PropiedadResolver {
         @Arg("divprimaria", () => String) divprimaria: String,
         @Arg("precioMax", () => String) precioMax: String,
         @Arg("precioMin", () => String) precioMin: String,
+        @Arg("banosMax", () => String) banosMax: String,
+        @Arg("banosMin", () => String) banosMin: String,
         @Arg("extencionMin", () => Number) extencionMin: Number,
         @Arg("extencionMax", () => Number) extencionMax: Number,
     ) {
@@ -149,6 +151,7 @@ export class PropiedadResolver {
             .leftJoinAndSelect("propiedad.fotos", "fotos")
             .leftJoinAndSelect("propiedad.usuario", "usuario")
             .leftJoinAndSelect("propiedad.precios", "precios")
+            .leftJoinAndSelect("propiedad.construcciones", "construcciones")
             .where("propiedad.estado != 'Inactivo'");
 
         console.log(categoriaNombre);
@@ -164,16 +167,19 @@ export class PropiedadResolver {
         if (precioMin) {
             propiedades = propiedades.andWhere('precios.id = (SELECT p.id FROM precio p WHERE p.propiedadId =propiedad.id AND p.precio BETWEEN ' + precioMin + ' AND ' + precioMax + ' ORDER BY(p.creado) DESC LIMIT 1)')
         }
-        // SELECT p.id FROM precio p WHERE p.propiedadId = 239 AND p.precio BETWEEN 0 AND 1000000000000000000000 ORDER BY(p.creado) DESC LIMIT 1
         if (extencionMin != null) {
             propiedades = propiedades.andWhere('propiedad.extension BETWEEN  :extencionMin  AND  :extencionMax ')
+        }
+
+        if (banosMin != "") {
+            propiedades = propiedades.andWhere('construcciones.bano BETWEEN  :banosMin  AND  :banosMax ')
         }
 
         // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({ categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
+        propiedades = propiedades.setParameters({banosMax:banosMax,banosMin: banosMin,categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
