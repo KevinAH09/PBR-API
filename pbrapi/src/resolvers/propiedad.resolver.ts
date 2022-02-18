@@ -142,6 +142,7 @@ export class PropiedadResolver {
         @Arg("banosMin", () => String) banosMin: String,
         @Arg("extencionMin", () => Number) extencionMin: Number,
         @Arg("extencionMax", () => Number) extencionMax: Number,
+        @Arg("tipoConstruccion", () => String) tipoConstruccion: String,
     ) {
         let propiedades = await getConnection()
             .getRepository(Propiedad)
@@ -152,6 +153,7 @@ export class PropiedadResolver {
             .leftJoinAndSelect("propiedad.usuario", "usuario")
             .leftJoinAndSelect("propiedad.precios", "precios")
             .leftJoinAndSelect("propiedad.construcciones", "construcciones")
+            .leftJoinAndSelect("construcciones.tipoConstruccion", "tipoConstruccion")
             .where("propiedad.estado != 'Inactivo'");
 
         console.log(categoriaNombre);
@@ -175,11 +177,15 @@ export class PropiedadResolver {
             propiedades = propiedades.andWhere('construcciones.bano BETWEEN  :banosMin  AND  :banosMax ')
         }
 
+        if (tipoConstruccion != "") {
+            propiedades = propiedades.andWhere('tipoConstruccion.nombre= :tipoConstruccion')
+        }
+
         // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({banosMax:banosMax,banosMin: banosMin,categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
+        propiedades = propiedades.setParameters({tipoConstruccion:tipoConstruccion,banosMax:banosMax,banosMin: banosMin,categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
