@@ -36,8 +36,8 @@ export class TipoBeneficioPropiedadResolver {
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async delete_Beneficio_Propiedad(
-        @Arg("tipobeneficioId", () => Int) tipobeneficioId: number,
-        @Arg("propiedadId", () => Int) propiedadId: number
+        @Arg("tipobeneficio", () => Int) tipobeneficio: number,
+        @Arg("propiedad", () => Int) propiedad: number
     ) {
         await getConnection()
             .getRepository(TipoBeneficioPropiedad)
@@ -45,8 +45,8 @@ export class TipoBeneficioPropiedadResolver {
             .leftJoinAndSelect("tipo.propiedad", "propiedad")
             .leftJoinAndSelect("tipo.tipobeneficio", "tipobeneficio")
             .delete()
-            .where("tipobeneficio.id = :tipobeneficioId", { tipobeneficioId })
-            .andWhere("propiedad.id = :propiedadId", { propiedadId })
+            .where("tipobeneficio.id = :tipobeneficio", { tipobeneficio })
+            .andWhere("propiedad.id = :propiedad", { propiedad })
             .execute();
         return true;
 
