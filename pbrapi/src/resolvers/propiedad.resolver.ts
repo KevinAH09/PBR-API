@@ -142,6 +142,12 @@ export class PropiedadResolver {
         @Arg("banosMin", () => String) banosMin: String,
         @Arg("extencionMin", () => Number) extencionMin: Number,
         @Arg("extencionMax", () => Number) extencionMax: Number,
+        @Arg("habitacionMin", () => String) habitacionMin: String,
+        @Arg("habitacionMax", () => String) habitacionMax: String,
+        @Arg("plantasMin", () => String) plantasMin: String,
+        @Arg("plantasMax", () => String) plantasMax: String,
+        @Arg("garageMin", () => String) garageMin: String,
+        @Arg("garageMax", () => String) garageMax: String,
         @Arg("tipoConstruccion", () => String) tipoConstruccion: String,
     ) {
         let propiedades = await getConnection()
@@ -156,7 +162,6 @@ export class PropiedadResolver {
             .leftJoinAndSelect("construcciones.tipoConstruccion", "tipoConstruccion")
             .where("propiedad.estado != 'Inactivo'");
 
-        console.log(categoriaNombre);
         if (categoriaNombre) {
             propiedades = propiedades.andWhere("categoria.nombre =:categorianombre")
         }
@@ -180,12 +185,21 @@ export class PropiedadResolver {
         if (tipoConstruccion != "") {
             propiedades = propiedades.andWhere('tipoConstruccion.nombre= :tipoConstruccion')
         }
+        if (habitacionMin != "") {
+            propiedades = propiedades.andWhere('construcciones.dormitorio BETWEEN :habitacionMin AND :habitacionMax')
+        }
+        if (plantasMin != "") {
+            propiedades = propiedades.andWhere('construcciones.planta BETWEEN :plantasMin AND :plantasMax')
+        }
+        if (garageMin != "") {
+            propiedades = propiedades.andWhere('construcciones.garage BETWEEN :garageMin AND :garageMax')
+        }
 
         // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({tipoConstruccion:tipoConstruccion,banosMax:banosMax,banosMin: banosMin,categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
+        propiedades = propiedades.setParameters({garageMin:garageMin,garageMax:garageMax,plantasMin:plantasMin,plantasMax:plantasMax,habitacionMin:habitacionMin,habitacionMax:habitacionMax,tipoConstruccion:tipoConstruccion,banosMax:banosMax,banosMin: banosMin,categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
