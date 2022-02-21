@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToOne } from 'typeorm';
-import { Field, Int, ObjectType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import { validateOrReject } from 'class-validator';
-import { EntityStates } from '../enums/entity-states.enum';
 import { Categoria } from './categoria';
 
 

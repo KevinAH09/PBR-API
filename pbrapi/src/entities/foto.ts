@@ -1,7 +1,6 @@
 import { validateOrReject } from "class-validator";
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { EntityStates } from "../enums/entity-states.enum";
 import { Propiedad } from "./propiedad";
 
 @ObjectType()

@@ -1,10 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { Field, Int, ObjectType } from "type-graphql";
 import { validateOrReject } from 'class-validator';
-import { EntityStates } from '../enums/entity-states.enum';
 import { Propiedad } from './propiedad';
 import { Subcategoria } from './subcategoria';
-// import { TipoServicio } from './tipo-servicio';
+
 
 @ObjectType()
 @Entity()

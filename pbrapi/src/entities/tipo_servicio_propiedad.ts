@@ -1,6 +1,6 @@
 import { validateOrReject } from "class-validator";
 import { Field, ID, ObjectType } from "type-graphql";
-import { Entity, JoinColumn, PrimaryColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToMany, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { Propiedad } from "./propiedad";
 import { TipoServicio } from "./tipo-servicio";
 

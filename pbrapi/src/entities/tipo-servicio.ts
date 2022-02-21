@@ -1,8 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, JoinTable, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToMany, OneToMany } from 'typeorm';
-import { Field, Int, ObjectType } from "type-graphql";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
+import { Field, ObjectType } from "type-graphql";
 import { validateOrReject } from 'class-validator';
-import { EntityStates } from '../enums/entity-states.enum';
-import { Propiedad } from './propiedad';
 import { TipoServicioPropiedad } from './tipo_servicio_propiedad';
 
 @ObjectType()
@@ -19,9 +17,6 @@ export class TipoServicio extends BaseEntity {
     @Field(() => [TipoServicioPropiedad])
     @OneToMany(() => TipoServicioPropiedad, tiposerviciopropiedad => tiposerviciopropiedad.tiposervicio)
     tipoServicioPropiedad!: TipoServicioPropiedad[];
-    // @Field(() => [Propiedad])
-    // @ManyToMany(() => Propiedad, propiedad => propiedad.servicios)
-    // propiedades!: Propiedad[]
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })

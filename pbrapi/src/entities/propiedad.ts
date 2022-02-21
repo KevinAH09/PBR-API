@@ -1,6 +1,6 @@
 import { validateOrReject } from 'class-validator';
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, BeforeInsert, BeforeUpdate, JoinTable, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EntityStates } from '../enums/entity-states.enum';
 import { Categoria } from './categoria';
 import { Construccion } from './construccion';
@@ -9,9 +9,7 @@ import { Localizacion } from './localizacion';
 import { Precio } from './precio';
 import { PropiedadUsuario } from './propiedad_usuario';
 import { Propietario } from './propietario';
-import { TipoBeneficio } from './tipo-beneficio';
 import { TipoBeneficioPropiedad } from './tipo-beneficio-propiedad';
-import { TipoServicio } from './tipo-servicio';
 import { TipoServicioPropiedad } from './tipo_servicio_propiedad';
 import { Usuario } from './usuario';
 

@@ -1,6 +1,6 @@
-import { Authorized, Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, ManyToMany, Unique, OneToMany, CreateDateColumn, BeforeInsert, BeforeUpdate, PrimaryGeneratedColumn } from "typeorm";
 import { validateOrReject } from 'class-validator';
+import { Field, ID, ObjectType } from "type-graphql";
+import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { EntityStates } from '../enums/entity-states.enum';
 import { RolesTypes } from "../enums/role-types.enum";
 import { BitacoraSistema } from "./bitacora-sistema";
@@ -14,13 +14,11 @@ export class Usuario extends BaseEntity {
     @Field(() => ID)
     @PrimaryGeneratedColumn()
     id!: number;
-
-    // @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE])
+    
     @Field(() => String)
     @Column("varchar", { nullable: true })
     nombre!: string;
 
-    // @Authorized([RolesTypes.ADMIN])
     @Field(() => String)
     @Column("varchar", { nullable: true })
     telefono!: string;
@@ -48,7 +46,6 @@ export class Usuario extends BaseEntity {
     @OneToMany(() => PropiedadUsuario, propiedadUsuario => propiedadUsuario.usuario)
     propiedadUsuario!: PropiedadUsuario[];
 
-    // @Authorized(RolesTypes.ADMIN)
     @Field(type => RolesTypes)
     @Column("varchar", { nullable: true })
     role!: RolesTypes;

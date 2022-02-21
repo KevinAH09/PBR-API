@@ -1,7 +1,6 @@
 import { validateOrReject } from "class-validator";
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { EntityStates } from "../enums/entity-states.enum";
+import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Propiedad } from "./propiedad";
 
 @ObjectType()
@@ -41,9 +40,6 @@ export class Propietario extends BaseEntity {
         this.creado = new Date().valueOf().toString()
         await validateOrReject(this)
     }
-
-
-
 
     @BeforeUpdate()
     async beforeUpdate() {
