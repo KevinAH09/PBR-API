@@ -16,11 +16,6 @@ export class Categoria extends BaseEntity {
     @Column()
     nombre!: string;
 
-
-    @Field(() => [Subcategoria])
-    @OneToMany(() => Subcategoria, subcategoria => subcategoria.categorias)
-    subcategorias!: Subcategoria[];
-
     @Field(() => Propiedad)
     @OneToMany(() => Propiedad, propiedad => propiedad.categoria)
     propiedad!: Propiedad[];

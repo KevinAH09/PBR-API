@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, BeforeInsert, BeforeUpdate, ManyToOne, OneToMany } from 'typeorm';
 import { Field, ObjectType } from "type-graphql";
 import { validateOrReject } from 'class-validator';
 import { Categoria } from './categoria';
+import { Propiedad } from './propiedad';
 
 
 @ObjectType()
@@ -15,10 +16,9 @@ export class Subcategoria extends BaseEntity {
     @Column()
     nombre!: string;
 
-
-    @Field(() => [Categoria])
-    @ManyToOne(() => Categoria, categoria => categoria.subcategorias)
-    categorias!: Categoria[];
+    @Field(() => Propiedad)
+    @OneToMany(() => Propiedad, propiedad => propiedad.subcategoria)
+    propiedad!: Propiedad[];
 
     @Field(() => String)
     @CreateDateColumn({ type: 'timestamp' })

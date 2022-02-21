@@ -9,6 +9,7 @@ import { Localizacion } from './localizacion';
 import { Precio } from './precio';
 import { PropiedadUsuario } from './propiedad_usuario';
 import { Propietario } from './propietario';
+import { Subcategoria } from './subcategoria';
 import { TipoBeneficioPropiedad } from './tipo-beneficio-propiedad';
 import { TipoServicioPropiedad } from './tipo_servicio_propiedad';
 import { Usuario } from './usuario';
@@ -51,6 +52,10 @@ export class Propiedad extends BaseEntity {
     @Field(() => Categoria)
     @ManyToOne(() => Categoria, categoria => categoria.propiedad)
     categoria!: Categoria[];
+
+    @Field(() => Subcategoria)
+    @ManyToOne(() => Subcategoria, subcategoria => subcategoria.propiedad)
+    subcategoria!: Subcategoria[];
 
     @Field(() => [Construccion])
     @OneToMany(() => Construccion, construccion => construccion.propiedad)
