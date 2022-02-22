@@ -136,6 +136,7 @@ export class PropiedadResolver {
     @Query(() => [Propiedad])
     async PropiedadByLocalizacionAndCategoriaAndPrecioAprox(
         @Arg("categoriaNombre", () => String) categoriaNombre: String,
+        @Arg("subcategoria", () => String) subcategoria: String,
         @Arg("pais", () => String) pais: String,
         @Arg("divprimaria", () => String) divprimaria: String,
         @Arg("precioMax", () => String) precioMax: String,
@@ -167,6 +168,9 @@ export class PropiedadResolver {
 
         if (categoriaNombre) {
             propiedades = propiedades.andWhere("categoria.nombre =:categorianombre")
+        }
+        if (subcategoria) {
+            propiedades = propiedades.andWhere("subcategoria.nombre =:subcategoria")
         }
         if (pais) {
             propiedades = propiedades.andWhere("UPPER(localizacion.pais) =UPPER(:pais)")
@@ -202,7 +206,7 @@ export class PropiedadResolver {
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({garageMin:garageMin,garageMax:garageMax,plantasMin:plantasMin,plantasMax:plantasMax,habitacionMin:habitacionMin,habitacionMax:habitacionMax,tipoConstruccion:tipoConstruccion,banosMax:banosMax,banosMin: banosMin,categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
+        propiedades = propiedades.setParameters({subcategoria:subcategoria,garageMin:garageMin,garageMax:garageMax,plantasMin:plantasMin,plantasMax:plantasMax,habitacionMin:habitacionMin,habitacionMax:habitacionMax,tipoConstruccion:tipoConstruccion,banosMax:banosMax,banosMin: banosMin,categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
