@@ -2,6 +2,7 @@ import { type } from "os";
 import { Arg, Authorized, Field, ID, InputType, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Categoria } from "../entities/categoria";
+import { Subcategoria } from "../entities/subcategoria";
 import { Localizacion } from "../entities/localizacion";
 import { Propiedad } from "../entities/propiedad";
 import { Usuario } from "../entities/usuario";
@@ -31,6 +32,9 @@ class PropiedadInput {
 
     @Field(type => EntityStates)
     estado!: EntityStates;
+
+    @Field(type => Int, { nullable: true })
+    subCategoria!: Subcategoria[];
 }
 @Resolver()
 export class PropiedadResolver {
