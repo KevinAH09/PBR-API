@@ -49,7 +49,7 @@ class ConstruccionInput {
 @Resolver()
 export class ConstruccionResolver {
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN,RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Construccion)
     async createConstruccion(
@@ -61,7 +61,7 @@ export class ConstruccionResolver {
         return await data;
     }
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN,RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Construccion)
     async updateConstruccion(
@@ -73,7 +73,7 @@ export class ConstruccionResolver {
         return dataUpdated;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN,RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteConstrucciones(
