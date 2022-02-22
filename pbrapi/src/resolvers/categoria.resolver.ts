@@ -9,8 +9,6 @@ import { RolesTypes } from "../enums/role-types.enum";
 class CategoriaInput {
     @Field()
     nombre!: string
-    // @Field()
-    // quantity!: number
 }
 
 @Resolver()

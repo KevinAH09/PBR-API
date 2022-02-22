@@ -7,6 +7,7 @@ import { isAuthenticated } from "../middleware/is-authenticated";
 
 @InputType()
 class SubcategoriaInput {
+
     @Field()
     nombre!: string
 
@@ -51,7 +52,7 @@ export class SubcategoriaResolver {
 
     @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
-    @Query(() => Subcategoria)
+    @Query(() => [Subcategoria])
     Subcategorias() {
         return Subcategoria.find()
     }
