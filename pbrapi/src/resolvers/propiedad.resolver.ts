@@ -34,7 +34,7 @@ class PropiedadInput {
     estado!: EntityStates;
 
     @Field(type => Int, { nullable: true })
-    subCategoria!: Subcategoria[];
+    subcategoria!: Subcategoria[];
 }
 @Resolver()
 export class PropiedadResolver {
