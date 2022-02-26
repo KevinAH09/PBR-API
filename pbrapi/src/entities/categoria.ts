@@ -13,7 +13,7 @@ export class Categoria extends BaseEntity {
     id!: number;
 
     @Field()
-    @Column()
+    @Column("varchar", { nullable: true, unique: true })
     nombre!: string;
 
     @Field(() => Propiedad)
