@@ -1,5 +1,6 @@
 import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Int } from "type-graphql";
+import { getConnection } from "typeorm";
 
 import { Subcategoria } from "../entities/subcategoria";
 import { RolesTypes } from "../enums/role-types.enum";
@@ -70,5 +71,18 @@ export class SubcategoriaResolver {
                 }
             }
         );
+    }
+
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @UseMiddleware(isAuthenticated)
+    @Query(() => [Subcategoria])
+    async SubCategoriaByName(@Arg("nombre", () => String) nombre: String) {
+        let subcategoria = await getConnection()
+            .getRepository(Subcategoria)
+            .createQueryBuilder('s')
+            .select(['s.id', 's.nombre', 's.creado'])
+            .where('s.nombre like :nombre', { nombre: `%${nombre}%` })
+            .getMany();
+        return subcategoria;
     }
 }

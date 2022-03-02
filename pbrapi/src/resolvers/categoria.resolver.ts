@@ -4,6 +4,7 @@ import { isAuthenticated } from "../middleware/is-authenticated";
 
 import { Categoria } from "../entities/categoria";
 import { RolesTypes } from "../enums/role-types.enum";
+import { getConnection } from "typeorm";
 
 @InputType()
 class CategoriaInput {
@@ -68,5 +69,18 @@ export class CategoriaResolver {
                 }
             }
         );
+    }
+
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @UseMiddleware(isAuthenticated)
+    @Query(() => [Categoria])
+    async CategoriaByName(@Arg("nombre", () => String) nombre: String) {
+        let categoria = await getConnection()
+            .getRepository(Categoria)
+            .createQueryBuilder('c')
+            .select(['c.id', 'c.nombre', 'c.creado'])
+            .where('c.nombre like :nombre', { nombre: `%${nombre}%` })
+            .getMany();
+        return categoria;
     }
 }

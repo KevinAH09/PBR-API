@@ -1,4 +1,5 @@
 import { Arg, Authorized, Field, InputType, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { getConnection } from "typeorm";
 import { TipoBeneficio } from "../entities/tipo-beneficio";
 import { RolesTypes } from "../enums/role-types.enum";
 import { isAuthenticated } from "../middleware/is-authenticated";
@@ -14,7 +15,7 @@ class TipoBeneficioInput {
 
 @Resolver()
 export class TipoBeneficioResolver {
-    
+
     @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoBeneficio)
@@ -69,5 +70,17 @@ export class TipoBeneficioResolver {
                 }
             }
         );
+    }
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @UseMiddleware(isAuthenticated)
+    @Query(() => [TipoBeneficio])
+    async TipoBeneficioByName(@Arg("nombre", () => String) nombre: String) {
+        let tipoBeneficio = await getConnection()
+            .getRepository(TipoBeneficio)
+            .createQueryBuilder('t')
+            .select(['t.id', 't.nombre', 't.creado'])
+            .where('t.nombre like :nombre', { nombre: `%${nombre}%` })
+            .getMany();
+        return tipoBeneficio;
     }
 }
