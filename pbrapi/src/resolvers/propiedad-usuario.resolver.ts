@@ -75,6 +75,7 @@ export class PropiedadUsuarioResolver {
             .createQueryBuilder("propiedad_usuario")
             .leftJoinAndSelect("propiedad_usuario.propiedad", "propiedad")
             .leftJoinAndSelect("propiedad.categoria", "categoria")
+            .leftJoinAndSelect("propiedad.subcategoria", "subcategoria")
             .leftJoinAndSelect("propiedad.localizacion", "localizacion")
             .leftJoinAndSelect("propiedad.fotos", "fotos")
             .leftJoinAndSelect("propiedad.usuario", "usuario")
