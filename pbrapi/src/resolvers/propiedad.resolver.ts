@@ -190,27 +190,27 @@ export class PropiedadResolver {
         }
 
         if (banosMin != "") {
-            propiedades = propiedades.andWhere('construcciones.bano BETWEEN  :banosMin  AND  :banosMax ')
+            propiedades = propiedades.andWhere('construcciones.bano BETWEEN ' + banosMin + ' AND ' + banosMax)
         }
-
         if (tipoConstruccion != "") {
             propiedades = propiedades.andWhere('tipoConstruccion.nombre= :tipoConstruccion')
         }
+
         if (habitacionMin != "") {
-            propiedades = propiedades.andWhere('construcciones.dormitorio BETWEEN :habitacionMin AND :habitacionMax')
+            propiedades = propiedades.andWhere('construcciones.dormitorio BETWEEN ' + habitacionMin + ' AND ' + habitacionMax)
         }
         if (plantasMin != "") {
-            propiedades = propiedades.andWhere('construcciones.planta BETWEEN :plantasMin AND :plantasMax')
+            propiedades = propiedades.andWhere('construcciones.planta BETWEEN ' + plantasMin + ' AND ' + plantasMax)
         }
         if (garageMin != "") {
-            propiedades = propiedades.andWhere('construcciones.garage BETWEEN :garageMin AND :garageMax')
+            propiedades = propiedades.andWhere('construcciones.garage BETWEEN ' + garageMin + ' AND ' + garageMax)
         }
 
         // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({subcategoria:subcategoria,garageMin:garageMin,garageMax:garageMax,plantasMin:plantasMin,plantasMax:plantasMax,habitacionMin:habitacionMin,habitacionMax:habitacionMax,tipoConstruccion:tipoConstruccion,banosMax:banosMax,banosMin: banosMin,categorianombre: categoriaNombre,divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax,extencionMax:extencionMax,extencionMin:extencionMin });
+        propiedades = propiedades.setParameters({ subcategoria: subcategoria, garageMin: garageMin, garageMax: garageMax, plantasMin: plantasMin, plantasMax: plantasMax, habitacionMin: habitacionMin, habitacionMax: habitacionMax, tipoConstruccion: tipoConstruccion, banosMax: banosMax, banosMin: banosMin, categorianombre: categoriaNombre, divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax, extencionMax: extencionMax, extencionMin: extencionMin });
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
