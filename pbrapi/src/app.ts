@@ -20,6 +20,7 @@ import { TipoConstruccionResolver } from './resolvers/tipo-construccion.resolver
 import {TipoBeneficioPropiedadResolver  } from './resolvers/tipo-Beneficio-propiedad.resolver';
 import {TipoServicioPropiedadResolver  } from './resolvers/tipo-Servicio-propiedad.resolver';
 import { PropiedadUsuarioResolver } from './resolvers/propiedad-usuario.resolver';
+import { ParametroResolver } from './resolvers/parametro.resolver';
 
 
 
@@ -28,7 +29,7 @@ export async function startServer() {
     const server = new ApolloServer({
         schema: await buildSchema({
 
-            resolvers: [PrecioResolver, PropiedadResolver, PropietarioResolver, TipoServicioResolver, TipoBeneficioResolver, UsuarioResolver, ConstruccionResolver, CategoriaResolver, SubcategoriaResolver, FotoResolver,
+            resolvers: [ParametroResolver, PrecioResolver, PropiedadResolver, PropietarioResolver, TipoServicioResolver, TipoBeneficioResolver, UsuarioResolver, ConstruccionResolver, CategoriaResolver, SubcategoriaResolver, FotoResolver,
                 BitacoraSistemaResolver, LocalizacionResolver, TipoConstruccionResolver,TipoBeneficioPropiedadResolver,TipoServicioPropiedadResolver,PropiedadUsuarioResolver],
             authChecker: isAuthorizated
         }),
