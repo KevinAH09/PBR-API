@@ -14,7 +14,7 @@ class ParametroInput {
     @Field()
     valor!: string;
 
-  
+
 }
 
 @Resolver()
@@ -81,5 +81,20 @@ export class ParametroResolver {
         );
     }
 
-   
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR, RolesTypes.AGENTE])
+    @UseMiddleware(isAuthenticated)
+    @Query(() => [Parametro])
+    async ParametroByName(
+        @Arg("nombre", () => String) nombre: String
+    ) {
+        let parametro = await getConnection()
+            .getRepository(Parametro)
+            .createQueryBuilder('c')
+            .select(['c.id', 'c.nombre', 'c.valor', 'c.creado'])
+            .where('c.nombre like :nombre', { nombre: `%${nombre}%` })
+            .getMany();
+        return parametro;
+    }
+
+
 }
