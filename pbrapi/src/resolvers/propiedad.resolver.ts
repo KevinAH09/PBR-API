@@ -139,6 +139,8 @@ export class PropiedadResolver {
     @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     async PropiedadByLocalizacionAndCategoriaAndPrecioAprox(
+        @Arg("usuarioId", () => Int) usuarioId: Number,
+        @Arg("estado", () => String) estado: String,
         @Arg("categoriaNombre", () => String) categoriaNombre: String,
         @Arg("subcategoria", () => String) subcategoria: String,
         @Arg("pais", () => String) pais: String,
@@ -167,8 +169,7 @@ export class PropiedadResolver {
             .leftJoinAndSelect("propiedad.usuario", "usuario")
             .leftJoinAndSelect("propiedad.precios", "precios")
             .leftJoinAndSelect("propiedad.construcciones", "construcciones")
-            .leftJoinAndSelect("construcciones.tipoConstruccion", "tipoConstruccion")
-            .where("propiedad.estado != 'Inactivo'");
+            .leftJoinAndSelect("construcciones.tipoConstruccion", "tipoConstruccion");
 
         if (categoriaNombre) {
             propiedades = propiedades.andWhere("categoria.nombre =:categorianombre")
@@ -205,12 +206,22 @@ export class PropiedadResolver {
         if (garageMin != "") {
             propiedades = propiedades.andWhere('construcciones.garage BETWEEN ' + garageMin + ' AND ' + garageMax)
         }
+        if (estado) {
+            propiedades = propiedades.where('propiedad.estado = ' + estado)
+        }else{
+            propiedades = propiedades.where("propiedad.estado != 'Inactivo'")
+        }
+        if (usuarioId) {
+            propiedades = propiedades.where('usuario.id = ' + usuarioId)
+        }
+
+        propiedades = propiedades.orderBy("propiedad.creado", "DESC")
+            .setParameters({ subcategoria: subcategoria, garageMin: garageMin, garageMax: garageMax, plantasMin: plantasMin, plantasMax: plantasMax, habitacionMin: habitacionMin, habitacionMax: habitacionMax, tipoConstruccion: tipoConstruccion, banosMax: banosMax, banosMin: banosMin, categorianombre: categoriaNombre, divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax, extencionMax: extencionMax, extencionMin: extencionMin });
 
         // .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        propiedades = propiedades.setParameters({ subcategoria: subcategoria, garageMin: garageMin, garageMax: garageMax, plantasMin: plantasMin, plantasMax: plantasMax, habitacionMin: habitacionMin, habitacionMax: habitacionMax, tipoConstruccion: tipoConstruccion, banosMax: banosMax, banosMin: banosMin, categorianombre: categoriaNombre, divprimaria: divprimaria, pais: pais, precioMin: precioMin, precioMax: precioMax, extencionMax: extencionMax, extencionMin: extencionMin });
         // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
