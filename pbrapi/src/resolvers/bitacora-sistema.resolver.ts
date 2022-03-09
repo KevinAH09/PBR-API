@@ -20,7 +20,7 @@ class BitacoraSistemaInput {
 @Resolver()
 export class BitacoraSistemaResolver {
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR, RolesTypes.AGENTE])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => BitacoraSistema)
     async createBitacoraSistema(
