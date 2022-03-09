@@ -20,7 +20,7 @@ class ParametroInput {
 @Resolver()
 export class ParametroResolver {
 
-    @Authorized([RolesTypes.ADMIN])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Parametro)
     async createParametro(
