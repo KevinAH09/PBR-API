@@ -139,6 +139,7 @@ export class PropiedadResolver {
     @UseMiddleware(isAuthenticated)
     @Query(() => [Propiedad])
     async PropiedadByLocalizacionAndCategoriaAndPrecioAprox(
+        @Arg("byBots", () => String) byBots: String,
         @Arg("usuarioId", () => Int) usuarioId: Number,
         @Arg("estado", () => String) estado: String,
         @Arg("categoriaNombre", () => String) categoriaNombre: String,
@@ -213,6 +214,9 @@ export class PropiedadResolver {
         }
         if (usuarioId) {
             propiedades = propiedades.andWhere('usuario.id = ' + usuarioId)
+        }
+        if (byBots=="S") {
+            propiedades = propiedades.andWhere("usuario.nombre = 'usuarioBot'" )
         }
 
         propiedades = propiedades.orderBy("propiedad.creado", "DESC")
