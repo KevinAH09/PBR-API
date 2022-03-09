@@ -207,12 +207,12 @@ export class PropiedadResolver {
             propiedades = propiedades.andWhere('construcciones.garage BETWEEN ' + garageMin + ' AND ' + garageMax)
         }
         if (estado) {
-            propiedades = propiedades.where('propiedad.estado = ' + estado)
+            propiedades = propiedades.andWhere("propiedad.estado = '"+ estado+"'")
         }else{
-            propiedades = propiedades.where("propiedad.estado != 'Inactivo'")
+            propiedades = propiedades.andWhere("propiedad.estado != 'Inactivo'")
         }
         if (usuarioId) {
-            propiedades = propiedades.where('usuario.id = ' + usuarioId)
+            propiedades = propiedades.andWhere('usuario.id = ' + usuarioId)
         }
 
         propiedades = propiedades.orderBy("propiedad.creado", "DESC")
