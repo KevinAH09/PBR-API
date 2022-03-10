@@ -23,7 +23,7 @@ class PropiedadUsuarioInput {
 @Resolver()
 export class PropiedadUsuarioResolver {
 
-    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR,RolesTypes.AGENTE])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => PropiedadUsuario)
     async createPropiedad_Usuario(
@@ -45,7 +45,7 @@ export class PropiedadUsuarioResolver {
 
     // }
 
-    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR,RolesTypes.AGENTE])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => PropiedadUsuario)
     async updatePropiedad_Usuario(

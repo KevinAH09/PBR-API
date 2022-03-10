@@ -230,7 +230,7 @@ export class PropiedadResolver {
         // .orderBy("photo.id", "DESC")
         // .skip(5)
         // .take(10)
-        console.log(propiedades.getQuery());
+        // console.log(propiedades.getQuery());
         return propiedades.getMany();
     }
 
