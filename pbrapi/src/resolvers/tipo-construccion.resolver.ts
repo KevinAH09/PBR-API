@@ -51,14 +51,14 @@ export class TipoConstruccionResolver {
         return true;
     }
 
-    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE,RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [TipoConstruccion])
     TipoConstrucciones() {
         return TipoConstruccion.find()
     }
 
-    @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @Authorized([RolesTypes.ADMIN,RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => TipoConstruccion)
     TipoConstruccionById(
