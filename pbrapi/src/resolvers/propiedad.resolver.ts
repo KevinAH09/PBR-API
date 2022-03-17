@@ -189,7 +189,7 @@ export class PropiedadResolver {
             propiedades = propiedades.andWhere("UPPER(localizacion.divSecundaria) = UPPER(:divsecundaria)")
         }
         if (precioMin != "" && precioMax != "") {
-            propiedades = propiedades.andWhere('precios.id = (SELECT p.id FROM precio p WHERE p.propiedadId =propiedad.id AND p.precio BETWEEN ' + precioMin + ' AND ' + precioMax + ' ORDER BY(p.creado) DESC LIMIT 1)')
+            propiedades = propiedades.andWhere('precios.id = (SELECT p.id FROM precio p WHERE p.id=(SELECT p.id FROM precio p WHERE p.propiedadId =propiedad.id ORDER BY(p.id) DESC LIMIT 1) AND p.precio BETWEEN ' + precioMin + ' AND ' + precioMax +' )')
         }
         if (extencionMin > 0 && extencionMax > 0) {
             propiedades = propiedades.andWhere('propiedad.extension BETWEEN  :extencionMin  AND  :extencionMax')
