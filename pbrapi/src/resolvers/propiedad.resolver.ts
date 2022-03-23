@@ -114,6 +114,8 @@ export class PropiedadResolver {
         @Arg("logInferior", () => Number) logInferior: Number,
         @Arg("latSuperior", () => Number) latSuperior: Number,
         @Arg("logSuperior", () => Number) logSuperior: Number,
+        @Arg("categoriaNombre", () => String) categoriaNombre: String,
+        @Arg("subcategoria", () => String) subcategoria: String,
     ) {
         let propiedades = await getConnection()
             .getRepository(Propiedad)
@@ -128,9 +130,11 @@ export class PropiedadResolver {
             .andWhere("localizacion.latitud > :latInferior")
             .andWhere("localizacion.longitud < :logInferior")
             .andWhere("localizacion.latitud < :latSuperior")
-            .andWhere("localizacion.longitud > :logSuperior");
+            .andWhere("localizacion.longitud > :logSuperior")
+            .andWhere("categoria.nombre =:categorianombre")
+            .andWhere("subcategoria.nombre =:subcategoria");
 
-        propiedades = propiedades.setParameters({ latInferior: latInferior, logInferior: logInferior, latSuperior: latSuperior, logSuperior: logSuperior });
+        propiedades = propiedades.setParameters({ latInferior: latInferior, logInferior: logInferior, latSuperior: latSuperior, logSuperior: logSuperior,categorianombre:categoriaNombre,subcategoria:subcategoria });
 
         return propiedades.getMany();
     }
