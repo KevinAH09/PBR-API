@@ -1,5 +1,6 @@
 import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Int } from "type-graphql";
+import { getConnection } from "typeorm";
 
 import { TipoConstruccion } from "../entities/tipo-construccion";
 import { RolesTypes } from "../enums/role-types.enum";
@@ -16,7 +17,7 @@ class TipoConstruccionInput {
 
 @Resolver()
 export class TipoConstruccionResolver {
-    
+
     @Authorized([RolesTypes.ADMIN, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => TipoConstruccion)
@@ -51,14 +52,14 @@ export class TipoConstruccionResolver {
         return true;
     }
 
-    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE,RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => [TipoConstruccion])
     TipoConstrucciones() {
         return TipoConstruccion.find()
     }
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
     @UseMiddleware(isAuthenticated)
     @Query(() => TipoConstruccion)
     TipoConstruccionById(
@@ -71,5 +72,18 @@ export class TipoConstruccionResolver {
                 }
             }
         );
+    }
+
+    @Authorized([RolesTypes.ADMIN, RolesTypes.AGENTE, RolesTypes.CENSADOR, RolesTypes.VALIDADOR])
+    @UseMiddleware(isAuthenticated)
+    @Query(() => [TipoConstruccion])
+    async TipoConstruccionByName(@Arg("nombre", () => String) nombre: String) {
+        let tipo = await getConnection()
+            .getRepository(TipoConstruccion)
+            .createQueryBuilder('t')
+            .select(['t.id', 't.nombre', 't.creado'])
+            .where('t.nombre like :nombre', { nombre: `%${nombre}%` })
+            .getMany();
+        return tipo;
     }
 }
