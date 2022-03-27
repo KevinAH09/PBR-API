@@ -256,8 +256,7 @@ export class PropiedadResolver {
             .leftJoinAndSelect("propiedad.propietarios", "propietarios")
             .leftJoinAndSelect("propiedad.construcciones", "construcciones")
             .leftJoinAndSelect("construcciones.tipoConstruccion", "tipoConstruccion")
-            .where("propiedad.id = :id")
-            .andWhere("propiedad.estado != 'Inactivo'")
+            .where("propiedad.id = :id");
         propiedades = propiedades.setParameters({ id: id });
         return propiedades.getOne();
     }
